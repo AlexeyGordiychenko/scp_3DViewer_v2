@@ -22,6 +22,7 @@ class Model {
 
  private:
   std::vector<Vertex3d> vertices;
+  std::vector<Vertex3d> vertices_origin;
   std::vector<std::vector<int>> polygons;
   Vertex3d min_point = {0, 0, 0}, max_point = {0, 0, 0};
 

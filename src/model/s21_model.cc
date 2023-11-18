@@ -55,6 +55,7 @@ void s21::Model::ParseFile(const std::string filename) {
     ++line_num;
   }
   file.close();
+  vertices_origin = vertices;
 }
 
 void s21::Model::UpdateMinMaxPoints(Vertex3d point) {
