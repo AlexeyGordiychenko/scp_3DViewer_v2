@@ -19,6 +19,11 @@ struct Vertex3d {
 class Model {
  public:
   void ParseFile(const std::string filename);
+  void AffineMove(double ax, double ay, double az);
+  void AffineRotateX(double angle);
+  void AffineRotateY(double angle);
+  void AffineRotateZ(double angle);
+  void AffineScale(double k);
 
  private:
   std::vector<Vertex3d> vertices;

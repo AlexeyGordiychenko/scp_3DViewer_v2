@@ -67,3 +67,53 @@ void s21::Model::UpdateMinMaxPoints(Vertex3d point) {
   if (point.z > max_point.z) max_point.z = point.z;
 }
 
+void s21::Model::AffineMove(double ax, double ay, double az) {
+  for (size_t i = 0; i < vertices.size(); i++) {
+    vertices[i].x += ax;
+    vertices[i].y += ay;
+    vertices[i].z += az;
+  }
+}
+
+void s21::Model::AffineRotateX(double angle) {
+  if (angle) {
+    double cos_angle = cos(angle), sin_angle = sin(angle);
+    for (size_t i = 0; i < vertices.size(); i++) {
+      double temp_y = vertices[i].y, temp_z = vertices[i].z;
+      vertices[i].y = temp_y * cos_angle - temp_z * sin_angle;
+      vertices[i].z = temp_y * sin_angle + temp_z * cos_angle;
+    }
+  }
+}
+
+void s21::Model::AffineRotateY(double angle) {
+  if (angle) {
+    double cos_angle = cos(angle), sin_angle = sin(angle);
+    for (size_t i = 0; i < vertices.size(); i++) {
+      double temp_x = vertices[i].x, temp_z = vertices[i].z;
+      vertices[i].x = temp_x * cos_angle - temp_z * sin_angle;
+      vertices[i].z = temp_x * sin_angle + temp_z * cos_angle;
+    }
+  }
+}
+
+void s21::Model::AffineRotateZ(double angle) {
+  if (angle) {
+    double cos_angle = cos(angle), sin_angle = sin(angle);
+    for (size_t i = 0; i < vertices.size(); i++) {
+      double temp_x = vertices[i].x, temp_y = vertices[i].y;
+      vertices[i].x = temp_x * cos_angle - temp_y * sin_angle;
+      vertices[i].y = temp_x * sin_angle + temp_y * cos_angle;
+    }
+  }
+}
+
+void s21::Model::AffineScale(double k) {
+  if (k) {
+    for (size_t i = 0; i < vertices.size(); i++) {
+      vertices[i].x *= k;
+      vertices[i].y *= k;
+      vertices[i].z *= k;
+    }
+  }
+}
