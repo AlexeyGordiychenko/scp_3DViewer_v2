@@ -3,6 +3,8 @@
 void s21::Model::ClearData() {
   vertices.clear();
   polygons.clear();
+  min_point = {0, 0, 0};
+  max_point = {0, 0, 0};
 }
 
 void s21::Model::ParseFile(const std::string filename) {
