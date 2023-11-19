@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "command/s21_projectionTypeChangeCommand.h"
 
 #include "ui_mainwindow.h"
 
@@ -35,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->setVerticeColor, SIGNAL(clicked()), this,
           SLOT(s21_setVerticeColor()));
 
+  //connect(ui->undo, )
+
   ui->projectionType->addItem("Parallel", PARALLEL);
   ui->projectionType->addItem("Central", CENTRAL);
 
@@ -43,12 +46,32 @@ MainWindow::MainWindow(QWidget *parent)
   settings = new QSettings("21school", "3DViewer_v1.0", this);
   s21_loadSettings();
   s21_setValuesOnButtons();
+
+  createUndoStackAndActions();
 }
 
 MainWindow::~MainWindow() {
   s21_saveSettings();
   delete settings;
   delete ui;
+}
+
+void MainWindow::refresh_ui()
+{
+    s21_setValuesOnButtons();
+}
+
+void MainWindow::createUndoStackAndActions()
+{
+    undoStack = new QUndoStack(this);
+     undoAction = undoStack->createUndoAction(this, tr("&Undo"));
+     //undoAction->setIcon(QIcon(":/icons/undo.png"));
+     redoAction = undoStack->createRedoAction(this, tr("&Redo"));
+     //redoAction->setIcon(QIcon(":/icons/redo.png"));
+    // connect(button, &QPushButton::clicked, undoAction, &QAction::trigger);
+     connect(ui->undo_button, &QPushButton::clicked, undoAction, &QAction::trigger);
+
+
 }
 
 void MainWindow::s21_openFile() {
@@ -92,8 +115,9 @@ void MainWindow::s21_renderFile() {
 }
 
 void MainWindow::s21_projectionTypeChange(int idx) {
-  ui->openGLWidget->setProjectionType(idx);
-  ui->openGLWidget->update();
+    int old = ui->openGLWidget->projectionType;
+    if (old != idx)
+        undoStack->push(new s21_projectionTypeChangeCommand(ui->openGLWidget, old, idx, this));
 }
 
 void MainWindow::s21_takeScreenshot() {

@@ -23,11 +23,18 @@ class MainWindow : public QMainWindow {
  public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
+  void refresh_ui();
 
  private:
   Ui::MainWindow *ui;
   GifCreator *gifCreator;
   QSettings *settings;
+
+    QUndoStack *undoStack;
+    QAction *undoAction;
+    QAction *redoAction;
+    void createUndoStackAndActions();
+
 
  private slots:
   void s21_openFile();
