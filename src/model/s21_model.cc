@@ -67,6 +67,36 @@ void s21::Model::UpdateMinMaxPoints(Vertex3d point) {
   if (point.z > max_point.z) max_point.z = point.z;
 }
 
+void s21::Model::SetDimentionalValues() {
+  center_x = (max_point.x + min_point.x) / 2;
+  center_y = (max_point.y + min_point.y) / 2;
+  center_z = (max_point.z + min_point.z) / 2;
+  double maxd = std::max({fabs(max_point.x - min_point.x),
+                          fabs(max_point.y - min_point.y),
+                          fabs(max_point.z - min_point.z)});
+  if (maxd != 0) {
+    size_coefficient = 2 / maxd;
+  } else {
+    size_coefficient = 0;
+  }
+}
+
+void s21::Model::TranslateToFromOrigin(int k) {
+  for (uint32_t i = 0; i < vertices.size(); i++) {
+    vertices[i].x += k * center_x;
+    vertices[i].y += k * center_y;
+    vertices[i].z += k * center_z;
+  }
+}
+
+void s21::Model::MoveCenter(double ax, double ay, double az) {
+  center_x += ax;
+  center_y += ay;
+  center_z += az;
+}
+
+void s21::Model::RestoreVertices() { vertices = vertices_origin; }
+
 void s21::Model::AffineMove(double ax, double ay, double az) {
   for (size_t i = 0; i < vertices.size(); i++) {
     vertices[i].x += ax;
