@@ -9,6 +9,8 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    command/s21_affineCommand.cpp \
+    command/s21_affine_data.cpp \
     mainwindow.cpp \
     command/s21_projectionTypeChangeCommand.cpp \
     command/s21_setBackgroundColorCommand.cpp \
@@ -20,6 +22,8 @@ SOURCES += \
     thirdparty/gifanim/gifanim.cpp
 
 HEADERS += \
+    command/s21_affineCommand.h \
+    command/s21_affine_data.h \
     mainwindow.h \
     command/s21_projectionTypeChangeCommand.h \
     command/s21_setBackgroundColorCommand.h \
