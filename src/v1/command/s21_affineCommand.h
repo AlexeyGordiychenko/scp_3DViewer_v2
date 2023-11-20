@@ -8,12 +8,14 @@
 class s21_affine_command: public QUndoCommand {
 public:
     //s21_affine_command();
-    s21_affine_command(GLWidget* w, s21_affine_data old_data, s21_affine_data new_data, MainWindow* mw, QUndoCommand *parent = 0);
+    s21_affine_command(s21_affine_data old_data, s21_affine_data new_data, MainWindow* mw, QUndoCommand *parent = 0);
     void undo();
     void redo();
 private:
+    MainWindow* mw;
     s21_affine_data old_data;
     s21_affine_data new_data;
+    void s21_affine(s21_affine_data& data);
 };
 
 #endif

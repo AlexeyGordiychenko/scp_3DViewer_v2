@@ -175,24 +175,34 @@ void MainWindow::s21_reset_params() {
 }
 
 void MainWindow::s21_affine() {
-  if (ui->openGLWidget->isParsed && !ui->openGLWidget->fileChanged) {
-    double move_x = (ui->move_on_x->value());
-    double move_y = (ui->move_on_y->value());
-    double move_z = (ui->move_on_z->value());
-    double scale_k = (ui->scale_on_k->value());
-    double rotate_x = (ui->rotate_x->value());
-    double rotate_y = (ui->rotate_y->value());
-    double rotate_z = (ui->rotate_z->value());
-    if (scale_k == 0) scale_k = 1;
-    ui->openGLWidget->clearTransformations();
-    ui->openGLWidget->matrix_reset_to_start();
-    ui->openGLWidget->scale(scale_k);
-    ui->openGLWidget->move(move_x, move_y, move_z);
-    ui->openGLWidget->rotate((rotate_x)*M_PI / 180, (rotate_y)*M_PI / 180,
-                             (rotate_z)*M_PI / 180);
-    ui->openGLWidget->update();
-  }
+    //    int old = ui->openGLWidget->projectionType;
+    //    if (old != idx)
+    //        undoStack->push(new s21_projectionTypeChangeCommand(ui->openGLWidget, old, idx, this));
+
+//  if (ui->openGLWidget->isParsed && !ui->openGLWidget->fileChanged) {
+//    double move_x = (ui->move_on_x->value());
+//    double move_y = (ui->move_on_y->value());
+//    double move_z = (ui->move_on_z->value());
+//    double scale_k = (ui->scale_on_k->value());
+//    double rotate_x = (ui->rotate_x->value());
+//    double rotate_y = (ui->rotate_y->value());
+//    double rotate_z = (ui->rotate_z->value());
+//    if (scale_k == 0) scale_k = 1;
+//    ui->openGLWidget->clearTransformations();
+//    ui->openGLWidget->matrix_reset_to_start();
+//    ui->openGLWidget->scale(scale_k);
+//    ui->openGLWidget->move(move_x, move_y, move_z);
+//    ui->openGLWidget->rotate((rotate_x)*M_PI / 180, (rotate_y)*M_PI / 180,
+//                             (rotate_z)*M_PI / 180);
+//    ui->openGLWidget->update();
+//  }
 }
+
+//void MainWindow::s21_projectionTypeChange(int idx) {
+//    int old = ui->openGLWidget->projectionType;
+//    if (old != idx)
+//        undoStack->push(new s21_projectionTypeChangeCommand(ui->openGLWidget, old, idx, this));
+//}
 
 void MainWindow::s21_setBackgroundColor() {
   QColor color = QColorDialog::getColor();
