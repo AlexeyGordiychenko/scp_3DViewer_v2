@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "command/s21_projectionTypeChangeCommand.h"
+#include "command/s21_setBackgroundColorCommand.h"
 
 #include "ui_mainwindow.h"
 
@@ -64,14 +65,15 @@ void MainWindow::refresh_ui()
 void MainWindow::createUndoStackAndActions()
 {
     undoStack = new QUndoStack(this);
-     undoAction = undoStack->createUndoAction(this, tr("&Undo"));
-     //undoAction->setIcon(QIcon(":/icons/undo.png"));
-     redoAction = undoStack->createRedoAction(this, tr("&Redo"));
-     //redoAction->setIcon(QIcon(":/icons/redo.png"));
-    // connect(button, &QPushButton::clicked, undoAction, &QAction::trigger);
-     connect(ui->undo_button, &QPushButton::clicked, undoAction, &QAction::trigger);
+    undoAction = undoStack->createUndoAction(this, tr("&Undo"));
+    redoAction = undoStack->createRedoAction(this, tr("&Redo"));
+    connect(ui->undo_button, &QPushButton::clicked, undoAction, &QAction::trigger);
+    connect(ui->redo_button, &QPushButton::clicked, redoAction, &QAction::trigger);
+}
 
-
+Ui::MainWindow *MainWindow::getUI()
+{
+    return this->ui;
 }
 
 void MainWindow::s21_openFile() {
@@ -196,16 +198,8 @@ void MainWindow::s21_affine() {
 
 void MainWindow::s21_setBackgroundColor() {
   QColor color = QColorDialog::getColor();
-  if (color.isValid()) {
-    ui->openGLWidget->bg_red = color.redF();
-    ui->openGLWidget->bg_green = color.greenF();
-    ui->openGLWidget->bg_blue = color.blueF();
-    char rgba_color[40];
-    sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
-            color.green(), color.blue());
-    ui->setBgColor->setStyleSheet(rgba_color);
-    ui->openGLWidget->update();
-  }
+  QColor old_color = QColor( ui->openGLWidget->bg_red * 255, ui->openGLWidget->bg_green * 255,ui->openGLWidget->bg_blue * 255);
+  undoStack->push(new s21_setBackgroundColorCommand(ui->openGLWidget, old_color, color, this));
 }
 
 void MainWindow::s21_setPolygonColor() {
@@ -243,7 +237,7 @@ void MainWindow::s21_setNoneVertice() {
 }
 
 void MainWindow::s21_setCircleVertice() {
-  ui->openGLWidget->vertice_type = CIRCLE;
+//  ui->openGLWidget->vertice_type = CIRCLE;
   ui->openGLWidget->update();
 }
 

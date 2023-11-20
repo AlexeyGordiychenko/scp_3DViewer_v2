@@ -24,6 +24,8 @@ class MainWindow : public QMainWindow {
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
   void refresh_ui();
+  Ui::MainWindow* getUI();
+
 
  private:
   Ui::MainWindow *ui;
