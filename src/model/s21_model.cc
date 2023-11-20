@@ -1,13 +1,6 @@
 #include "s21_model.h"
 
-void s21::Model::ClearData() {
-  vertices.clear();
-  polygons.clear();
-  min_point = {0, 0, 0};
-  max_point = {0, 0, 0};
-}
-
-void s21::Model::ParseFile(const std::string filename) {
+void s21::Model::Initialize(const std::string filename) {
   std::ifstream file(filename);
 
   if (!file.is_open()) {
@@ -15,86 +8,9 @@ void s21::Model::ParseFile(const std::string filename) {
   }
 
   ClearData();
-
-  std::string line;
-  size_t line_num = 1;
-  while (std::getline(file, line)) {
-    std::istringstream iss(line);
-    std::string prefix;
-    if (iss >> prefix) {
-      if (prefix == "v") {
-        Vertex3d point;
-        if (iss >> point.x >> point.y >> point.z) {
-          vertices.push_back(point);
-          UpdateMinMaxPoints(point);
-        } else {
-          throw std::runtime_error("Line: " + std::to_string(line_num) +
-                                   " failed to read a vertex.");
-        }
-      } else if (prefix == "f") {
-        std::vector<int> facet;
-        std::string facet_str;
-        while (iss >> facet_str) {
-          std::istringstream facet_iss(facet_str);
-          int index;
-          char tmp;
-          facet_iss >> index >> tmp;
-          if (index < 0) {
-            index += vertices.size() + 1;
-          }
-          if (index <= 0 || static_cast<size_t>(index) > vertices.size()) {
-            throw std::runtime_error("Line: " + std::to_string(line_num) +
-                                     " failed to read a facet.");
-          } else {
-            facet.push_back(index - 1);  // To have an index, starting from 0
-          }
-        }
-        if (!facet.empty()) {
-          polygons.push_back(facet);
-        }
-      }
-    }
-    ++line_num;
-  }
-  file.close();
-  vertices_origin = vertices;
-}
-
-void s21::Model::UpdateMinMaxPoints(Vertex3d point) {
-  if (point.x < min_point.x) min_point.x = point.x;
-  if (point.y < min_point.y) min_point.y = point.y;
-  if (point.z < min_point.z) min_point.z = point.z;
-  if (point.x > max_point.x) max_point.x = point.x;
-  if (point.y > max_point.y) max_point.y = point.y;
-  if (point.z > max_point.z) max_point.z = point.z;
-}
-
-void s21::Model::SetDimentionalValues() {
-  center_x = (max_point.x + min_point.x) / 2;
-  center_y = (max_point.y + min_point.y) / 2;
-  center_z = (max_point.z + min_point.z) / 2;
-  double maxd = std::max({fabs(max_point.x - min_point.x),
-                          fabs(max_point.y - min_point.y),
-                          fabs(max_point.z - min_point.z)});
-  if (maxd != 0) {
-    size_coefficient = 2 / maxd;
-  } else {
-    size_coefficient = 0;
-  }
-}
-
-void s21::Model::TranslateToFromOrigin(int k) {
-  for (uint32_t i = 0; i < vertices.size(); i++) {
-    vertices[i].x += k * center_x;
-    vertices[i].y += k * center_y;
-    vertices[i].z += k * center_z;
-  }
-}
-
-void s21::Model::MoveCenter(double ax, double ay, double az) {
-  center_x += ax;
-  center_y += ay;
-  center_z += az;
+  ParseFile(file);
+  TranslateToOrigin();
+  SaveVertices();
 }
 
 void s21::Model::RestoreVertices() { vertices = vertices_origin; }
@@ -149,3 +65,97 @@ void s21::Model::AffineScale(double k) {
     }
   }
 }
+
+size_t s21::Model::GetPolygonsEdgesCount() const {
+  size_t count = 0;
+  for (auto polygon : polygons) count += polygon.size();
+  return count;
+}
+
+size_t s21::Model::GetVerticesCount() const { return vertices.size(); }
+
+const std::vector<std::vector<int>>& s21::Model::GetPolygons() const {
+  return polygons;
+}
+
+const std::vector<s21::Vertex3d>& s21::Model::GetVertices() const {
+  return vertices;
+}
+
+void s21::Model::ClearData() {
+  vertices.clear();
+  polygons.clear();
+  min_point = {0, 0, 0};
+  max_point = {0, 0, 0};
+}
+
+void s21::Model::ParseFile(std::ifstream& file) {
+  std::string line;
+  size_t line_num = 1;
+  while (std::getline(file, line)) {
+    std::istringstream iss(line);
+    std::string prefix;
+    if (iss >> prefix) {
+      if (prefix == "v") {
+        Vertex3d point;
+        if (iss >> point.x >> point.y >> point.z) {
+          vertices.push_back(point);
+          UpdateMinMaxPoints(point);
+        } else {
+          throw std::runtime_error("Line: " + std::to_string(line_num) +
+                                   " failed to read a vertex.");
+        }
+      } else if (prefix == "f") {
+        std::vector<int> facet;
+        std::string facet_str;
+        while (iss >> facet_str) {
+          std::istringstream facet_iss(facet_str);
+          int index;
+          char tmp;
+          facet_iss >> index >> tmp;
+          if (index < 0) {
+            index += vertices.size() + 1;
+          }
+          if (index <= 0 || static_cast<size_t>(index) > vertices.size()) {
+            throw std::runtime_error("Line: " + std::to_string(line_num) +
+                                     " failed to read a facet.");
+          } else {
+            facet.push_back(index - 1);  // To have an index, starting from 0
+          }
+        }
+        if (!facet.empty()) {
+          polygons.push_back(facet);
+        }
+      }
+    }
+    ++line_num;
+  }
+  file.close();
+}
+
+void s21::Model::UpdateMinMaxPoints(Vertex3d point) {
+  if (point.x < min_point.x) min_point.x = point.x;
+  if (point.y < min_point.y) min_point.y = point.y;
+  if (point.z < min_point.z) min_point.z = point.z;
+  if (point.x > max_point.x) max_point.x = point.x;
+  if (point.y > max_point.y) max_point.y = point.y;
+  if (point.z > max_point.z) max_point.z = point.z;
+}
+
+void s21::Model::TranslateToOrigin() {
+  auto center_x = (max_point.x + min_point.x) / 2;
+  auto center_y = (max_point.y + min_point.y) / 2;
+  auto center_z = (max_point.z + min_point.z) / 2;
+  auto size_coefficient = std::max({fabs(max_point.x - min_point.x),
+                                    fabs(max_point.y - min_point.y),
+                                    fabs(max_point.z - min_point.z)});
+  if (size_coefficient != 0) size_coefficient = 2 / size_coefficient;
+
+  for (auto& vertex : vertices) {
+    vertex.x = (vertex.x - center_x) * size_coefficient;
+    vertex.y = (vertex.y - center_y) * size_coefficient;
+    vertex.z = (vertex.z - center_z) * size_coefficient;
+  }
+}
+
+void s21::Model::SaveVertices() { vertices_origin = vertices; }
