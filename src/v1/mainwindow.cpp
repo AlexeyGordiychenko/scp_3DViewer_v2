@@ -69,6 +69,7 @@ void MainWindow::createUndoStackAndActions()
     redoAction = undoStack->createRedoAction(this, tr("&Redo"));
     connect(ui->undo_button, &QPushButton::clicked, undoAction, &QAction::trigger);
     connect(ui->redo_button, &QPushButton::clicked, redoAction, &QAction::trigger);
+    old_af_data = s21_affine_data(ui);
 }
 
 Ui::MainWindow *MainWindow::getUI()
