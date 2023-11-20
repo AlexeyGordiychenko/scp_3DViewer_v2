@@ -36,9 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
           SLOT(s21_setVerticeSize(int)));
   connect(ui->setVerticeColor, SIGNAL(clicked()), this,
           SLOT(s21_setVerticeColor()));
-
-  //connect(ui->undo, )
-
   ui->projectionType->addItem("Parallel", PARALLEL);
   ui->projectionType->addItem("Central", CENTRAL);
 

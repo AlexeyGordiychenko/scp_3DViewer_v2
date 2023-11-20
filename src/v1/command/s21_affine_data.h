@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#ifndef S21MATRIX_H
-#define S21MATRIX_H
+#ifndef S21AFFINE_DATA
+#define S21AFFINE_DATA
 
 class s21_affine_data {
 public:
