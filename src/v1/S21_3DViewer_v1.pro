@@ -11,6 +11,9 @@ CONFIG += c++17
 SOURCES += \
     command/s21_affineCommand.cpp \
     command/s21_affine_data.cpp \
+    command/s21_command.cpp \
+    command/s21_commandstack.cpp \
+    command/s21_projectiontypechange11.cpp \
     mainwindow.cpp \
     command/s21_projectionTypeChangeCommand.cpp \
     command/s21_setBackgroundColorCommand.cpp \
@@ -24,6 +27,9 @@ SOURCES += \
 HEADERS += \
     command/s21_affineCommand.h \
     command/s21_affine_data.h \
+    command/s21_command.h \
+    command/s21_commandstack.h \
+    command/s21_projectiontypechange11.h \
     mainwindow.h \
     command/s21_projectionTypeChangeCommand.h \
     command/s21_setBackgroundColorCommand.h \
