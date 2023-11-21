@@ -1,5 +1,10 @@
 #include "s21_model.h"
 
+#include <algorithm>
+#include <cmath>
+#include <fstream>
+#include <sstream>
+
 void s21::Model::Initialize(const std::string filename) {
   std::ifstream file(filename);
 

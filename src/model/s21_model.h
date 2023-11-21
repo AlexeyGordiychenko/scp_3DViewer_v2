@@ -1,10 +1,6 @@
 #ifndef S21_3DVIEWER_V2_MODEL_H
 #define S21_3DVIEWER_V2_MODEL_H
 
-#include <algorithm>
-#include <cmath>
-#include <fstream>
-#include <sstream>
 #include <string>
 #include <vector>
 
