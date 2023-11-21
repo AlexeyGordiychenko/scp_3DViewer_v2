@@ -8,13 +8,9 @@
 #include <string>
 #include <vector>
 
-namespace s21 {
+#include "s21_vertex3d.h"
 
-struct Vertex3d {
-  double x;
-  double y;
-  double z;
-};
+namespace s21 {
 
 class Model {
  public:
@@ -30,17 +26,17 @@ class Model {
   size_t GetPolygonsEdgesCount() const;
   size_t GetVerticesCount() const;
   const std::vector<std::vector<int>>& GetPolygons() const;
-  const std::vector<Vertex3d>& GetVertices() const;
+  const std::vector<s21::Vertex3d>& GetVertices() const;
 
  private:
-  std::vector<Vertex3d> vertices;
-  std::vector<Vertex3d> vertices_origin;
+  std::vector<s21::Vertex3d> vertices;
+  std::vector<s21::Vertex3d> vertices_origin;
   std::vector<std::vector<int>> polygons;
-  Vertex3d min_point = {0, 0, 0}, max_point = {0, 0, 0};
+  s21::Vertex3d min_point = {0, 0, 0}, max_point = {0, 0, 0};
 
   void ClearData();
   void ParseFile(std::ifstream& file);
-  void UpdateMinMaxPoints(Vertex3d point);
+  void UpdateMinMaxPoints(s21::Vertex3d point);
   void TranslateToOrigin();
   void SaveVertices();
 };
