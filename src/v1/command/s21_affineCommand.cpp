@@ -2,8 +2,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-s21_affine_command::s21_affine_command(s21_affine_data old_data, s21_affine_data new_data, MainWindow *mw, QUndoCommand *parent)
-    :    QUndoCommand(parent), mw(mw), old_data(old_data), new_data(new_data)
+s21_affine_command::s21_affine_command(s21_affine_data old_data, s21_affine_data new_data, MainWindow *mw)
+    :    mw(mw), old_data(old_data), new_data(new_data)
 {}
 
 void s21_affine_command::undo()

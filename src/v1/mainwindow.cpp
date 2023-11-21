@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
   s21_loadSettings();
   s21_setValuesOnButtons();
 
-  createUndoStackAndActions();
+  createCommandStack();
 }
 
 MainWindow::~MainWindow() {
@@ -61,14 +61,16 @@ void MainWindow::refresh_ui()
     s21_setValuesOnButtons();
 }
 
-void MainWindow::createUndoStackAndActions()
+void MainWindow::createCommandStack()
 {
-    undoStack = new QUndoStack(this);
-    undoAction = undoStack->createUndoAction(this, tr("&Undo"));
-    redoAction = undoStack->createRedoAction(this, tr("&Redo"));
-    connect(ui->undo_button, &QPushButton::clicked, undoAction, &QAction::trigger);
-    connect(ui->redo_button, &QPushButton::clicked, redoAction, &QAction::trigger);
-    old_af_data = s21_affine_data(ui);
+    undoStack = new s21_CommandStack();
+    connect(ui->undo_button, &QPushButton::clicked, undoStack, &s21_CommandStack::undo);
+    connect(ui->redo_button, &QPushButton::clicked, undoStack, &s21_CommandStack::redo);
+
+//    undoAction = undoStack->createUndoAction(this, tr("&Undo"));
+//    redoAction = undoStack->createRedoAction(this, tr("&Redo"));
+//    connect(ui->undo_button, &QPushButton::clicked, undoAction, &QAction::trigger);
+//    connect(ui->redo_button, &QPushButton::clicked, redoAction, &QAction::trigger);
 }
 
 Ui::MainWindow *MainWindow::getUI()
@@ -181,33 +183,7 @@ void MainWindow::s21_affine() {
     s21_affine_data new_data = s21_affine_data(ui);
     undoStack->push(new s21_affine_command(old_data, new_data, this));
     old_data = new_data;
-   // s21_affine_command(s21_affine_data old_data, s21_affine_data new_data, MainWindow* mw, QUndoCommand *parent = 0);
-
-
-//  if (ui->openGLWidget->isParsed && !ui->openGLWidget->fileChanged) {
-//    double move_x = (ui->move_on_x->value());
-//    double move_y = (ui->move_on_y->value());
-//    double move_z = (ui->move_on_z->value());
-//    double scale_k = (ui->scale_on_k->value());
-//    double rotate_x = (ui->rotate_x->value());
-//    double rotate_y = (ui->rotate_y->value());
-//    double rotate_z = (ui->rotate_z->value());
-//    if (scale_k == 0) scale_k = 1;
-//    ui->openGLWidget->clearTransformations();
-//    ui->openGLWidget->matrix_reset_to_start();
-//    ui->openGLWidget->scale(scale_k);
-//    ui->openGLWidget->move(move_x, move_y, move_z);
-//    ui->openGLWidget->rotate((rotate_x)*M_PI / 180, (rotate_y)*M_PI / 180,
-//                             (rotate_z)*M_PI / 180);
-//    ui->openGLWidget->update();
-//  }
 }
-
-//void MainWindow::s21_projectionTypeChange(int idx) {
-//    int old = ui->openGLWidget->projectionType;
-//    if (old != idx)
-//        undoStack->push(new s21_projectionTypeChangeCommand(ui->openGLWidget, old, idx, this));
-//}
 
 void MainWindow::s21_setBackgroundColor() {
   QColor color = QColorDialog::getColor();

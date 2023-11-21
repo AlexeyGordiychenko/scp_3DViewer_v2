@@ -10,7 +10,7 @@
 #include <QSettings>
 
 #include "s21_gifcreator.h"
-#include "command/s21_affine_data.h"
+#include "command/s21_commandstack.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -33,12 +33,11 @@ class MainWindow : public QMainWindow {
   GifCreator *gifCreator;
   QSettings *settings;
 
-    QUndoStack *undoStack;
+    //QUndoStack *undoStack;
+    s21_CommandStack *undoStack;
     QAction *undoAction;
     QAction *redoAction;
-    void createUndoStackAndActions();
-    s21_affine_data old_af_data;
-
+    void createCommandStack();
 
  private slots:
   void s21_openFile();

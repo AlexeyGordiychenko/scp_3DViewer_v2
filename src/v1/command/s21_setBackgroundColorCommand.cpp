@@ -25,8 +25,8 @@
 //    mw->refresh_ui();
 //}
 
-s21_setBackgroundColorCommand::s21_setBackgroundColorCommand(GLWidget *w, QColor old_color, QColor color, MainWindow *mw, QUndoCommand *parent)
-    :   QUndoCommand(parent), openGLWidget(w), mw(mw), old_color(old_color), color(color)
+s21_setBackgroundColorCommand::s21_setBackgroundColorCommand(GLWidget *w, QColor old_color, QColor color, MainWindow *mw)
+    :   openGLWidget(w), mw(mw), old_color(old_color), color(color)
 {
 
 }

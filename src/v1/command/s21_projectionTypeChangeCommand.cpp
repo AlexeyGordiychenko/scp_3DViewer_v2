@@ -1,9 +1,13 @@
 #include "s21_projectionTypeChangeCommand.h"
 #include "s21_glwidget.h"
 
-s21_projectionTypeChangeCommand::s21_projectionTypeChangeCommand
-    (GLWidget *w, int old_idx, int new_idx, MainWindow *mw, QUndoCommand *parent)
-    :   QUndoCommand(parent), widget(w), mw(mw), old_idx(old_idx), new_idx(new_idx)
+//s21_projectionTypeChangeCommand::s21_projectionTypeChangeCommand
+//    (GLWidget *w, int old_idx, int new_idx, MainWindow *mw, QUndoCommand *parent)
+//    :   QUndoCommand(parent), widget(w), mw(mw), old_idx(old_idx), new_idx(new_idx)
+//{
+
+s21_projectionTypeChangeCommand::s21_projectionTypeChangeCommand(GLWidget *w, int old_idx, int new_idx, MainWindow *mw)
+:   widget(w), mw(mw), old_idx(old_idx), new_idx(new_idx)
 {
 
 }
