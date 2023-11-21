@@ -25,10 +25,10 @@ class Model {
   const std::vector<s21::Vertex3d>& GetVertices() const;
 
  private:
-  std::vector<s21::Vertex3d> vertices;
-  std::vector<s21::Vertex3d> vertices_origin;
-  std::vector<std::vector<int>> polygons;
-  s21::Vertex3d min_point = {0, 0, 0}, max_point = {0, 0, 0};
+  std::vector<s21::Vertex3d> vertices_;
+  std::vector<s21::Vertex3d> vertices_origin_;
+  std::vector<std::vector<int>> polygons_;
+  s21::Vertex3d min_point_ = {0, 0, 0}, max_point_ = {0, 0, 0};
 
   void ClearData();
   void ParseFile(std::ifstream& file);

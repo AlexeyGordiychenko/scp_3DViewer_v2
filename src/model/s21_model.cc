@@ -18,23 +18,23 @@ void s21::Model::Initialize(const std::string filename) {
   SaveVertices();
 }
 
-void s21::Model::RestoreVertices() { vertices = vertices_origin; }
+void s21::Model::RestoreVertices() { vertices_ = vertices_origin_; }
 
 void s21::Model::AffineMove(double ax, double ay, double az) {
-  for (size_t i = 0; i < vertices.size(); i++) {
-    vertices[i].x += ax;
-    vertices[i].y += ay;
-    vertices[i].z += az;
+  for (size_t i = 0; i < vertices_.size(); i++) {
+    vertices_[i].x += ax;
+    vertices_[i].y += ay;
+    vertices_[i].z += az;
   }
 }
 
 void s21::Model::AffineRotateX(double angle) {
   if (angle) {
     double cos_angle = cos(angle), sin_angle = sin(angle);
-    for (size_t i = 0; i < vertices.size(); i++) {
-      double temp_y = vertices[i].y, temp_z = vertices[i].z;
-      vertices[i].y = temp_y * cos_angle - temp_z * sin_angle;
-      vertices[i].z = temp_y * sin_angle + temp_z * cos_angle;
+    for (size_t i = 0; i < vertices_.size(); i++) {
+      double temp_y = vertices_[i].y, temp_z = vertices_[i].z;
+      vertices_[i].y = temp_y * cos_angle - temp_z * sin_angle;
+      vertices_[i].z = temp_y * sin_angle + temp_z * cos_angle;
     }
   }
 }
@@ -42,10 +42,10 @@ void s21::Model::AffineRotateX(double angle) {
 void s21::Model::AffineRotateY(double angle) {
   if (angle) {
     double cos_angle = cos(angle), sin_angle = sin(angle);
-    for (size_t i = 0; i < vertices.size(); i++) {
-      double temp_x = vertices[i].x, temp_z = vertices[i].z;
-      vertices[i].x = temp_x * cos_angle - temp_z * sin_angle;
-      vertices[i].z = temp_x * sin_angle + temp_z * cos_angle;
+    for (size_t i = 0; i < vertices_.size(); i++) {
+      double temp_x = vertices_[i].x, temp_z = vertices_[i].z;
+      vertices_[i].x = temp_x * cos_angle - temp_z * sin_angle;
+      vertices_[i].z = temp_x * sin_angle + temp_z * cos_angle;
     }
   }
 }
@@ -53,45 +53,45 @@ void s21::Model::AffineRotateY(double angle) {
 void s21::Model::AffineRotateZ(double angle) {
   if (angle) {
     double cos_angle = cos(angle), sin_angle = sin(angle);
-    for (size_t i = 0; i < vertices.size(); i++) {
-      double temp_x = vertices[i].x, temp_y = vertices[i].y;
-      vertices[i].x = temp_x * cos_angle - temp_y * sin_angle;
-      vertices[i].y = temp_x * sin_angle + temp_y * cos_angle;
+    for (size_t i = 0; i < vertices_.size(); i++) {
+      double temp_x = vertices_[i].x, temp_y = vertices_[i].y;
+      vertices_[i].x = temp_x * cos_angle - temp_y * sin_angle;
+      vertices_[i].y = temp_x * sin_angle + temp_y * cos_angle;
     }
   }
 }
 
 void s21::Model::AffineScale(double k) {
   if (k) {
-    for (size_t i = 0; i < vertices.size(); i++) {
-      vertices[i].x *= k;
-      vertices[i].y *= k;
-      vertices[i].z *= k;
+    for (size_t i = 0; i < vertices_.size(); i++) {
+      vertices_[i].x *= k;
+      vertices_[i].y *= k;
+      vertices_[i].z *= k;
     }
   }
 }
 
 size_t s21::Model::GetPolygonsEdgesCount() const {
   size_t count = 0;
-  for (auto polygon : polygons) count += polygon.size();
+  for (auto polygon : polygons_) count += polygon.size();
   return count;
 }
 
-size_t s21::Model::GetVerticesCount() const { return vertices.size(); }
+size_t s21::Model::GetVerticesCount() const { return vertices_.size(); }
 
 const std::vector<std::vector<int>>& s21::Model::GetPolygons() const {
-  return polygons;
+  return polygons_;
 }
 
 const std::vector<s21::Vertex3d>& s21::Model::GetVertices() const {
-  return vertices;
+  return vertices_;
 }
 
 void s21::Model::ClearData() {
-  vertices.clear();
-  polygons.clear();
-  min_point = {0, 0, 0};
-  max_point = {0, 0, 0};
+  vertices_.clear();
+  polygons_.clear();
+  min_point_ = {0, 0, 0};
+  max_point_ = {0, 0, 0};
 }
 
 void s21::Model::ParseFile(std::ifstream& file) {
@@ -104,7 +104,7 @@ void s21::Model::ParseFile(std::ifstream& file) {
       if (prefix == "v") {
         Vertex3d point;
         if (iss >> point.x >> point.y >> point.z) {
-          vertices.push_back(point);
+          vertices_.push_back(point);
           UpdateMinMaxPoints(point);
         } else {
           throw std::runtime_error("Line: " + std::to_string(line_num) +
@@ -119,9 +119,9 @@ void s21::Model::ParseFile(std::ifstream& file) {
           char tmp;
           facet_iss >> index >> tmp;
           if (index < 0) {
-            index += vertices.size() + 1;
+            index += vertices_.size() + 1;
           }
-          if (index <= 0 || static_cast<size_t>(index) > vertices.size()) {
+          if (index <= 0 || static_cast<size_t>(index) > vertices_.size()) {
             throw std::runtime_error("Line: " + std::to_string(line_num) +
                                      " failed to read a facet.");
           } else {
@@ -129,7 +129,7 @@ void s21::Model::ParseFile(std::ifstream& file) {
           }
         }
         if (!facet.empty()) {
-          polygons.push_back(facet);
+          polygons_.push_back(facet);
         }
       }
     }
@@ -139,28 +139,28 @@ void s21::Model::ParseFile(std::ifstream& file) {
 }
 
 void s21::Model::UpdateMinMaxPoints(Vertex3d point) {
-  if (point.x < min_point.x) min_point.x = point.x;
-  if (point.y < min_point.y) min_point.y = point.y;
-  if (point.z < min_point.z) min_point.z = point.z;
-  if (point.x > max_point.x) max_point.x = point.x;
-  if (point.y > max_point.y) max_point.y = point.y;
-  if (point.z > max_point.z) max_point.z = point.z;
+  if (point.x < min_point_.x) min_point_.x = point.x;
+  if (point.y < min_point_.y) min_point_.y = point.y;
+  if (point.z < min_point_.z) min_point_.z = point.z;
+  if (point.x > max_point_.x) max_point_.x = point.x;
+  if (point.y > max_point_.y) max_point_.y = point.y;
+  if (point.z > max_point_.z) max_point_.z = point.z;
 }
 
 void s21::Model::TranslateToOrigin() {
-  auto center_x = (max_point.x + min_point.x) / 2;
-  auto center_y = (max_point.y + min_point.y) / 2;
-  auto center_z = (max_point.z + min_point.z) / 2;
-  auto size_coefficient = std::max({fabs(max_point.x - min_point.x),
-                                    fabs(max_point.y - min_point.y),
-                                    fabs(max_point.z - min_point.z)});
+  auto center_x = (max_point_.x + min_point_.x) / 2;
+  auto center_y = (max_point_.y + min_point_.y) / 2;
+  auto center_z = (max_point_.z + min_point_.z) / 2;
+  auto size_coefficient = std::max({fabs(max_point_.x - min_point_.x),
+                                    fabs(max_point_.y - min_point_.y),
+                                    fabs(max_point_.z - min_point_.z)});
   if (size_coefficient != 0) size_coefficient = 2 / size_coefficient;
 
-  for (auto& vertex : vertices) {
+  for (auto& vertex : vertices_) {
     vertex.x = (vertex.x - center_x) * size_coefficient;
     vertex.y = (vertex.y - center_y) * size_coefficient;
     vertex.z = (vertex.z - center_z) * size_coefficient;
   }
 }
 
-void s21::Model::SaveVertices() { vertices_origin = vertices; }
+void s21::Model::SaveVertices() { vertices_origin_ = vertices_; }
