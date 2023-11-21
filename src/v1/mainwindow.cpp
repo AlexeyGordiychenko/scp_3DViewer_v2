@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "command/s21_projectionTypeChangeCommand.h"
 #include "command/s21_setBackgroundColorCommand.h"
+//#include "command/s21_affine_data.h"
+#include "command/s21_affineCommand.h"
 
 #include "ui_mainwindow.h"
 
@@ -175,9 +177,12 @@ void MainWindow::s21_reset_params() {
 }
 
 void MainWindow::s21_affine() {
-    //    int old = ui->openGLWidget->projectionType;
-    //    if (old != idx)
-    //        undoStack->push(new s21_projectionTypeChangeCommand(ui->openGLWidget, old, idx, this));
+    static s21_affine_data old_data = s21_affine_data();
+    s21_affine_data new_data = s21_affine_data(ui);
+    undoStack->push(new s21_affine_command(old_data, new_data, this));
+    old_data = new_data;
+   // s21_affine_command(s21_affine_data old_data, s21_affine_data new_data, MainWindow* mw, QUndoCommand *parent = 0);
+
 
 //  if (ui->openGLWidget->isParsed && !ui->openGLWidget->fileChanged) {
 //    double move_x = (ui->move_on_x->value());
