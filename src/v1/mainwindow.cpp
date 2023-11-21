@@ -3,6 +3,8 @@
 #include "command/s21_setBackgroundColorCommand.h"
 //#include "command/s21_affine_data.h"
 #include "command/s21_affineCommand.h"
+#include "command/s21_setpolygoncolorcommand.h"
+#include "command/s21_polygontypecommand.h"
 
 #include "ui_mainwindow.h"
 
@@ -66,11 +68,6 @@ void MainWindow::createCommandStack()
     undoStack = new s21_CommandStack();
     connect(ui->undo_button, &QPushButton::clicked, undoStack, &s21_CommandStack::undo);
     connect(ui->redo_button, &QPushButton::clicked, undoStack, &s21_CommandStack::redo);
-
-//    undoAction = undoStack->createUndoAction(this, tr("&Undo"));
-//    redoAction = undoStack->createRedoAction(this, tr("&Redo"));
-//    connect(ui->undo_button, &QPushButton::clicked, undoAction, &QAction::trigger);
-//    connect(ui->redo_button, &QPushButton::clicked, redoAction, &QAction::trigger);
 }
 
 Ui::MainWindow *MainWindow::getUI()
@@ -192,27 +189,23 @@ void MainWindow::s21_setBackgroundColor() {
 }
 
 void MainWindow::s21_setPolygonColor() {
-  QColor color = QColorDialog::getColor();
-  if (color.isValid()) {
-    ui->openGLWidget->pol_red = color.redF();
-    ui->openGLWidget->pol_green = color.greenF();
-    ui->openGLWidget->pol_blue = color.blueF();
-    char rgba_color[40];
-    sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
-            color.green(), color.blue());
-    ui->setPolygonColor->setStyleSheet(rgba_color);
-    ui->openGLWidget->update();
-  }
+    QColor color = QColorDialog::getColor();
+    QColor old_color = QColor( ui->openGLWidget->pol_red * 255, ui->openGLWidget->pol_green * 255,ui->openGLWidget->pol_blue * 255);
+    undoStack->push(new s21_setPolygonColorCommand(old_color, color, this));
 }
 
 void MainWindow::s21_solidPolygonType() {
-  ui->openGLWidget->edges_type = SOLID;
-  ui->openGLWidget->update();
+  setPolygonType(SOLID);
 }
 
 void MainWindow::s21_dashedPolygonType() {
-  ui->openGLWidget->edges_type = DASHED;
-  ui->openGLWidget->update();
+  setPolygonType(DASHED);
+}
+
+void MainWindow::setPolygonType(s21_polygonType type)
+{
+   s21_polygonType old = type == DASHED ? SOLID : DASHED;
+   undoStack->push(new s21_PolygonTypeCommand(old, type, this));
 }
 
 void MainWindow::s21_setPolygonThickness(int value) {

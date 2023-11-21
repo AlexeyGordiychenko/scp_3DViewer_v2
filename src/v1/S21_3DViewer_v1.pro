@@ -13,6 +13,8 @@ SOURCES += \
     command/s21_affine_data.cpp \
     command/s21_command.cpp \
     command/s21_commandstack.cpp \
+    command/s21_polygontypecommand.cpp \
+    command/s21_setpolygoncolorcommand.cpp \
     mainwindow.cpp \
     command/s21_projectionTypeChangeCommand.cpp \
     command/s21_setBackgroundColorCommand.cpp \
@@ -28,6 +30,8 @@ HEADERS += \
     command/s21_affine_data.h \
     command/s21_command.h \
     command/s21_commandstack.h \
+    command/s21_polygontypecommand.h \
+    command/s21_setpolygoncolorcommand.h \
     mainwindow.h \
     command/s21_projectionTypeChangeCommand.h \
     command/s21_setBackgroundColorCommand.h \

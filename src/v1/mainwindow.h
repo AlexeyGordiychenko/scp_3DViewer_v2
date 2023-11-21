@@ -38,6 +38,7 @@ class MainWindow : public QMainWindow {
     QAction *undoAction;
     QAction *redoAction;
     void createCommandStack();
+    void setPolygonType(s21_polygonType type);
 
  private slots:
   void s21_openFile();

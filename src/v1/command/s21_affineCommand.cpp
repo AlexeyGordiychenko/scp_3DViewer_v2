@@ -28,7 +28,6 @@ void s21_affine_command::s21_affine(s21_affine_data& data)
         ui->openGLWidget->rotate((data.rotate_x)*M_PI / 180, (data.rotate_y)*M_PI / 180,
                                  (data.rotate_z)*M_PI / 180);
         ui->openGLWidget->update();
-        //mw->refresh_ui();
 
         ui->move_on_x->setValue(data.move_x);
         ui->move_on_y->setValue(data.move_y);
