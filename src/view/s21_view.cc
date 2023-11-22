@@ -87,6 +87,7 @@ void s21::View::RenderFile() {
     ui_->openGLWidget->fileChanged = false;
   } else {
     ui_->openGLWidget->clearTransformations();
+    ui_->openGLWidget->RestoreVertices();
     ui_->openGLWidget->update();
   }
 }
