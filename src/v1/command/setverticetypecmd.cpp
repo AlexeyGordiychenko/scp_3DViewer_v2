@@ -25,7 +25,7 @@ void s21::SetVerticeTypeCmd::setVerticeType(s21_verticeType type)
         ui->noneVertice->setChecked(true);
         ui->circleVertice->setChecked(false);
         ui->squareVertice->setChecked(false);
-    } else if (CIRCLE){
+    } else if (type == CIRCLE){
         ui->noneVertice->setChecked(false);
         ui->circleVertice->setChecked(true);
         ui->squareVertice->setChecked(false);

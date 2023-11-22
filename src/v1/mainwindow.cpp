@@ -241,9 +241,7 @@ void MainWindow::s21_setSquareVertice() {
 
 void MainWindow::setVerticeType(s21_verticeType type)
 {
-    s21_verticeType old = NONE;
-    if (ui->circleVertice->isChecked()) old = CIRCLE;
-    if (ui->squareVertice->isChecked()) old = SQUARE;
+    s21_verticeType old = (s21_verticeType)(ui->openGLWidget->vertice_type);
     undoStack->push(new SetVerticeTypeCmd(old, type, this));
 }
 
