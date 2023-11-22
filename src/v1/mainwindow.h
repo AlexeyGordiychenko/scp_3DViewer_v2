@@ -62,5 +62,7 @@ class MainWindow : public QMainWindow {
   void s21_saveSettings();
   void s21_loadSettings();
   void s21_setValuesOnButtons();
+  void s21_polygonThicknessSliderReleased();
+  void s21_verticeSizeSliderReleased();
 };
 #endif  // MAINWINDOW_H

@@ -5,6 +5,8 @@
 #include "command/s21_setpolygoncolorcommand.h"
 #include "command/s21_polygontypecommand.h"
 #include "command/setpolygonthicknesscmd.h"
+#include "command/setverticesizecmd.h"
+#include "command/setverticecolorcmd.h"
 
 #include "ui_mainwindow.h"
 
@@ -71,6 +73,8 @@ void MainWindow::createCommandStack()
     undoStack = new s21_CommandStack();
     connect(ui->undo_button, &QPushButton::clicked, undoStack, &s21_CommandStack::undo);
     connect(ui->redo_button, &QPushButton::clicked, undoStack, &s21_CommandStack::redo);
+    connect(ui->polygonThickness, &QSlider::sliderReleased, this, &MainWindow::s21_polygonThicknessSliderReleased);
+    connect(ui->sizeVertice, &QSlider::sliderReleased, this, &MainWindow::s21_verticeSizeSliderReleased);
 }
 
 Ui::MainWindow *MainWindow::getUI()
@@ -211,14 +215,16 @@ void MainWindow::setPolygonType(s21_polygonType type)
    undoStack->push(new s21_PolygonTypeCommand(old, type, this));
 }
 
-void MainWindow::s21_setPolygonThickness(int value) {
-    static double old = 0;
+void MainWindow::s21_polygonThicknessSliderReleased() {
+    double old = ui->openGLWidget->edges_thickness * 10;
+    double value = ui->polygonThickness->value();
     undoStack->push(new SetPolygonThicknessCmd(old, value, this));
-    old = value;
 }
 
-//ui->openGLWidget->edges_thickness = value / 10;
-//ui->openGLWidget->update();
+void MainWindow::s21_setPolygonThickness(int value) {
+    ui->openGLWidget->edges_thickness = value / 10;
+    ui->openGLWidget->update();
+}
 
 void MainWindow::s21_setNoneVertice() {
   ui->openGLWidget->vertice_type = NONE;
@@ -240,18 +246,17 @@ void MainWindow::s21_setVerticeSize(int value) {
   ui->openGLWidget->update();
 }
 
+void MainWindow::s21_verticeSizeSliderReleased()
+{
+    double old = ui->openGLWidget->vertice_size * 5;
+    double value = ui->sizeVertice->value();
+    undoStack->push(new SetVerticeSizeCmd(old, value, this));
+}
+
 void MainWindow::s21_setVerticeColor() {
   QColor color = QColorDialog::getColor();
-  if (color.isValid()) {
-    ui->openGLWidget->ver_red = color.redF();
-    ui->openGLWidget->ver_green = color.greenF();
-    ui->openGLWidget->ver_blue = color.blueF();
-    char rgba_color[40];
-    sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
-            color.green(), color.blue());
-    ui->setVerticeColor->setStyleSheet(rgba_color);
-    ui->openGLWidget->update();
-  }
+  QColor old_color = QColor( ui->openGLWidget->ver_red * 255, ui->openGLWidget->ver_green * 255,ui->openGLWidget->ver_blue * 255);
+  undoStack->push(new setVerticeColorCmd(old_color, color, this));
 }
 
 void MainWindow::s21_saveSettings() {

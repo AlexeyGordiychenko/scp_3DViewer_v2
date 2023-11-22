@@ -16,6 +16,8 @@ SOURCES += \
     command/s21_polygontypecommand.cpp \
     command/s21_setpolygoncolorcommand.cpp \
     command/setpolygonthicknesscmd.cpp \
+    command/setverticecolorcmd.cpp \
+    command/setverticesizecmd.cpp \
     mainwindow.cpp \
     command/s21_projectionTypeChangeCommand.cpp \
     command/s21_setBackgroundColorCommand.cpp \
@@ -34,6 +36,8 @@ HEADERS += \
     command/s21_polygontypecommand.h \
     command/s21_setpolygoncolorcommand.h \
     command/setpolygonthicknesscmd.h \
+    command/setverticecolorcmd.h \
+    command/setverticesizecmd.h \
     mainwindow.h \
     command/s21_projectionTypeChangeCommand.h \
     command/s21_setBackgroundColorCommand.h \
