@@ -107,6 +107,7 @@ void s21::Model::ClearData() {
   polygons_.clear();
   min_point_ = {0, 0, 0};
   max_point_ = {0, 0, 0};
+  center_x = 0, center_y = 0, center_z = 0;
 }
 
 void s21::Model::ParseFile(std::ifstream& file) {
