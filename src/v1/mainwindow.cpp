@@ -1,12 +1,14 @@
 #include "mainwindow.h"
 #include "command/s21_projectionTypeChangeCommand.h"
 #include "command/s21_setBackgroundColorCommand.h"
-//#include "command/s21_affine_data.h"
 #include "command/s21_affineCommand.h"
 #include "command/s21_setpolygoncolorcommand.h"
 #include "command/s21_polygontypecommand.h"
+#include "command/setpolygonthicknesscmd.h"
 
 #include "ui_mainwindow.h"
+
+using namespace s21;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -47,9 +49,10 @@ MainWindow::MainWindow(QWidget *parent)
 
   settings = new QSettings("21school", "3DViewer_v1.0", this);
   s21_loadSettings();
-  s21_setValuesOnButtons();
 
   createCommandStack();
+
+  s21_setValuesOnButtons();
 }
 
 MainWindow::~MainWindow() {
@@ -209,9 +212,13 @@ void MainWindow::setPolygonType(s21_polygonType type)
 }
 
 void MainWindow::s21_setPolygonThickness(int value) {
-  ui->openGLWidget->edges_thickness = value / 10;
-  ui->openGLWidget->update();
+    static double old = 0;
+    undoStack->push(new SetPolygonThicknessCmd(old, value, this));
+    old = value;
 }
+
+//ui->openGLWidget->edges_thickness = value / 10;
+//ui->openGLWidget->update();
 
 void MainWindow::s21_setNoneVertice() {
   ui->openGLWidget->vertice_type = NONE;

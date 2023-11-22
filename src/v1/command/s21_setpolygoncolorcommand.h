@@ -23,17 +23,3 @@ private:
 };
 
 #endif // S21_SETPOLYGONCOLORCOMMAND_H
-
-//void MainWindow::s21_setPolygonColor() {
-//  QColor color = QColorDialog::getColor();
-//  if (color.isValid()) {
-//    ui->openGLWidget->pol_red = color.redF();
-//    ui->openGLWidget->pol_green = color.greenF();
-//    ui->openGLWidget->pol_blue = color.blueF();
-//    char rgba_color[40];
-//    sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
-//            color.green(), color.blue());
-//    ui->setPolygonColor->setStyleSheet(rgba_color);
-//    ui->openGLWidget->update();
-//  }
-//}

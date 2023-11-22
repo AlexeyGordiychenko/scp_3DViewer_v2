@@ -15,6 +15,7 @@ SOURCES += \
     command/s21_commandstack.cpp \
     command/s21_polygontypecommand.cpp \
     command/s21_setpolygoncolorcommand.cpp \
+    command/setpolygonthicknesscmd.cpp \
     mainwindow.cpp \
     command/s21_projectionTypeChangeCommand.cpp \
     command/s21_setBackgroundColorCommand.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     command/s21_commandstack.h \
     command/s21_polygontypecommand.h \
     command/s21_setpolygoncolorcommand.h \
+    command/setpolygonthicknesscmd.h \
     mainwindow.h \
     command/s21_projectionTypeChangeCommand.h \
     command/s21_setBackgroundColorCommand.h \
