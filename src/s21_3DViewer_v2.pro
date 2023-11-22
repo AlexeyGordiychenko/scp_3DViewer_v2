@@ -11,14 +11,18 @@ CONFIG += c++17
 
 SOURCES += \
     s21_main.cc \
-    thirdparty/gifanim/gifanim.cpp
+    thirdparty/gifanim/gifanim.cpp \
     view/s21_view.cc \
+    view/s21_gifcreator.cc \
+    view/s21_glwidget.cc \
     model/s21_model.cc \
     controller/s21_controller.cc
 
 HEADERS += \
-    thirdparty/gifanim/gifanim.h
+    thirdparty/gifanim/gifanim.h \
     view/s21_view.h \
+    view/s21_gifcreator.h \
+    view/s21_glwidget.h \
     model/s21_model.h \
     controller/s21_controller.h
 
