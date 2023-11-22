@@ -7,6 +7,7 @@
 #include "command/setpolygonthicknesscmd.h"
 #include "command/setverticesizecmd.h"
 #include "command/setverticecolorcmd.h"
+#include "command/setverticetypecmd.h"
 
 #include "ui_mainwindow.h"
 
@@ -227,18 +228,23 @@ void MainWindow::s21_setPolygonThickness(int value) {
 }
 
 void MainWindow::s21_setNoneVertice() {
-  ui->openGLWidget->vertice_type = NONE;
-  ui->openGLWidget->update();
+  setVerticeType(NONE);
 }
 
 void MainWindow::s21_setCircleVertice() {
-//  ui->openGLWidget->vertice_type = CIRCLE;
-  ui->openGLWidget->update();
+  setVerticeType(CIRCLE);
 }
 
 void MainWindow::s21_setSquareVertice() {
-  ui->openGLWidget->vertice_type = SQUARE;
-  ui->openGLWidget->update();
+  setVerticeType(SQUARE);
+}
+
+void MainWindow::setVerticeType(s21_verticeType type)
+{
+    s21_verticeType old = NONE;
+    if (ui->circleVertice->isChecked()) old = CIRCLE;
+    if (ui->squareVertice->isChecked()) old = SQUARE;
+    undoStack->push(new SetVerticeTypeCmd(old, type, this));
 }
 
 void MainWindow::s21_setVerticeSize(int value) {

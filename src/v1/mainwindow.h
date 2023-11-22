@@ -33,12 +33,12 @@ class MainWindow : public QMainWindow {
   GifCreator *gifCreator;
   QSettings *settings;
 
-    //QUndoStack *undoStack;
     s21_CommandStack *undoStack;
     QAction *undoAction;
     QAction *redoAction;
     void createCommandStack();
     void setPolygonType(s21_polygonType type);
+    void setVerticeType(s21_verticeType type);
 
  private slots:
   void s21_openFile();
