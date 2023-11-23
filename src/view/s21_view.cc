@@ -58,6 +58,11 @@ s21::View::~View() {
   delete ui_;
 }
 
+Ui::View *s21::View::getUI()
+{
+
+}
+
 void s21::View::OpenFile() {
   QString QString_filename = QFileDialog::getOpenFileName(
       this, tr("Open .obj file:"), "~/", tr("Obj Files (*.obj)"));
