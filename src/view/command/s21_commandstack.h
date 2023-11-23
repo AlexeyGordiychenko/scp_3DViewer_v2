@@ -1,25 +1,32 @@
-#ifndef S21_COMMANDSTACK_H
-#define S21_COMMANDSTACK_H
+#ifndef S21_3DVIEWER_V2_COMMAND_COMMANDSTACK_H
+#define S21_3DVIEWER_V2_COMMAND_COMMANDSTACK_H
 
 #include <stack>
 #include "s21_command.h"
 #include <QObject>
 
-class s21_CommandStack : public QObject
+namespace s21 {
+
+class CommandStack : public QObject
 {
-    //Q_OBJECT
 public:
-    s21_CommandStack();
-     ~s21_CommandStack();
-    void push(Command* cmd);
+    CommandStack();
+    CommandStack(const CommandStack&) = delete;
+    CommandStack& operator=(const CommandStack&) = delete;
+    CommandStack(CommandStack&&) = delete;
+    CommandStack& operator=(CommandStack&&) = delete;
+    ~CommandStack() = default;
+    void Push(Command* cmd);
 public slots:
-    void redo();
-    void undo();
+    void Redo();
+    void Undo();
 
 private:
-    std::stack<Command*> undo_stack;
-    std::stack<Command*> redo_stack;
-    void clear_redo();
+    std::stack<Command*> undo_stack_;
+    std::stack<Command*> redo_stack_;
+    void ClearRedoStack();
 };
 
-#endif // S21_COMMANDSTACK_H
+}
+
+#endif

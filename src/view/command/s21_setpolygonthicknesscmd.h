@@ -1,25 +1,31 @@
-#ifndef SETPOLYGONTHICKNESSCMD_H
-#define SETPOLYGONTHICKNESSCMD_H
+#ifndef S21_SETPOLYGONTHICKNESSCMD_H
+#define S21_SETPOLYGONTHICKNESSCMD_H
 
 #include "s21_command.h"
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "../s21_view.h"
+#include "ui_s21_view.h"
 
 namespace s21 {
 
 class SetPolygonThicknessCmd : public Command
 {
 public:
-    SetPolygonThicknessCmd(double old_thickness, double new_thickness, MainWindow* mw);
+    SetPolygonThicknessCmd() = delete;
+    SetPolygonThicknessCmd(double old_thickness, double new_thickness, View *view);
+    SetPolygonThicknessCmd(const SetPolygonThicknessCmd&) = delete;
+    SetPolygonThicknessCmd& operator=(const SetPolygonThicknessCmd&) = delete;
+    SetPolygonThicknessCmd(SetPolygonThicknessCmd&&) = delete;
+    SetPolygonThicknessCmd& operator=(SetPolygonThicknessCmd&&) = delete;
+    ~SetPolygonThicknessCmd() = default;
     void Redo() override;
     void Undo() override;
 private:
-    MainWindow* mw;
-    void setPolygonThickness(double thickness);
-    double old_thickness;
-    double new_thickness;
+    View* view_;
+    void SetPolygonThickness(double thickness);
+    double old_thickness_;
+    double new_thickness_;
 };
 
 }
 
-#endif // SETPOLYGONTHICKNESSCMD_H
+#endif

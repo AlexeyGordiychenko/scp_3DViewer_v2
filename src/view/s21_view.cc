@@ -60,7 +60,7 @@ s21::View::~View() {
 
 Ui::View *s21::View::getUI()
 {
-
+    return ui_;
 }
 
 void s21::View::OpenFile() {

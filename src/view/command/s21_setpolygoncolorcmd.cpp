@@ -1,24 +1,24 @@
-#include "s21_setpolygoncolorcommand.h"
+#include "s21_setpolygoncolorcmd.h"
 
-s21_setPolygonColorCommand::s21_setPolygonColorCommand(QColor old_color, QColor color, MainWindow *mw)
-    :   mw(mw), old_color(old_color), color(color)
+s21::SetPolygonColorCmd::SetPolygonColorCmd(QColor old_color, QColor color, View *mw)
+    :   view_(mw), old_color_(old_color), color_(color)
 {
 
 }
 
-void s21_setPolygonColorCommand::redo()
+void s21::SetPolygonColorCmd::Redo()
 {
-    setPolygonColor(color);
+    SetPolygonColor(color_);
 }
 
-void s21_setPolygonColorCommand::undo()
+void s21::SetPolygonColorCmd::Undo()
 {
-    setPolygonColor(old_color);
+    SetPolygonColor(old_color_);
 }
 
-void s21_setPolygonColorCommand::setPolygonColor(QColor color)
+void s21::SetPolygonColorCmd::SetPolygonColor(QColor color)
 {
-    Ui::MainWindow* ui = mw->getUI();
+    Ui::View* ui = view_->getUI();
     if (color.isValid()) {
         ui->openGLWidget->pol_red = color.redF();
         ui->openGLWidget->pol_green = color.greenF();

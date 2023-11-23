@@ -1,13 +1,20 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#ifndef S21_3DVIEWER_V2_COMMAND_AFFINE_DATA_H
+#define S21_3DVIEWER_V2_COMMAND_AFFINE_DATA_H
 
-#ifndef S21AFFINE_DATA
-#define S21AFFINE_DATA
+#include "ui_s21_view.h"
+#include "../s21_view.h"
 
-class s21_affine_data {
+namespace s21 {
+
+class AffineData {
 public:
-    s21_affine_data();
-    s21_affine_data(Ui::MainWindow* ui);
+    AffineData() = default;
+    AffineData(Ui::View *ui);
+    AffineData(const AffineData&) = default;
+    AffineData& operator=(const AffineData&) = delete;
+    AffineData(AffineData&&) = delete;
+    AffineData& operator=(AffineData&&) = delete;
+    ~AffineData() = default;
     double move_x;
     double move_y;
     double move_z;
@@ -16,5 +23,7 @@ public:
     double rotate_y;
     double rotate_z;
 };
+
+}
 
 #endif

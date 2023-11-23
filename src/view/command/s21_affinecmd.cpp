@@ -1,28 +1,30 @@
-#include "command/s21_affineCommand.h"
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "s21_affinecmd.h"
+#include "../s21_view.h"
+#include "ui_s21_view.h"
 
-s21_affine_command::s21_affine_command(s21_affine_data old_data, s21_affine_data new_data, MainWindow *mw)
-    :    mw(mw), old_data(old_data), new_data(new_data)
-{}
-
-void s21_affine_command::undo()
+s21::AffineCmd::AffineCmd(AffineData old_data, AffineData new_data, View *view)
+    :    view_(view), old_data_(old_data), new_data_(new_data)
 {
-    s21_affine(old_data);
+
 }
 
-void s21_affine_command::redo()
+void s21::AffineCmd::Undo()
 {
-    s21_affine(new_data);
+    Transform(old_data_);
 }
 
-void s21_affine_command::s21_affine(s21_affine_data& data)
+void s21::AffineCmd::Redo()
 {
-    Ui::MainWindow* ui = mw->getUI();
+    Transform(new_data_);
+}
+
+void s21::AffineCmd::Transform(AffineData& data)
+{
+    Ui::View* ui = view_->getUI();
     if (ui->openGLWidget->isParsed && !ui->openGLWidget->fileChanged) {
         if (data.scale_k == 0) data.scale_k = 1;
         ui->openGLWidget->clearTransformations();
-        ui->openGLWidget->matrix_reset_to_start();
+        ui->openGLWidget->RestoreVertices();
         ui->openGLWidget->scale(data.scale_k);
         ui->openGLWidget->move(data.move_x, data.move_y, data.move_z);
         ui->openGLWidget->rotate((data.rotate_x)*M_PI / 180, (data.rotate_y)*M_PI / 180,

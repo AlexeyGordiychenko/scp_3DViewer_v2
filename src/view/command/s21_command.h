@@ -1,15 +1,21 @@
-#ifndef S21_COMMAND_H
-#define S21_COMMAND_H
+#ifndef S21_3DVIEWER_V2_COMMAND_COMMAND_H
+#define S21_3DVIEWER_V2_COMMAND_COMMAND_H
 
+namespace s21 {
 
 class Command
 {
 public:
-    Command();
-    Command(Command const& other);
-    ~Command();
-    virtual void redo() =0;
-    virtual void undo() =0;
+    Command() = default;
+    Command(const Command&) = delete;
+    Command& operator=(const Command&) = delete;
+    Command(Command&&) = delete;
+    Command& operator=(Command&&) = delete;
+    ~Command() = default;
+    virtual void Redo() =0;
+    virtual void Undo() =0;
 };
 
-#endif // S21_COMMAND_H
+}
+
+#endif

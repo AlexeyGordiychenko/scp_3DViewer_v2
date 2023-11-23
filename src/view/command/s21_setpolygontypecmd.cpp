@@ -1,24 +1,24 @@
-#include "s21_polygontypecommand.h"
+#include "s21_setpolygontypecmd.h"
 
-s21_PolygonTypeCommand::s21_PolygonTypeCommand(s21_polygonType old_type, s21_polygonType new_type, MainWindow *mw)
-:   mw(mw), old_type(old_type), new_type(new_type)
+s21::SetPolygonTypeCmd::SetPolygonTypeCmd(polygonType old_type, polygonType new_type, View *mw)
+:   view_(mw), old_type_(old_type), new_type_(new_type)
 {
 
 }
 
-void s21_PolygonTypeCommand::redo()
+void s21::SetPolygonTypeCmd::Redo()
 {
-    setPolygonType(new_type);
+    SetPolygonType(new_type_);
 }
 
-void s21_PolygonTypeCommand::undo()
+void s21::SetPolygonTypeCmd::Undo()
 {
-    setPolygonType(old_type);
+    SetPolygonType(old_type_);
 }
 
-void s21_PolygonTypeCommand::setPolygonType(s21_polygonType type)
+void s21::SetPolygonTypeCmd::SetPolygonType(polygonType type)
 {
-    Ui::MainWindow* ui = mw->getUI();
+    Ui::View* ui = view_->getUI();
     ui->openGLWidget->edges_type = type;
     ui->openGLWidget->update();
     if (type == SOLID) {

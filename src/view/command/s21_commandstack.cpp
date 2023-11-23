@@ -1,44 +1,38 @@
 #include "s21_commandstack.h"
 
-
-s21_CommandStack::s21_CommandStack()
-    : undo_stack(std::stack<Command*>()), redo_stack(std::stack<Command*>())
+s21::CommandStack::CommandStack()
+    : undo_stack_(std::stack<Command*>()), redo_stack_(std::stack<Command*>())
 {
 
 }
 
-void s21_CommandStack::redo()
+void s21::CommandStack::Redo()
 {
-    if (!redo_stack.empty()) {
-        redo_stack.top()->redo();
-        undo_stack.push(redo_stack.top());
-        redo_stack.pop();
+    if (!redo_stack_.empty()) {
+        redo_stack_.top()->Redo();
+        undo_stack_.push(redo_stack_.top());
+        redo_stack_.pop();
     }
 }
 
-void s21_CommandStack::undo()
+void s21::CommandStack::Undo()
 {
-    if (!undo_stack.empty()) {
-        undo_stack.top()->undo();
-        redo_stack.push(undo_stack.top());
-        undo_stack.pop();
+    if (!undo_stack_.empty()) {
+        undo_stack_.top()->Undo();
+        redo_stack_.push(undo_stack_.top());
+        undo_stack_.pop();
     }
 }
 
-s21_CommandStack::~s21_CommandStack()
+void s21::CommandStack::Push(Command* cmd)
 {
-
+    cmd->Redo();
+    undo_stack_.push(cmd);
+    ClearRedoStack();
 }
 
-void s21_CommandStack::push(Command* cmd)
+void s21::CommandStack::ClearRedoStack()
 {
-    cmd->redo();
-    undo_stack.push(cmd);
-    clear_redo();
-}
-
-void s21_CommandStack::clear_redo()
-{
-    while(!redo_stack.empty())
-        redo_stack.pop();
+    while(!redo_stack_.empty())
+        redo_stack_.pop();
 }

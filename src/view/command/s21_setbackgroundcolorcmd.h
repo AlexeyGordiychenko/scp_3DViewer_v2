@@ -1,17 +1,27 @@
 #include <QUndoCommand>
 
-#include "../mainwindow.h"
+#include "../s21_view.h"
+#include "s21_command.h"
 
-class s21_setBackgroundColorCommand : public s21_Command
+namespace s21 {
+
+class SetBackgroundColorCmd : public Command
 {
 public:
-    s21_setBackgroundColorCommand(GLWidget* w, QColor old_color,
-                                  QColor color, MainWindow* mw);
-    void undo();
-    void redo();
+    SetBackgroundColorCmd() = delete;
+    SetBackgroundColorCmd(QColor old_color, QColor color, View* view);
+    SetBackgroundColorCmd(const SetBackgroundColorCmd&) = delete;
+    SetBackgroundColorCmd& operator=(const SetBackgroundColorCmd&) = delete;
+    SetBackgroundColorCmd(SetBackgroundColorCmd&&) = delete;
+    SetBackgroundColorCmd& operator=(SetBackgroundColorCmd&&) = delete;
+    ~SetBackgroundColorCmd() = default;
+    void Undo();
+    void Redo();
 private:
-    GLWidget* openGLWidget;
-    MainWindow* mw;
-    QColor old_color;
-    QColor color;
+    View* view_;
+    QColor old_color_;
+    QColor color_;
+    void SetBackgroundColor(QColor color);
 };
+
+}

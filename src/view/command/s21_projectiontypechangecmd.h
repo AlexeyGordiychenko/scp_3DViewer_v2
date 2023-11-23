@@ -1,18 +1,30 @@
 #include <QUndoCommand>
 
-#include "../mainwindow.h"
+#include "../s21_view.h"
+#include "ui_s21_view.h"
 #include "s21_command.h"
 
-class s21_projectionTypeChangeCommand : public Command
+namespace s21 {
+
+class ProjectionTypeChangeCommand : public Command
 {
 public:
-    //s21_projectionTypeChangeCommand(GLWidget* w, int old_idx, int new_idx, MainWindow* mw, QUndoCommand *parent = 0);
-    s21_projectionTypeChangeCommand(GLWidget* w, int old_idx, int new_idx, MainWindow* mw);
-    void undo() override;
-    void redo() override;
+    ProjectionTypeChangeCommand() = delete;
+    ProjectionTypeChangeCommand(int old_idx, int new_idx, View* mw);
+    ProjectionTypeChangeCommand(const ProjectionTypeChangeCommand&) = delete;
+    ProjectionTypeChangeCommand& operator=(const ProjectionTypeChangeCommand&) = delete;
+    ProjectionTypeChangeCommand(ProjectionTypeChangeCommand&&) = delete;
+    ProjectionTypeChangeCommand& operator=(ProjectionTypeChangeCommand&&) = delete;
+    ~ProjectionTypeChangeCommand() = default;
+    void Undo() override;
+    void Redo() override;
 private:
-    GLWidget* widget;
-    MainWindow* mw;
-    int old_idx;
-    int new_idx;
+    View* view_;
+    int old_idx_;
+    int new_idx_;
+    void SetProjectionType(int idx);
 };
+
+}
+
+

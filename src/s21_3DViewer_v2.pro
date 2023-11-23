@@ -16,12 +16,12 @@ SOURCES += \
     view/command/s21_affinedata.cpp \
     view/command/s21_command.cpp \
     view/command/s21_commandstack.cpp \
-    view/command/s21_projectiontypechangecommand.cpp \
-    view/command/s21_setBackgroundColorCommand.cpp \
-    view/command/s21_setpolygoncolorcommand.cpp \
+    view/command/s21_projectiontypechangecmd.cpp \
+    view/command/s21_setbackgroundcolorcmd.cpp \
+    view/command/s21_setpolygoncolorcmd.cpp \
+    view/command/s21_setpolygonthicknesscmd.cpp \
     view/command/s21_setpolygontypecmd.cpp \
-    view/command/setpolygonthicknesscmd.cpp \
-    view/command/setverticecolorcmd.cpp \
+    view/command/s21_setverticecolorcmd.cpp \
     view/command/setverticesizecmd.cpp \
     view/command/setverticetypecmd.cpp \
     view/s21_view.cc \
@@ -36,12 +36,12 @@ HEADERS += \
     view/command/s21_affinedata.h \
     view/command/s21_command.h \
     view/command/s21_commandstack.h \
-    view/command/s21_projectiontypechangecommand.h \
-    view/command/s21_setBackgroundColorCommand.h \
-    view/command/s21_setpolygoncolorcommand.h \
+    view/command/s21_projectiontypechangecmd.h \
+    view/command/s21_setbackgroundcolorcmd.h \
+    view/command/s21_setpolygoncolorcmd.h \
+    view/command/s21_setpolygonthicknesscmd.h \
     view/command/s21_setpolygontypecmd.h \
-    view/command/setpolygonthicknesscmd.h \
-    view/command/setverticecolorcmd.h \
+    view/command/s21_setverticecolorcmd.h \
     view/command/setverticesizecmd.h \
     view/command/setverticetypecmd.h \
     view/s21_view.h \

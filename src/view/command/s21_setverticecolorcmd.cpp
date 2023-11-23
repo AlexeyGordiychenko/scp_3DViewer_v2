@@ -1,24 +1,24 @@
-#include "setverticecolorcmd.h"
+#include "s21_setverticecolorcmd.h"
 
-s21::setVerticeColorCmd::setVerticeColorCmd(QColor old_color, QColor color, MainWindow *mw)
-    :   mw(mw), old_color(old_color), color(color)
+s21::SetVerticeColorCmd::SetVerticeColorCmd(QColor old_color, QColor color, View *mw)
+    :   view_(mw), old_color_(old_color), color_(color)
 {
 
 }
 
-void s21::setVerticeColorCmd::Redo()
+void s21::SetVerticeColorCmd::Redo()
 {
-    setVerticeColor(color);
+    SetVerticeColor(color_);
 }
 
-void s21::setVerticeColorCmd::Undo()
+void s21::SetVerticeColorCmd::Undo()
 {
-    setVerticeColor(old_color);
+    SetVerticeColor(old_color_);
 }
 
-void s21::setVerticeColorCmd::setVerticeColor(QColor color)
+void s21::SetVerticeColorCmd::SetVerticeColor(QColor color)
 {
-    Ui::MainWindow* ui = mw->getUI();
+    Ui::View* ui = view_->getUI();
     if (color.isValid()) {
       ui->openGLWidget->ver_red = color.redF();
       ui->openGLWidget->ver_green = color.greenF();

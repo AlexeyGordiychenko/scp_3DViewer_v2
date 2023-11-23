@@ -1,21 +1,31 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "command/s21_affine_data.h"
+#ifndef S21_3DVIEWER_V2_COMMAND_AFFINECOMMAND_H
+#define S21_3DVIEWER_V2_COMMAND_AFFINECOMMAND_H
 
-#ifndef S21AFFINE_COMMAND
-#define S21AFFINE_COMMAND
+#include "../s21_view.h"
+#include "ui_s21_view.h"
+#include "s21_affinedata.h"
+#include "s21_command.h"
 
-class s21_affine_command: public s21_Command {
+namespace s21 {
+
+class AffineCmd: public Command {
 public:
-    //s21_affine_command();
-    s21_affine_command(s21_affine_data old_data, s21_affine_data new_data, MainWindow* mw);
-    void undo();
-    void redo();
+    AffineCmd() = delete;
+    AffineCmd(AffineData old_data, AffineData new_data, View* view);
+    AffineCmd(const AffineCmd&) = delete;
+    AffineCmd& operator=(const AffineCmd&) = delete;
+    AffineCmd(AffineCmd&&) = delete;
+    AffineCmd& operator=(AffineCmd&&) = delete;
+    ~AffineCmd() = default;
+    void Undo() override;
+    void Redo() override;
 private:
-    MainWindow* mw;
-    s21_affine_data old_data;
-    s21_affine_data new_data;
-    void s21_affine(s21_affine_data& data);
+    View* view_;
+    AffineData old_data_;
+    AffineData new_data_;
+    void Transform(AffineData& data);
 };
+
+}
 
 #endif
