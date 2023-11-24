@@ -13,7 +13,7 @@ public:
     AffineData(const AffineData&) = default;
     AffineData& operator=(const AffineData&) = delete;
     AffineData(AffineData&&) = delete;
-    AffineData& operator=(AffineData&&) = delete;
+    AffineData& operator=(AffineData&&) = default;
     ~AffineData() = default;
     double move_x;
     double move_y;

@@ -9,6 +9,16 @@
 #include "s21_glwidget.h"
 #include "ui_s21_view.h"
 
+#include "command/s21_projectiontypechangecmd.h"
+#include "command/s21_setbackgroundcolorcmd.h"
+#include "command/s21_affinecmd.h"
+#include "command/s21_setpolygoncolorcmd.h"
+#include "command/s21_setpolygontypecmd.h"
+#include "command/s21_setpolygonthicknesscmd.h"
+#include "command/s21_setverticesizecmd.h"
+#include "command/s21_setverticecolorcmd.h"
+#include "command/s21_setverticetypecmd.h"
+
 s21::View::View(s21::Controller *controller, QWidget *parent)
     : QMainWindow(parent), ui_(new Ui::View) {
   ui_->setupUi(this);
@@ -50,6 +60,8 @@ s21::View::View(s21::Controller *controller, QWidget *parent)
   settings_ = new QSettings("21school", "3DViewer_v1.0", this);
   LoadSettings();
   SetValuesOnButtons();
+
+  createCommandStack();
 }
 
 s21::View::~View() {
@@ -97,9 +109,15 @@ void s21::View::RenderFile() {
   }
 }
 
+//void s21::View::ProjectionTypeChange(int idx) {
+//  ui_->openGLWidget->setProjectionType(idx);
+//  ui_->openGLWidget->update();
+//}
+
 void s21::View::ProjectionTypeChange(int idx) {
-  ui_->openGLWidget->setProjectionType(idx);
-  ui_->openGLWidget->update();
+    int old = ui_->openGLWidget->projectionType;
+    if (old != idx)
+        undoStack->Push(new ProjectionTypeChangeCommand(old, idx, this));
 }
 
 void s21::View::TakeScreenshot() {
@@ -157,62 +175,95 @@ void s21::View::ResetParams() {
   ui_->rotate_z->setValue(0);
 }
 
+//void s21::View::Affine() {
+//  if (ui_->openGLWidget->isParsed && !ui_->openGLWidget->fileChanged) {
+//    double move_x = (ui_->move_on_x->value());
+//    double move_y = (ui_->move_on_y->value());
+//    double move_z = (ui_->move_on_z->value());
+//    double scale_k = (ui_->scale_on_k->value());
+//    double rotate_x = (ui_->rotate_x->value());
+//    double rotate_y = (ui_->rotate_y->value());
+//    double rotate_z = (ui_->rotate_z->value());
+//    if (scale_k == 0) scale_k = 1;
+//    ui_->openGLWidget->clearTransformations();
+//    ui_->openGLWidget->RestoreVertices();
+//    ui_->openGLWidget->scale(scale_k);
+//    ui_->openGLWidget->move(move_x, move_y, move_z);
+//    ui_->openGLWidget->rotate((rotate_x)*M_PI / 180, (rotate_y)*M_PI / 180,
+//                              (rotate_z)*M_PI / 180);
+//    ui_->openGLWidget->update();
+//  }
+//}
+
 void s21::View::Affine() {
-  if (ui_->openGLWidget->isParsed && !ui_->openGLWidget->fileChanged) {
-    double move_x = (ui_->move_on_x->value());
-    double move_y = (ui_->move_on_y->value());
-    double move_z = (ui_->move_on_z->value());
-    double scale_k = (ui_->scale_on_k->value());
-    double rotate_x = (ui_->rotate_x->value());
-    double rotate_y = (ui_->rotate_y->value());
-    double rotate_z = (ui_->rotate_z->value());
-    if (scale_k == 0) scale_k = 1;
-    ui_->openGLWidget->clearTransformations();
-    ui_->openGLWidget->RestoreVertices();
-    ui_->openGLWidget->scale(scale_k);
-    ui_->openGLWidget->move(move_x, move_y, move_z);
-    ui_->openGLWidget->rotate((rotate_x)*M_PI / 180, (rotate_y)*M_PI / 180,
-                              (rotate_z)*M_PI / 180);
-    ui_->openGLWidget->update();
-  }
+    static AffineData old_data = AffineData();
+    AffineData new_data = AffineData(ui_);
+    undoStack->Push(new AffineCmd(old_data, new_data, this));
+    old_data = std::move(new_data);
 }
+
+//void s21::View::SetBackgroundColor() {
+//  QColor color = QColorDialog::getColor();
+//  if (color.isValid()) {
+//    ui_->openGLWidget->bg_red = color.redF();
+//    ui_->openGLWidget->bg_green = color.greenF();
+//    ui_->openGLWidget->bg_blue = color.blueF();
+//    char rgba_color[40];
+//    sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
+//            color.green(), color.blue());
+//    ui_->setBgColor->setStyleSheet(rgba_color);
+//    ui_->openGLWidget->update();
+//  }
+//}
 
 void s21::View::SetBackgroundColor() {
   QColor color = QColorDialog::getColor();
-  if (color.isValid()) {
-    ui_->openGLWidget->bg_red = color.redF();
-    ui_->openGLWidget->bg_green = color.greenF();
-    ui_->openGLWidget->bg_blue = color.blueF();
-    char rgba_color[40];
-    sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
-            color.green(), color.blue());
-    ui_->setBgColor->setStyleSheet(rgba_color);
-    ui_->openGLWidget->update();
-  }
+  QColor old_color = QColor( ui_->openGLWidget->bg_red * 255, ui_->openGLWidget->bg_green * 255,ui_->openGLWidget->bg_blue * 255);
+  undoStack->Push(new SetBackgroundColorCmd(old_color, color, this));
 }
+
+//void s21::View::SetPolygonColor() {
+//  QColor color = QColorDialog::getColor();
+//  if (color.isValid()) {
+//    ui_->openGLWidget->pol_red = color.redF();
+//    ui_->openGLWidget->pol_green = color.greenF();
+//    ui_->openGLWidget->pol_blue = color.blueF();
+//    char rgba_color[40];
+//    sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
+//            color.green(), color.blue());
+//    ui_->setPolygonColor->setStyleSheet(rgba_color);
+//    ui_->openGLWidget->update();
+//  }
+//}
 
 void s21::View::SetPolygonColor() {
-  QColor color = QColorDialog::getColor();
-  if (color.isValid()) {
-    ui_->openGLWidget->pol_red = color.redF();
-    ui_->openGLWidget->pol_green = color.greenF();
-    ui_->openGLWidget->pol_blue = color.blueF();
-    char rgba_color[40];
-    sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
-            color.green(), color.blue());
-    ui_->setPolygonColor->setStyleSheet(rgba_color);
-    ui_->openGLWidget->update();
-  }
+    QColor color = QColorDialog::getColor();
+    QColor old_color = QColor(ui_->openGLWidget->pol_red * 255, ui_->openGLWidget->pol_green * 255,ui_->openGLWidget->pol_blue * 255);
+    undoStack->Push(new SetPolygonColorCmd(old_color, color, this));
 }
 
+//void s21::View::SolidPolygonType() {
+//  ui_->openGLWidget->edges_type = SOLID;
+//  ui_->openGLWidget->update();
+//}
+
+//void s21::View::DashedPolygonType() {
+//  ui_->openGLWidget->edges_type = DASHED;
+//  ui_->openGLWidget->update();
+//}
+
 void s21::View::SolidPolygonType() {
-  ui_->openGLWidget->edges_type = SOLID;
-  ui_->openGLWidget->update();
+  setPolygonType(SOLID);
 }
 
 void s21::View::DashedPolygonType() {
-  ui_->openGLWidget->edges_type = DASHED;
-  ui_->openGLWidget->update();
+  setPolygonType(DASHED);
+}
+
+void s21::View::setPolygonType(polygonType type)
+{
+   polygonType old = type == DASHED ? SOLID : DASHED;
+   undoStack->Push(new SetPolygonTypeCmd(old, type, this));
 }
 
 void s21::View::SetPolygonThickness(int value) {
@@ -337,3 +388,27 @@ void s21::View::SetValuesOnButtons() {
     ui_->projectionType->setCurrentIndex(1);
   }
 }
+
+void s21::View::createCommandStack()
+{
+    undoStack = new CommandStack();
+    connect(ui_->undo_button, &QPushButton::clicked, undoStack, &CommandStack::Undo);
+    connect(ui_->redo_button, &QPushButton::clicked, undoStack, &CommandStack::Redo);
+    connect(ui_->polygonThickness, &QSlider::sliderReleased, this, &View::s21_polygonThicknessSliderReleased);
+    connect(ui_->sizeVertice, &QSlider::sliderReleased, this, &View::s21_verticeSizeSliderReleased);
+}
+
+void s21::View::s21_polygonThicknessSliderReleased() {
+    double old = ui_->openGLWidget->edges_thickness * 10;
+    double value = ui_->polygonThickness->value();
+    undoStack->Push(new s21::SetPolygonThicknessCmd(old, value, this));
+}
+
+void s21::View::s21_verticeSizeSliderReleased()
+{
+    double old = ui_->openGLWidget->vertice_size * 5;
+    double value = ui_->sizeVertice->value();
+    undoStack->Push(new SetVerticeSizeCmd(old, value, this));
+}
+
+

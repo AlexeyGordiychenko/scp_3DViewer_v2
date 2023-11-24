@@ -21,7 +21,7 @@ void s21::ProjectionTypeChangeCommand::Redo()
 void s21::ProjectionTypeChangeCommand::SetProjectionType(int idx)
 {
     Ui::View* ui = view_->getUI();
-    ui->openGLWidget->setProjectionType(old_idx_);
+    ui->openGLWidget->setProjectionType(idx);
     ui->openGLWidget->update();
     ui->projectionType->setCurrentIndex(idx);
 }

@@ -5,6 +5,8 @@
 #include <QSettings>
 
 #include "../controller/s21_controller.h"
+#include "command/s21_commandstack.h"
+#include "s21_glwidget.h"
 
 namespace Ui {
 class View;
@@ -50,11 +52,16 @@ class View : public QMainWindow {
   void SaveSettings();
   void LoadSettings();
   void SetValuesOnButtons();
+  void s21_polygonThicknessSliderReleased();
+  void s21_verticeSizeSliderReleased();
+  void setPolygonType(polygonType type);
 
  private:
   Ui::View *ui_;
   s21::GifCreator *gifCreator_;
   QSettings *settings_;
+  CommandStack *undoStack;
+  void createCommandStack();
 };
 
 }  // namespace s21

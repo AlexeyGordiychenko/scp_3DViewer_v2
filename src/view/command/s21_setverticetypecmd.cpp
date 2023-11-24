@@ -1,24 +1,24 @@
-#include "setverticetypecmd.h"
+#include "s21_setverticetypecmd.h"
 
-s21::SetVerticeTypeCmd::SetVerticeTypeCmd(s21_verticeType old_type, s21_verticeType new_type, MainWindow *mw)
-:   mw(mw), old_type(old_type), new_type(new_type)
+s21::SetVerticeTypeCmd::SetVerticeTypeCmd(verticeType old_type, verticeType new_type, View *view)
+:   view_(view), old_type_(old_type), new_type_(new_type)
 {
 
 }
 
 void s21::SetVerticeTypeCmd::Redo()
 {
-    setVerticeType(new_type);
+    SetVerticeType(new_type_);
 }
 
 void s21::SetVerticeTypeCmd::Undo()
 {
-    setVerticeType(old_type);
+    SetVerticeType(old_type_);
 }
 
-void s21::SetVerticeTypeCmd::setVerticeType(s21_verticeType type)
+void s21::SetVerticeTypeCmd::SetVerticeType(verticeType type)
 {
-    Ui::MainWindow* ui = mw->getUI();
+    Ui::View* ui = view_->getUI();
     ui->openGLWidget->vertice_type = type;
     ui->openGLWidget->update();
     if (type == NONE) {

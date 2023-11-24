@@ -22,8 +22,8 @@ SOURCES += \
     view/command/s21_setpolygonthicknesscmd.cpp \
     view/command/s21_setpolygontypecmd.cpp \
     view/command/s21_setverticecolorcmd.cpp \
-    view/command/setverticesizecmd.cpp \
-    view/command/setverticetypecmd.cpp \
+    view/command/s21_setverticesizecmd.cpp \
+    view/command/s21_setverticetypecmd.cpp \
     view/s21_view.cc \
     view/s21_gifcreator.cc \
     view/s21_glwidget.cc \
@@ -42,8 +42,8 @@ HEADERS += \
     view/command/s21_setpolygonthicknesscmd.h \
     view/command/s21_setpolygontypecmd.h \
     view/command/s21_setverticecolorcmd.h \
-    view/command/setverticesizecmd.h \
-    view/command/setverticetypecmd.h \
+    view/command/s21_setverticesizecmd.h \
+    view/command/s21_setverticetypecmd.h \
     view/s21_view.h \
     view/s21_gifcreator.h \
     view/s21_glwidget.h \

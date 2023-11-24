@@ -1,24 +1,24 @@
-#include "setverticesizecmd.h"
+#include "s21_setverticesizecmd.h"
 
-s21::SetVerticeSizeCmd::SetVerticeSizeCmd(double old_thickness, double new_thickness, MainWindow *mw)
-    : mw(mw), old_thickness(old_thickness), new_thickness(new_thickness)
+s21::SetVerticeSizeCmd::SetVerticeSizeCmd(double old_thickness, double new_thickness, View *view)
+    : view_(view), old_thickness_(old_thickness), new_thickness_(new_thickness)
 {
 
 }
 
 void s21::SetVerticeSizeCmd::Redo()
 {
-    setVerticeSize(new_thickness);
+    SetVerticeSize(new_thickness_);
 }
 
 void s21::SetVerticeSizeCmd::Undo()
 {
-    setVerticeSize(old_thickness);
+    SetVerticeSize(old_thickness_);
 }
 
-void s21::SetVerticeSizeCmd::setVerticeSize(double thickness)
+void s21::SetVerticeSizeCmd::SetVerticeSize(double thickness)
 {
-    Ui::MainWindow* ui = mw->getUI();
+    Ui::View* ui = view_->getUI();
     ui->openGLWidget->vertice_size = thickness / 5;
     ui->openGLWidget->update();
     ui->sizeVertice->setValue(thickness);
