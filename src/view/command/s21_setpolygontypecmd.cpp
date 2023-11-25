@@ -18,8 +18,8 @@ void s21::SetPolygonTypeCmd::Undo()
 
 void s21::SetPolygonTypeCmd::SetPolygonType(polygonType type)
 {
-    Ui::View* ui = view_->getUI();
-    ui->openGLWidget->edges_type = type;
+    Ui::View* ui = view_->GetUI();
+    ui->openGLWidget->edges_type_ = type;
     ui->openGLWidget->update();
     if (type == SOLID) {
         ui->solidPolygonType->setChecked(true);

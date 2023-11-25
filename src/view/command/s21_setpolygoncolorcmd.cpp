@@ -18,11 +18,11 @@ void s21::SetPolygonColorCmd::Undo()
 
 void s21::SetPolygonColorCmd::SetPolygonColor(QColor color)
 {
-    Ui::View* ui = view_->getUI();
+    Ui::View* ui = view_->GetUI();
     if (color.isValid()) {
-        ui->openGLWidget->pol_red = color.redF();
+        ui->openGLWidget->pol_red_ = color.redF();
         ui->openGLWidget->pol_green = color.greenF();
-        ui->openGLWidget->pol_blue = color.blueF();
+        ui->openGLWidget->pol_blue_ = color.blueF();
         char rgba_color[40];
         sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
                 color.green(), color.blue());

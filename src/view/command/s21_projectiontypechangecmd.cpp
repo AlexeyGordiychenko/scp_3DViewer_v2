@@ -20,8 +20,8 @@ void s21::ProjectionTypeChangeCommand::Redo()
 
 void s21::ProjectionTypeChangeCommand::SetProjectionType(int idx)
 {
-    Ui::View* ui = view_->getUI();
-    ui->openGLWidget->setProjectionType(idx);
+    Ui::View* ui = view_->GetUI();
+    ui->openGLWidget->SetProjectionType(idx);
     ui->openGLWidget->update();
     ui->projectionType->setCurrentIndex(idx);
 }

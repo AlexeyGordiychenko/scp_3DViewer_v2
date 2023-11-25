@@ -18,11 +18,11 @@ void s21::SetVerticeColorCmd::Undo()
 
 void s21::SetVerticeColorCmd::SetVerticeColor(QColor color)
 {
-    Ui::View* ui = view_->getUI();
+    Ui::View* ui = view_->GetUI();
     if (color.isValid()) {
-      ui->openGLWidget->ver_red = color.redF();
-      ui->openGLWidget->ver_green = color.greenF();
-      ui->openGLWidget->ver_blue = color.blueF();
+      ui->openGLWidget->ver_red_ = color.redF();
+      ui->openGLWidget->ver_green_ = color.greenF();
+      ui->openGLWidget->ver_blue_ = color.blueF();
       char rgba_color[40];
       sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
               color.green(), color.blue());

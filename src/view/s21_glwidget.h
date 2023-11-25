@@ -27,31 +27,31 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   explicit GLWidget(QWidget *parent = Q_NULLPTR);
   uint32_t numVertices = 0, numEdges = 0;
   bool isParsed = false, fileChanged = true;
-  void setFilename(char *filename);
-  void setProjectionType(int idx);
-  void parseFile();
+  void SetFilename(char *filename);
+  void SetProjectionType(int idx);
+  void ParseFile();
   void RestoreVertices();
-  void scale(double scale);
-  void move(double x, double y, double z);
-  void rotate(double angle_x, double angle_y, double angle_z);
-  void clearTransformations();
-  void setController(s21::Controller *controller);
-  double bg_red = 0, bg_green = 0, bg_blue = 0;
-  double pol_red = 0, pol_green = 0, pol_blue = 0;
-  double ver_red = 0, ver_green = 0, ver_blue = 0;
-  double edges_thickness = 1, vertice_size = 1;
-  int vertice_type = 0, projectionType = 0, edges_type = 0;
+  void Scale(double scale);
+  void Move(double x, double y, double z);
+  void Rotate(double angle_x, double angle_y, double angle_z);
+  void ClearTransformations();
+  void SetController(s21::Controller *controller);
+  double bg_red_ = 0, bg_green_ = 0, bg_blue_ = 0;
+  double pol_red_ = 0, pol_green = 0, pol_blue_ = 0;
+  double ver_red_ = 0, ver_green_ = 0, ver_blue_ = 0;
+  double edges_thickness_ = 1, vertice_size_ = 1;
+  int vertice_type_ = 0, projectionType_ = 0, edges_type_ = 0;
 
  private:
   ~GLWidget() override;
-  char *filename;
-  int sizeH = 0, sizeW = 0;
-  double xRot = 0, yRot = 0, zRot = 0, xTrans = 0, yTrans = 0, zoom = 1;
-  QPointF lastMousePos;
-  Controller *controller;
+  char *filename_;
+  int size_h_ = 0, size_w_ = 0;
+  double x_rot_ = 0, y_rot_ = 0, z_rot_ = 0, x_trans_ = 0, y_trans_ = 0, zoom_ = 1;
+  QPointF last_mouse_pos_;
+  Controller *controller_;
 
-  void setDimentionalValues();
-  void countVerticesEdges();
+  void SetDimentionalValues();
+  void CountVerticesEdges();
 
  protected:
   // OPENGL

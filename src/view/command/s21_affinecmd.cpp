@@ -20,14 +20,14 @@ void s21::AffineCmd::Redo()
 
 void s21::AffineCmd::Transform(AffineData& data)
 {
-    Ui::View* ui = view_->getUI();
+    Ui::View* ui = view_->GetUI();
     if (ui->openGLWidget->isParsed && !ui->openGLWidget->fileChanged) {
         if (data.scale_k == 0) data.scale_k = 1;
-        ui->openGLWidget->clearTransformations();
+        ui->openGLWidget->ClearTransformations();
         ui->openGLWidget->RestoreVertices();
-        ui->openGLWidget->scale(data.scale_k);
-        ui->openGLWidget->move(data.move_x, data.move_y, data.move_z);
-        ui->openGLWidget->rotate((data.rotate_x)*M_PI / 180, (data.rotate_y)*M_PI / 180,
+        ui->openGLWidget->Scale(data.scale_k);
+        ui->openGLWidget->Move(data.move_x, data.move_y, data.move_z);
+        ui->openGLWidget->Rotate((data.rotate_x)*M_PI / 180, (data.rotate_y)*M_PI / 180,
                                  (data.rotate_z)*M_PI / 180);
         ui->openGLWidget->update();
 

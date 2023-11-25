@@ -4,50 +4,50 @@ s21::GLWidget::~GLWidget() {}
 
 s21::GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent) {}
 
-void s21::GLWidget::setFilename(char *filename) { this->filename = filename; }
+void s21::GLWidget::SetFilename(char *filename) { this->filename_ = filename; }
 
-void s21::GLWidget::setController(s21::Controller *controller) {
-  this->controller = controller;
+void s21::GLWidget::SetController(s21::Controller *controller) {
+  this->controller_ = controller;
 }
 
-void s21::GLWidget::setProjectionType(int projectionType) {
-  this->projectionType = projectionType;
+void s21::GLWidget::SetProjectionType(int projectionType) {
+  this->projectionType_ = projectionType;
 }
 
-void s21::GLWidget::RestoreVertices() { this->controller->RestoreVertices(); }
+void s21::GLWidget::RestoreVertices() { this->controller_->RestoreVertices(); }
 
-void s21::GLWidget::scale(double k) {
+void s21::GLWidget::Scale(double k) {
   if (k) {
-    this->controller->AffineScale(k);
+    this->controller_->AffineScale(k);
   }
 }
 
-void s21::GLWidget::move(double x, double y, double z) {
+void s21::GLWidget::Move(double x, double y, double z) {
   if (x || y || z) {
-    this->controller->AffineMove(x, y, z);
+    this->controller_->AffineMove(x, y, z);
   }
 }
 
-void s21::GLWidget::rotate(double angle_x, double angle_y, double angle_z) {
+void s21::GLWidget::Rotate(double angle_x, double angle_y, double angle_z) {
   if (angle_x || angle_y || angle_z) {
-    this->controller->AffineRotateX(angle_x);
-    this->controller->AffineRotateY(angle_y);
-    this->controller->AffineRotateZ(angle_z);
+    this->controller_->AffineRotateX(angle_x);
+    this->controller_->AffineRotateY(angle_y);
+    this->controller_->AffineRotateZ(angle_z);
     this->update();
   }
 }
 
-void s21::GLWidget::clearTransformations() {
-  this->xRot = 0, this->yRot = 0, this->zRot = 0, this->xTrans = 0,
-  this->yTrans = 0, this->zoom = 1;
+void s21::GLWidget::ClearTransformations() {
+  this->x_rot_ = 0, this->y_rot_ = 0, this->z_rot_ = 0, this->x_trans_ = 0,
+  this->y_trans_ = 0, this->zoom_ = 1;
 }
 
-void s21::GLWidget::parseFile() {
+void s21::GLWidget::ParseFile() {
   this->isParsed = false;
-  this->clearTransformations();
-  this->controller->Initialize(this->filename);
-  this->numVertices = this->controller->GetVerticesCount();
-  this->numEdges = this->controller->GetPolygonsEdgesCount();
+  this->ClearTransformations();
+  this->controller_->Initialize(this->filename_);
+  this->numVertices = this->controller_->GetVerticesCount();
+  this->numEdges = this->controller_->GetPolygonsEdgesCount();
   this->isParsed = true;
   update();
 }
@@ -58,50 +58,50 @@ void s21::GLWidget::initializeGL() {
 }
 
 void s21::GLWidget::resizeGL(int w, int h) {
-  this->sizeH = h;
-  this->sizeW = w;
+  this->size_h_ = h;
+  this->size_w_ = w;
   glViewport(0, 0, w, h);
 }
 
 void s21::GLWidget::paintGL() {
-  glClearColor(bg_red, bg_green, bg_blue, 1);
+  glClearColor(bg_red_, bg_green_, bg_blue_, 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
   static double aspect_ratio =
-      static_cast<double>(this->sizeW) / static_cast<double>(this->sizeH);
+      static_cast<double>(this->size_w_) / static_cast<double>(this->size_h_);
 
   if (this->isParsed) {
-    if (this->projectionType == PARALLEL) {
+    if (this->projectionType_ == PARALLEL) {
       glOrtho(-1.5 * aspect_ratio, 1.5 * aspect_ratio, -1.5, 1.5, -2, 1000);
     } else {
       glFrustum(-1 * aspect_ratio, 1 * aspect_ratio, -1, 1, 1, 99999);
       glTranslatef(0, 0, -2.5);
     }
-    glScalef(this->zoom, this->zoom, this->zoom);
-    glTranslatef(this->controller->GetCenterX() + this->xTrans,
-                 this->controller->GetCenterY() + this->yTrans,
-                 this->controller->GetCenterZ());
-    glRotatef(this->xRot, 1.0, 0.0, 0.0);
-    glRotatef(this->yRot, 0.0, 1.0, 0.0);
-    glRotatef(this->zRot, 0.0, 0.0, 1.0);
-    glTranslatef(-this->controller->GetCenterX() - this->xTrans,
-                 -this->controller->GetCenterY() - this->yTrans,
-                 -this->controller->GetCenterZ());
-    glTranslatef(this->xTrans, this->yTrans, 0.0);
+    glScalef(this->zoom_, this->zoom_, this->zoom_);
+    glTranslatef(this->controller_->GetCenterX() + this->x_trans_,
+                 this->controller_->GetCenterY() + this->y_trans_,
+                 this->controller_->GetCenterZ());
+    glRotatef(this->x_rot_, 1.0, 0.0, 0.0);
+    glRotatef(this->y_rot_, 0.0, 1.0, 0.0);
+    glRotatef(this->z_rot_, 0.0, 0.0, 1.0);
+    glTranslatef(-this->controller_->GetCenterX() - this->x_trans_,
+                 -this->controller_->GetCenterY() - this->y_trans_,
+                 -this->controller_->GetCenterZ());
+    glTranslatef(this->x_trans_, this->y_trans_, 0.0);
 
-    auto vertices = this->controller->GetVertices();
-    for (auto &polygon : this->controller->GetPolygons()) {
-      if (this->edges_type == DASHED) {
+    auto vertices = this->controller_->GetVertices();
+    for (auto &polygon : this->controller_->GetPolygons()) {
+      if (this->edges_type_ == DASHED) {
         glEnable(GL_LINE_STIPPLE);
         glLineStipple(1, 0x00FF);
       }
-      if (this->edges_type == SOLID) {
+      if (this->edges_type_ == SOLID) {
         glDisable(GL_LINE_STIPPLE);
       }
-      glLineWidth(this->edges_thickness);
-      glColor3f(pol_red, pol_green, pol_blue);
+      glLineWidth(this->edges_thickness_);
+      glColor3f(pol_red_, pol_green, pol_blue_);
       glBegin(GL_LINE_LOOP);
       for (auto vertex : polygon) {
         auto point = vertices[vertex];
@@ -109,14 +109,14 @@ void s21::GLWidget::paintGL() {
       }
 
       glEnd();
-      if (this->vertice_type != NONE) {
-        if (this->vertice_type == CIRCLE) {
+      if (this->vertice_type_ != NONE) {
+        if (this->vertice_type_ == CIRCLE) {
           glEnable(GL_POINT_SMOOTH);
         } else {
           glDisable(GL_POINT_SMOOTH);
         }
-        glPointSize(this->vertice_size);
-        glColor3f(ver_red, ver_green, ver_blue);
+        glPointSize(this->vertice_size_);
+        glColor3f(ver_red_, ver_green_, ver_blue_);
         glBegin(GL_POINTS);
         for (auto vertex : polygon) {
           auto point = vertices[vertex];
@@ -130,7 +130,7 @@ void s21::GLWidget::paintGL() {
 }
 
 void s21::GLWidget::mousePressEvent(QMouseEvent *event) {
-  this->lastMousePos = event->position();
+  this->last_mouse_pos_ = event->position();
 }
 
 void normalizeAngle(double &angle) {
@@ -140,26 +140,26 @@ void normalizeAngle(double &angle) {
 
 void s21::GLWidget::mouseMoveEvent(QMouseEvent *event) {
   GLfloat dx =
-      GLfloat(event->position().x() - this->lastMousePos.x()) / this->sizeW;
+      GLfloat(event->position().x() - this->last_mouse_pos_.x()) / this->size_w_;
   GLfloat dy =
-      GLfloat(event->position().y() - this->lastMousePos.y()) / this->sizeH;
+      GLfloat(event->position().y() - this->last_mouse_pos_.y()) / this->size_h_;
 
   if (event->buttons() & Qt::LeftButton) {
-    this->xRot += 360 * dy;
-    this->yRot += 360 * dx;
-    normalizeAngle(this->xRot);
-    normalizeAngle(this->yRot);
+    this->x_rot_ += 360 * dy;
+    this->y_rot_ += 360 * dx;
+    normalizeAngle(this->x_rot_);
+    normalizeAngle(this->y_rot_);
   } else if (event->buttons() & Qt::RightButton) {
-    this->xRot += 360 * dy;
-    this->zRot += 360 * dx;
-    normalizeAngle(this->xRot);
-    normalizeAngle(this->zRot);
+    this->x_rot_ += 360 * dy;
+    this->z_rot_ += 360 * dx;
+    normalizeAngle(this->x_rot_);
+    normalizeAngle(this->z_rot_);
   } else if (event->buttons() & Qt::MiddleButton) {
-    this->xTrans += dx;
-    this->yTrans -= dy;
+    this->x_trans_ += dx;
+    this->y_trans_ -= dy;
   }
 
-  this->lastMousePos = event->position();
+  this->last_mouse_pos_ = event->position();
   update();
 }
 
@@ -170,9 +170,9 @@ void s21::GLWidget::wheelEvent(QWheelEvent *event) {
     int delta = angleDelta.y();
 
     if (delta > 0) {
-      this->zoom *= 1.1;
+      this->zoom_ *= 1.1;
     } else {
-      this->zoom /= 1.1;
+      this->zoom_ /= 1.1;
     }
     update();
   }

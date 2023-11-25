@@ -18,8 +18,8 @@ void s21::SetVerticeTypeCmd::Undo()
 
 void s21::SetVerticeTypeCmd::SetVerticeType(verticeType type)
 {
-    Ui::View* ui = view_->getUI();
-    ui->openGLWidget->vertice_type = type;
+    Ui::View* ui = view_->GetUI();
+    ui->openGLWidget->vertice_type_ = type;
     ui->openGLWidget->update();
     if (type == NONE) {
         ui->noneVertice->setChecked(true);

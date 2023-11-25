@@ -28,7 +28,7 @@ class View : public QMainWindow {
   View &operator=(View &&) = delete;
   ~View();
 
-  Ui::View* getUI();
+  Ui::View *GetUI();
 
  private slots:
   void OpenFile();

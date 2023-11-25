@@ -18,8 +18,8 @@ void s21::SetVerticeSizeCmd::Undo()
 
 void s21::SetVerticeSizeCmd::SetVerticeSize(double thickness)
 {
-    Ui::View* ui = view_->getUI();
-    ui->openGLWidget->vertice_size = thickness / 5;
+    Ui::View* ui = view_->GetUI();
+    ui->openGLWidget->vertice_size_ = thickness / 5;
     ui->openGLWidget->update();
     ui->sizeVertice->setValue(thickness);
 }

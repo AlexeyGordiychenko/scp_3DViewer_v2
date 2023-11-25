@@ -18,23 +18,23 @@ class GifCreator : public QObject {
   GifCreator(QOpenGLWidget *widget, const QString &outputGifPath,
              int width = 640, int height = 480, int fps = 10,
              int duration_sec = 5, QObject *parent = nullptr);
-  void createGif();
-  void endGif();
+  void CreateGif();
+  void EndGif();
   ~GifCreator();
 
  private slots:
-  void captureFrame();
+  void CaptureFrame();
 
  private:
-  QOpenGLWidget *widget;
-  QString outputGifPath;
-  QTimer timer;
-  GifAnim gifAnim;
-  GifWriter gifWriter;
-  int frameCount;
-  int frameMax;
-  int frameDelay;
-  uint32_t width, height;
+  QOpenGLWidget *widget_;
+  QString output_gif_path_;
+  QTimer timer_;
+  GifAnim gif_anim_;
+  GifWriter gif_writer_;
+  int frame_count_;
+  int frame_max_;
+  int frame_delay_;
+  uint32_t width_, height_;
 };
 }  // namespace s21
 #endif  // S21_3DVIEWER_V2_GIFCREATOR_H
