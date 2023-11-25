@@ -52,16 +52,17 @@ class View : public QMainWindow {
   void SaveSettings();
   void LoadSettings();
   void SetValuesOnButtons();
-  void s21_polygonThicknessSliderReleased();
-  void s21_verticeSizeSliderReleased();
-  void setPolygonType(polygonType type);
+  void PolygonThicknessSliderReleased();
+  void VerticeSizeSliderReleased();
+  void SetPolygonType(polygonType type);
+  void SetVerticeType(verticeType type);
 
  private:
   Ui::View *ui_;
   s21::GifCreator *gifCreator_;
   QSettings *settings_;
-  CommandStack *undoStack;
-  void createCommandStack();
+  CommandStack *undo_stack_;
+  void CreateCommandStack();
 };
 
 }  // namespace s21
