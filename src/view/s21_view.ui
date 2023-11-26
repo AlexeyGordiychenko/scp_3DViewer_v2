@@ -60,6 +60,16 @@
     <property name="autoFillBackground">
      <bool>true</bool>
     </property>
+    <widget class="QComboBox" name="recent_paths_comboBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>0</y>
+       <width>761</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QComboBox" name="projectionType">
     <property name="geometry">

@@ -11,19 +11,20 @@ CONFIG += c++17
 
 SOURCES += \
     s21_main.cc \
-    thirdparty/gifanim/gifanim.cpp \
-    view/command/s21_affinecmd.cc \
-    view/command/s21_affinedata.cc \
-    view/command/s21_command.cc \
-    view/command/s21_commandstack.cc \
-    view/command/s21_projectiontypechangecmd.cc \
-    view/command/s21_setbackgroundcolorcmd.cc \
-    view/command/s21_setpolygoncolorcmd.cc \
-    view/command/s21_setpolygonthicknesscmd.cc \
-    view/command/s21_setpolygontypecmd.cc \
-    view/command/s21_setverticecolorcmd.cc \
-    view/command/s21_setverticesizecmd.cc \
-    view/command/s21_setverticetypecmd.cc \
+    thirdparty/gifanim/gifanim.cс \
+    view/command/s21_affinecmd.cс \
+    view/command/s21_affinedata.cс \
+    view/command/s21_command.cс \
+    view/command/s21_commandstack.cс \
+    view/command/s21_projectiontypechangecmd.cс \
+    view/command/s21_setbackgroundcolorcmd.cс \
+    view/command/s21_setpolygoncolorcmd.cс \
+    view/command/s21_setpolygonthicknesscmd.cс \
+    view/command/s21_setpolygontypecmd.cс \
+    view/command/s21_setverticecolorcmd.cс \
+    view/command/s21_setverticesizecmd.cс \
+    view/command/s21_setverticetypecmd.cс \
+    view/s21_proxycontroller.cс \
     view/s21_view.cc \
     view/s21_gifcreator.cc \
     view/s21_glwidget.cc \

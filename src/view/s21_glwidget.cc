@@ -1,6 +1,8 @@
 #include "s21_glwidget.h"
 
-s21::GLWidget::~GLWidget() {}
+s21::GLWidget::~GLWidget() {
+    delete controller_;
+}
 
 s21::GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent) {}
 
