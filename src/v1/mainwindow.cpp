@@ -1,17 +1,6 @@
 #include "mainwindow.h"
-#include "command/s21_projectionTypeChangeCommand.h"
-#include "command/s21_setBackgroundColorCommand.h"
-#include "command/s21_affineCommand.h"
-#include "command/s21_setpolygoncolorcommand.h"
-#include "command/s21_polygontypecommand.h"
-#include "command/setpolygonthicknesscmd.h"
-#include "command/setverticesizecmd.h"
-#include "command/setverticecolorcmd.h"
-#include "command/setverticetypecmd.h"
 
 #include "ui_mainwindow.h"
-
-using namespace s21;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -45,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
           SLOT(s21_setVerticeSize(int)));
   connect(ui->setVerticeColor, SIGNAL(clicked()), this,
           SLOT(s21_setVerticeColor()));
+
   ui->projectionType->addItem("Parallel", PARALLEL);
   ui->projectionType->addItem("Central", CENTRAL);
 
@@ -52,9 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
 
   settings = new QSettings("21school", "3DViewer_v1.0", this);
   s21_loadSettings();
-
-  createCommandStack();
-
   s21_setValuesOnButtons();
 }
 
@@ -62,25 +49,6 @@ MainWindow::~MainWindow() {
   s21_saveSettings();
   delete settings;
   delete ui;
-}
-
-void MainWindow::refresh_ui()
-{
-    s21_setValuesOnButtons();
-}
-
-void MainWindow::createCommandStack()
-{
-    undoStack = new s21_CommandStack();
-    connect(ui->undo_button, &QPushButton::clicked, undoStack, &s21_CommandStack::undo);
-    connect(ui->redo_button, &QPushButton::clicked, undoStack, &s21_CommandStack::redo);
-    connect(ui->polygonThickness, &QSlider::sliderReleased, this, &MainWindow::s21_polygonThicknessSliderReleased);
-    connect(ui->sizeVertice, &QSlider::sliderReleased, this, &MainWindow::s21_verticeSizeSliderReleased);
-}
-
-Ui::MainWindow *MainWindow::getUI()
-{
-    return this->ui;
 }
 
 void MainWindow::s21_openFile() {
@@ -124,9 +92,8 @@ void MainWindow::s21_renderFile() {
 }
 
 void MainWindow::s21_projectionTypeChange(int idx) {
-    int old = ui->openGLWidget->projectionType;
-    if (old != idx)
-        undoStack->push(new s21_projectionTypeChangeCommand(ui->openGLWidget, old, idx, this));
+  ui->openGLWidget->setProjectionType(idx);
+  ui->openGLWidget->update();
 }
 
 void MainWindow::s21_takeScreenshot() {
@@ -184,65 +151,81 @@ void MainWindow::s21_reset_params() {
 }
 
 void MainWindow::s21_affine() {
-    static s21_affine_data old_data = s21_affine_data();
-    s21_affine_data new_data = s21_affine_data(ui);
-    undoStack->push(new s21_affine_command(old_data, new_data, this));
-    old_data = new_data;
+  if (ui->openGLWidget->isParsed && !ui->openGLWidget->fileChanged) {
+    double move_x = (ui->move_on_x->value());
+    double move_y = (ui->move_on_y->value());
+    double move_z = (ui->move_on_z->value());
+    double scale_k = (ui->scale_on_k->value());
+    double rotate_x = (ui->rotate_x->value());
+    double rotate_y = (ui->rotate_y->value());
+    double rotate_z = (ui->rotate_z->value());
+    if (scale_k == 0) scale_k = 1;
+    ui->openGLWidget->clearTransformations();
+    ui->openGLWidget->matrix_reset_to_start();
+    ui->openGLWidget->scale(scale_k);
+    ui->openGLWidget->move(move_x, move_y, move_z);
+    ui->openGLWidget->rotate((rotate_x)*M_PI / 180, (rotate_y)*M_PI / 180,
+                             (rotate_z)*M_PI / 180);
+    ui->openGLWidget->update();
+  }
 }
 
 void MainWindow::s21_setBackgroundColor() {
   QColor color = QColorDialog::getColor();
-  QColor old_color = QColor( ui->openGLWidget->bg_red * 255, ui->openGLWidget->bg_green * 255,ui->openGLWidget->bg_blue * 255);
-  undoStack->push(new s21_setBackgroundColorCommand(ui->openGLWidget, old_color, color, this));
+  if (color.isValid()) {
+    ui->openGLWidget->bg_red = color.redF();
+    ui->openGLWidget->bg_green = color.greenF();
+    ui->openGLWidget->bg_blue = color.blueF();
+    char rgba_color[40];
+    sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
+            color.green(), color.blue());
+    ui->setBgColor->setStyleSheet(rgba_color);
+    ui->openGLWidget->update();
+  }
 }
 
 void MainWindow::s21_setPolygonColor() {
-    QColor color = QColorDialog::getColor();
-    QColor old_color = QColor( ui->openGLWidget->pol_red * 255, ui->openGLWidget->pol_green * 255,ui->openGLWidget->pol_blue * 255);
-    undoStack->push(new s21_setPolygonColorCommand(old_color, color, this));
+  QColor color = QColorDialog::getColor();
+  if (color.isValid()) {
+    ui->openGLWidget->pol_red = color.redF();
+    ui->openGLWidget->pol_green = color.greenF();
+    ui->openGLWidget->pol_blue = color.blueF();
+    char rgba_color[40];
+    sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
+            color.green(), color.blue());
+    ui->setPolygonColor->setStyleSheet(rgba_color);
+    ui->openGLWidget->update();
+  }
 }
 
 void MainWindow::s21_solidPolygonType() {
-  setPolygonType(SOLID);
+  ui->openGLWidget->edges_type = SOLID;
+  ui->openGLWidget->update();
 }
 
 void MainWindow::s21_dashedPolygonType() {
-  setPolygonType(DASHED);
-}
-
-void MainWindow::setPolygonType(s21_polygonType type)
-{
-   s21_polygonType old = type == DASHED ? SOLID : DASHED;
-   undoStack->push(new s21_PolygonTypeCommand(old, type, this));
-}
-
-void MainWindow::s21_polygonThicknessSliderReleased() {
-    double old = ui->openGLWidget->edges_thickness * 10;
-    double value = ui->polygonThickness->value();
-    undoStack->push(new SetPolygonThicknessCmd(old, value, this));
+  ui->openGLWidget->edges_type = DASHED;
+  ui->openGLWidget->update();
 }
 
 void MainWindow::s21_setPolygonThickness(int value) {
-    ui->openGLWidget->edges_thickness = value / 10;
-    ui->openGLWidget->update();
+  ui->openGLWidget->edges_thickness = value / 10;
+  ui->openGLWidget->update();
 }
 
 void MainWindow::s21_setNoneVertice() {
-  setVerticeType(NONE);
+  ui->openGLWidget->vertice_type = NONE;
+  ui->openGLWidget->update();
 }
 
 void MainWindow::s21_setCircleVertice() {
-  setVerticeType(CIRCLE);
+  ui->openGLWidget->vertice_type = CIRCLE;
+  ui->openGLWidget->update();
 }
 
 void MainWindow::s21_setSquareVertice() {
-  setVerticeType(SQUARE);
-}
-
-void MainWindow::setVerticeType(s21_verticeType type)
-{
-    s21_verticeType old = (s21_verticeType)(ui->openGLWidget->vertice_type);
-    undoStack->push(new SetVerticeTypeCmd(old, type, this));
+  ui->openGLWidget->vertice_type = SQUARE;
+  ui->openGLWidget->update();
 }
 
 void MainWindow::s21_setVerticeSize(int value) {
@@ -250,17 +233,18 @@ void MainWindow::s21_setVerticeSize(int value) {
   ui->openGLWidget->update();
 }
 
-void MainWindow::s21_verticeSizeSliderReleased()
-{
-    double old = ui->openGLWidget->vertice_size * 5;
-    double value = ui->sizeVertice->value();
-    undoStack->push(new SetVerticeSizeCmd(old, value, this));
-}
-
 void MainWindow::s21_setVerticeColor() {
   QColor color = QColorDialog::getColor();
-  QColor old_color = QColor( ui->openGLWidget->ver_red * 255, ui->openGLWidget->ver_green * 255,ui->openGLWidget->ver_blue * 255);
-  undoStack->push(new setVerticeColorCmd(old_color, color, this));
+  if (color.isValid()) {
+    ui->openGLWidget->ver_red = color.redF();
+    ui->openGLWidget->ver_green = color.greenF();
+    ui->openGLWidget->ver_blue = color.blueF();
+    char rgba_color[40];
+    sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
+            color.green(), color.blue());
+    ui->setVerticeColor->setStyleSheet(rgba_color);
+    ui->openGLWidget->update();
+  }
 }
 
 void MainWindow::s21_saveSettings() {

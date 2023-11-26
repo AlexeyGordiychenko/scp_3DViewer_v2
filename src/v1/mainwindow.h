@@ -10,7 +10,6 @@
 #include <QSettings>
 
 #include "s21_gifcreator.h"
-#include "command/s21_commandstack.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,21 +23,11 @@ class MainWindow : public QMainWindow {
  public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
-  void refresh_ui();
-  Ui::MainWindow* getUI();
-
 
  private:
   Ui::MainWindow *ui;
   GifCreator *gifCreator;
   QSettings *settings;
-
-    s21_CommandStack *undoStack;
-    QAction *undoAction;
-    QAction *redoAction;
-    void createCommandStack();
-    void setPolygonType(s21_polygonType type);
-    void setVerticeType(s21_verticeType type);
 
  private slots:
   void s21_openFile();
@@ -62,7 +51,5 @@ class MainWindow : public QMainWindow {
   void s21_saveSettings();
   void s21_loadSettings();
   void s21_setValuesOnButtons();
-  void s21_polygonThicknessSliderReleased();
-  void s21_verticeSizeSliderReleased();
 };
 #endif  // MAINWINDOW_H
