@@ -139,10 +139,10 @@ void normalizeAngle(double &angle) {
 }
 
 void s21::GLWidget::mouseMoveEvent(QMouseEvent *event) {
-  GLfloat dx =
-      GLfloat(event->position().x() - this->last_mouse_pos_.x()) / this->size_w_;
-  GLfloat dy =
-      GLfloat(event->position().y() - this->last_mouse_pos_.y()) / this->size_h_;
+  GLfloat dx = GLfloat(event->position().x() - this->last_mouse_pos_.x()) /
+               this->size_w_;
+  GLfloat dy = GLfloat(event->position().y() - this->last_mouse_pos_.y()) /
+               this->size_h_;
 
   if (event->buttons() & Qt::LeftButton) {
     this->x_rot_ += 360 * dy;

@@ -5,21 +5,20 @@
 #include <QMessageBox>
 
 #include "../controller/s21_controller.h"
+#include "command/s21_affinecmd.h"
+#include "command/s21_projectiontypechangecmd.h"
+#include "command/s21_setbackgroundcolorcmd.h"
+#include "command/s21_setpolygoncolorcmd.h"
+#include "command/s21_setpolygonthicknesscmd.h"
+#include "command/s21_setpolygontypecmd.h"
+#include "command/s21_setverticecolorcmd.h"
+#include "command/s21_setverticesizecmd.h"
+#include "command/s21_setverticetypecmd.h"
 #include "s21_gifcreator.h"
 #include "s21_glwidget.h"
 #include "ui_s21_view.h"
 
-#include "command/s21_projectiontypechangecmd.h"
-#include "command/s21_setbackgroundcolorcmd.h"
-#include "command/s21_affinecmd.h"
-#include "command/s21_setpolygoncolorcmd.h"
-#include "command/s21_setpolygontypecmd.h"
-#include "command/s21_setpolygonthicknesscmd.h"
-#include "command/s21_setverticesizecmd.h"
-#include "command/s21_setverticecolorcmd.h"
-#include "command/s21_setverticetypecmd.h"
-
-s21::View::View(AbstractController *controller, QWidget *parent)
+s21::View::View(s21::Controller *controller, QWidget *parent)
     : QMainWindow(parent), ui_(new Ui::View) {
   ui_->setupUi(this);
   connect(ui_->openFile, SIGNAL(clicked()), this, SLOT(OpenFile()));
@@ -71,10 +70,7 @@ s21::View::~View() {
   delete undo_stack_;
 }
 
-Ui::View *s21::View::GetUI()
-{
-    return ui_;
-}
+Ui::View *s21::View::GetUI() { return ui_; }
 
 void s21::View::OpenFile() {
   QString QString_filename = QFileDialog::getOpenFileName(
@@ -110,10 +106,15 @@ void s21::View::RenderFile() {
   }
 }
 
+// void s21::View::ProjectionTypeChange(int idx) {
+//   ui_->openGLWidget->setProjectionType(idx);
+//   ui_->openGLWidget->update();
+// }
+
 void s21::View::ProjectionTypeChange(int idx) {
-    int old = ui_->openGLWidget->projectionType_;
-    if (old != idx)
-        undo_stack_->Push(new ProjectionTypeChangeCommand(old, idx, this));
+  int old = ui_->openGLWidget->projectionType_;
+  if (old != idx)
+    undo_stack_->Push(new ProjectionTypeChangeCommand(old, idx, this));
 }
 
 void s21::View::TakeScreenshot() {
@@ -172,36 +173,35 @@ void s21::View::ResetParams() {
 }
 
 void s21::View::Affine() {
-    static AffineData old_data = AffineData();
-    AffineData new_data = AffineData(ui_);
-    undo_stack_->Push(new AffineCmd(old_data, new_data, this));
-    old_data = std::move(new_data);
+  static AffineData old_data = AffineData();
+  AffineData new_data = AffineData(ui_);
+  undo_stack_->Push(new AffineCmd(old_data, new_data, this));
+  old_data = std::move(new_data);
 }
 
 void s21::View::SetBackgroundColor() {
   QColor color = QColorDialog::getColor();
-  QColor old_color = QColor( ui_->openGLWidget->bg_red_ * 255, ui_->openGLWidget->bg_green_ * 255,ui_->openGLWidget->bg_blue_ * 255);
+  QColor old_color = QColor(ui_->openGLWidget->bg_red_ * 255,
+                            ui_->openGLWidget->bg_green_ * 255,
+                            ui_->openGLWidget->bg_blue_ * 255);
   undo_stack_->Push(new SetBackgroundColorCmd(old_color, color, this));
 }
 
 void s21::View::SetPolygonColor() {
-    QColor color = QColorDialog::getColor();
-    QColor old_color = QColor(ui_->openGLWidget->pol_red_ * 255, ui_->openGLWidget->pol_green * 255,ui_->openGLWidget->pol_blue_ * 255);
-    undo_stack_->Push(new SetPolygonColorCmd(old_color, color, this));
+  QColor color = QColorDialog::getColor();
+  QColor old_color = QColor(ui_->openGLWidget->pol_red_ * 255,
+                            ui_->openGLWidget->pol_green * 255,
+                            ui_->openGLWidget->pol_blue_ * 255);
+  undo_stack_->Push(new SetPolygonColorCmd(old_color, color, this));
 }
 
-void s21::View::SolidPolygonType() {
-  SetPolygonType(SOLID);
-}
+void s21::View::SolidPolygonType() { SetPolygonType(SOLID); }
 
-void s21::View::DashedPolygonType() {
-  SetPolygonType(DASHED);
-}
+void s21::View::DashedPolygonType() { SetPolygonType(DASHED); }
 
-void s21::View::SetPolygonType(polygonType type)
-{
-   polygonType old = type == DASHED ? SOLID : DASHED;
-   undo_stack_->Push(new SetPolygonTypeCmd(old, type, this));
+void s21::View::SetPolygonType(polygonType type) {
+  polygonType old = type == DASHED ? SOLID : DASHED;
+  undo_stack_->Push(new SetPolygonTypeCmd(old, type, this));
 }
 
 void s21::View::SetPolygonThickness(int value) {
@@ -209,22 +209,15 @@ void s21::View::SetPolygonThickness(int value) {
   ui_->openGLWidget->update();
 }
 
-void s21::View::SetNoneVertice() {
-  SetVerticeType(NONE);
-}
+void s21::View::SetNoneVertice() { SetVerticeType(NONE); }
 
-void s21::View::SetCircleVertice() {
-  SetVerticeType(CIRCLE);
-}
+void s21::View::SetCircleVertice() { SetVerticeType(CIRCLE); }
 
-void s21::View::SetSquareVertice() {
-  SetVerticeType(SQUARE);
-}
+void s21::View::SetSquareVertice() { SetVerticeType(SQUARE); }
 
-void s21::View::SetVerticeType(verticeType type)
-{
-    verticeType old = (verticeType)(ui_->openGLWidget->vertice_type_);
-    undo_stack_->Push(new SetVerticeTypeCmd(old, type, this));
+void s21::View::SetVerticeType(verticeType type) {
+  verticeType old = (verticeType)(ui_->openGLWidget->vertice_type_);
+  undo_stack_->Push(new SetVerticeTypeCmd(old, type, this));
 }
 
 void s21::View::SetVerticeSize(int value) {
@@ -234,7 +227,9 @@ void s21::View::SetVerticeSize(int value) {
 
 void s21::View::SetVerticeColor() {
   QColor color = QColorDialog::getColor();
-  QColor old_color = QColor( ui_->openGLWidget->ver_red_ * 255, ui_->openGLWidget->ver_green_ * 255,ui_->openGLWidget->ver_blue_ * 255);
+  QColor old_color = QColor(ui_->openGLWidget->ver_red_ * 255,
+                            ui_->openGLWidget->ver_green_ * 255,
+                            ui_->openGLWidget->ver_blue_ * 255);
   undo_stack_->Push(new SetVerticeColorCmd(old_color, color, this));
 }
 
@@ -322,26 +317,28 @@ void s21::View::SetValuesOnButtons() {
   }
 }
 
-void s21::View::CreateCommandStack()
-{
-    undo_stack_ = new CommandStack();
-    connect(ui_->undo_button, &QPushButton::clicked, undo_stack_, &CommandStack::Undo);
-    connect(ui_->redo_button, &QPushButton::clicked, undo_stack_, &CommandStack::Redo);
-    connect(ui_->polygonThickness, &QSlider::sliderReleased, this, &View::PolygonThicknessSliderReleased);
-    connect(ui_->sizeVertice, &QSlider::sliderReleased, this, &View::VerticeSizeSliderReleased);
+void s21::View::CreateCommandStack() {
+  undo_stack_ = new CommandStack();
+  connect(ui_->undo_button, &QPushButton::clicked, undo_stack_,
+          &CommandStack::Undo);
+  connect(ui_->redo_button, &QPushButton::clicked, undo_stack_,
+          &CommandStack::Redo);
+  connect(ui_->polygonThickness, &QSlider::sliderReleased, this,
+          &View::PolygonThicknessSliderReleased);
+  connect(ui_->sizeVertice, &QSlider::sliderReleased, this,
+          &View::VerticeSizeSliderReleased);
 }
 
 void s21::View::PolygonThicknessSliderReleased() {
-    static double old = settings_->value("edges_thickness").toInt();
-    double value = ui_->polygonThickness->value();
-    undo_stack_->Push(new s21::SetPolygonThicknessCmd(old, value, this));
-    old = value;
+  static double old = settings_->value("edges_thickness").toInt();
+  double value = ui_->polygonThickness->value();
+  undo_stack_->Push(new s21::SetPolygonThicknessCmd(old, value, this));
+  old = value;
 }
 
-void s21::View::VerticeSizeSliderReleased()
-{
-    static double old = settings_->value("vertice_size").toInt();
-    double value = ui_->sizeVertice->value();
-    undo_stack_->Push(new SetVerticeSizeCmd(old, value, this));
-    old = value;
+void s21::View::VerticeSizeSliderReleased() {
+  static double old = settings_->value("vertice_size").toInt();
+  double value = ui_->sizeVertice->value();
+  undo_stack_->Push(new SetVerticeSizeCmd(old, value, this));
+  old = value;
 }

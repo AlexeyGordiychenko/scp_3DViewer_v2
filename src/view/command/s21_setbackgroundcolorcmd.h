@@ -5,23 +5,23 @@
 
 namespace s21 {
 
-class SetBackgroundColorCmd : public Command
-{
-public:
-    SetBackgroundColorCmd() = delete;
-    SetBackgroundColorCmd(QColor old_color, QColor color, View* view);
-    SetBackgroundColorCmd(const SetBackgroundColorCmd&) = delete;
-    SetBackgroundColorCmd& operator=(const SetBackgroundColorCmd&) = delete;
-    SetBackgroundColorCmd(SetBackgroundColorCmd&&) = delete;
-    SetBackgroundColorCmd& operator=(SetBackgroundColorCmd&&) = delete;
-    ~SetBackgroundColorCmd() = default;
-    void Undo();
-    void Redo();
-private:
-    View* view_;
-    QColor old_color_;
-    QColor color_;
-    void SetBackgroundColor(QColor color);
+class SetBackgroundColorCmd : public Command {
+ public:
+  SetBackgroundColorCmd() = delete;
+  SetBackgroundColorCmd(QColor old_color, QColor color, View* view);
+  SetBackgroundColorCmd(const SetBackgroundColorCmd&) = delete;
+  SetBackgroundColorCmd& operator=(const SetBackgroundColorCmd&) = delete;
+  SetBackgroundColorCmd(SetBackgroundColorCmd&&) = delete;
+  SetBackgroundColorCmd& operator=(SetBackgroundColorCmd&&) = delete;
+  ~SetBackgroundColorCmd() = default;
+  void Undo();
+  void Redo();
+
+ private:
+  View* view_;
+  QColor old_color_;
+  QColor color_;
+  void SetBackgroundColor(QColor color);
 };
 
-}
+}  // namespace s21

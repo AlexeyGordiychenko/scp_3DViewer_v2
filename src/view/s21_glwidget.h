@@ -46,7 +46,8 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   ~GLWidget() override;
   char *filename_;
   int size_h_ = 0, size_w_ = 0;
-  double x_rot_ = 0, y_rot_ = 0, z_rot_ = 0, x_trans_ = 0, y_trans_ = 0, zoom_ = 1;
+  double x_rot_ = 0, y_rot_ = 0, z_rot_ = 0, x_trans_ = 0, y_trans_ = 0,
+         zoom_ = 1;
   QPointF last_mouse_pos_;
   AbstractController *controller_;
 

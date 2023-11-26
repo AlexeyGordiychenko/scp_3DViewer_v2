@@ -3,8 +3,8 @@
 s21::GifCreator::~GifCreator() {}
 
 s21::GifCreator::GifCreator(QOpenGLWidget *widget, const QString &outputGifPath,
-                       int width, int height, int fps, int duration_sec,
-                       QObject *parent)
+                            int width, int height, int fps, int duration_sec,
+                            QObject *parent)
     : QObject(parent),
       widget_(widget),
       output_gif_path_(outputGifPath),
@@ -17,8 +17,8 @@ s21::GifCreator::GifCreator(QOpenGLWidget *widget, const QString &outputGifPath,
 }
 
 void s21::GifCreator::CreateGif() {
-  gif_anim_.GifBegin(&gif_writer_, output_gif_path_.toStdString().c_str(), this->width_,
-                   this->height_, frame_delay_);
+  gif_anim_.GifBegin(&gif_writer_, output_gif_path_.toStdString().c_str(),
+                     this->width_, this->height_, frame_delay_);
   timer_.start(frame_delay_);
 }
 
@@ -32,8 +32,8 @@ void s21::GifCreator::CaptureFrame() {
                      .scaled(this->width_, this->height_, Qt::IgnoreAspectRatio,
                              Qt::FastTransformation)
                      .convertToFormat(QImage::Format_RGBA8888);
-  gif_anim_.GifWriteFrame(&gif_writer_, frame.bits(), this->width_, this->height_,
-                        frame_delay_ / 10);
+  gif_anim_.GifWriteFrame(&gif_writer_, frame.bits(), this->width_,
+                          this->height_, frame_delay_ / 10);
   frame_count_++;
 }
 
