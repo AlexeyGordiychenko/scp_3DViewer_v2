@@ -22,6 +22,7 @@ INSTALL_DIR=install
 SRCS_TEST=$(wildcard $(TEST_DIR)/s21_*.cc $(MODEL_DIR)/s21_*.cc)
 OBJS_TEST=$(patsubst %.cc, $(OBJ_DIR_TEST)/%.o, $(notdir $(SRCS_TEST)))
 OBJS_GCOV=$(patsubst %.cc, $(OBJ_DIR_GCOV)/%.o, $(notdir $(SRCS_TEST)))
+CLANG_FILES=$(shell find $(SRC_DIR) \( -name "s21_*.cc" -o -name "s21_*.h" \) -print)
 
 # Builds
 PROGRAM=s21_3DViewer_v2
@@ -102,10 +103,10 @@ clean_gcda:
 rebuild: clean all
 
 clang_n:
-	clang-format -n --style=Google $(wildcard $(SRC_DIR)/**/*.h) $(wildcard $(SRC_DIR)/**/*.cc)
+	clang-format -n --style=Google $(CLANG_FILES)
 
 clang_i:
-	clang-format -i --style=Google $(wildcard $(SRC_DIR)/**/*.h) $(wildcard $(SRC_DIR)/**/*.cc)
+	clang-format -i --style=Google $(CLANG_FILES)
 
 valgrind: $(TEST_BUILD)
 	valgrind --tool=memcheck --leak-check=yes ./$(TEST)
