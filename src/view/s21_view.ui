@@ -849,7 +849,7 @@
      <string notr="true">color: #19c257</string>
     </property>
     <property name="text">
-     <string>3D Viewer</string>
+     <string>3D Viewer v2</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -874,7 +874,7 @@
      <string notr="true">color: #19c257</string>
     </property>
     <property name="text">
-     <string>by elidacon, grapefru, reckonwi</string>
+     <string>by elidacon, ternesim</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
