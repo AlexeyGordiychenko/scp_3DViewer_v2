@@ -152,9 +152,9 @@ void s21::View::GetGIF() {
   QString gifName =
       saveGifDialog.getSaveFileName(this, "GIF saving", saveFilename, gifExt);
   if (gifName.length() > 0) {
-    s21::GifCreator* gifCreator =
-        new s21::GifCreator(ui_->openGLWidget, gifName);
-    gifCreator->CreateGif();
+    s21::GifCreator *gifCreator =
+        s21::GifCreator::GetInstance(ui_->openGLWidget);
+    gifCreator->CreateGif(gifName);
   }
 }
 

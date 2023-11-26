@@ -1,8 +1,6 @@
 #ifndef S21_3DVIEWER_V2_GIFCREATOR_H
 #define S21_3DVIEWER_V2_GIFCREATOR_H
 
-#include <QImage>
-#include <QMessageBox>
 #include <QObject>
 #include <QOpenGLWidget>
 #include <QTimer>
@@ -11,30 +9,37 @@
 
 namespace s21 {
 
-class GifCreator : public QObject {
+class GifCreator final : public QObject {
   Q_OBJECT
 
  public:
-  GifCreator(QOpenGLWidget* widget, const QString& outputGifPath,
-             int width = 640, int height = 480, int fps = 10,
-             int duration_sec = 5, QObject* parent = nullptr);
-  void CreateGif();
+  // Constructors and the destructor
+  GifCreator(const GifCreator &) = delete;
+  GifCreator &operator=(const GifCreator &) = delete;
+  GifCreator(GifCreator &&) = delete;
+  GifCreator &operator=(GifCreator &&) = delete;
+  ~GifCreator() = default;
+
+  // Singleton functions
+  static GifCreator *GetInstance(QOpenGLWidget *widget);
+
+  // Main functions
+  void CreateGif(QString output_gif_path);
   void EndGif();
-  ~GifCreator();
 
  private slots:
   void CaptureFrame();
 
  private:
-  QOpenGLWidget* widget_;
-  QString output_gif_path_;
+  static GifCreator *gif_creator_;
+  QOpenGLWidget *widget_;
   QTimer timer_;
   GifAnim gif_anim_;
   GifWriter gif_writer_;
-  int frame_count_;
-  int frame_max_;
-  int frame_delay_;
-  uint32_t width_, height_;
+  uint32_t frame_count_, frame_max_, frame_delay_, width_, height_;
+
+  GifCreator(QOpenGLWidget *widget, int width = 640, int height = 480,
+             int fps = 10, int duration_sec = 5, QObject *parent = nullptr);
 };
 }  // namespace s21
 #endif  // S21_3DVIEWER_V2_GIFCREATOR_H
