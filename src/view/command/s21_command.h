@@ -11,7 +11,8 @@ public:
     Command& operator=(const Command&) = delete;
     Command(Command&&) = delete;
     Command& operator=(Command&&) = delete;
-    ~Command() = default;
+    //~Command() = default;
+    virtual ~Command() = default;
     virtual void Redo() =0;
     virtual void Undo() =0;
 };

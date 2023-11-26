@@ -21,7 +21,7 @@ class View : public QMainWindow {
 
  public:
   // Constructors and the destructor
-  View(s21::Controller *controller, QWidget *parent = nullptr);
+  View(AbstractController *controller, QWidget *parent = nullptr);
   View(const View &) = delete;
   View &operator=(const View &) = delete;
   View(View &&) = delete;

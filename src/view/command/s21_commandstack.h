@@ -15,7 +15,7 @@ public:
     CommandStack& operator=(const CommandStack&) = delete;
     CommandStack(CommandStack&&) = delete;
     CommandStack& operator=(CommandStack&&) = delete;
-    ~CommandStack() = default;
+    ~CommandStack();
     void Push(Command* cmd);
 public slots:
     void Redo();
@@ -25,6 +25,7 @@ private:
     std::stack<Command*> undo_stack_;
     std::stack<Command*> redo_stack_;
     void ClearRedoStack();
+    void ClearUndoStack();
 };
 
 }

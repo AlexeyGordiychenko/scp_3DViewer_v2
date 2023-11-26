@@ -8,6 +8,11 @@ s21::AffineCmd::AffineCmd(AffineData old_data, AffineData new_data, View *view)
 
 }
 
+s21::AffineCmd::~AffineCmd()
+{
+
+}
+
 void s21::AffineCmd::Undo()
 {
     Transform(old_data_);

@@ -6,6 +6,12 @@ s21::CommandStack::CommandStack()
 
 }
 
+s21::CommandStack::~CommandStack()
+{
+    ClearRedoStack();
+    ClearUndoStack();
+}
+
 void s21::CommandStack::Redo()
 {
     if (!redo_stack_.empty()) {
@@ -33,6 +39,16 @@ void s21::CommandStack::Push(Command* cmd)
 
 void s21::CommandStack::ClearRedoStack()
 {
-    while(!redo_stack_.empty())
+    while(!redo_stack_.empty()) {
+        delete redo_stack_.top();
         redo_stack_.pop();
+    }
+}
+
+void s21::CommandStack::ClearUndoStack()
+{
+    while(!undo_stack_.empty()) {
+        delete undo_stack_.top();
+        undo_stack_.pop();
+    }
 }

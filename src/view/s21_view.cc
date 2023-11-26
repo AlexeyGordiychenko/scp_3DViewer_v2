@@ -19,7 +19,7 @@
 #include "command/s21_setverticecolorcmd.h"
 #include "command/s21_setverticetypecmd.h"
 
-s21::View::View(s21::Controller *controller, QWidget *parent)
+s21::View::View(AbstractController *controller, QWidget *parent)
     : QMainWindow(parent), ui_(new Ui::View) {
   ui_->setupUi(this);
   connect(ui_->openFile, SIGNAL(clicked()), this, SLOT(OpenFile()));
@@ -68,6 +68,7 @@ s21::View::~View() {
   SaveSettings();
   delete settings_;
   delete ui_;
+  delete undo_stack_;
 }
 
 Ui::View *s21::View::GetUI()
@@ -108,11 +109,6 @@ void s21::View::RenderFile() {
     ui_->openGLWidget->update();
   }
 }
-
-//void s21::View::ProjectionTypeChange(int idx) {
-//  ui_->openGLWidget->setProjectionType(idx);
-//  ui_->openGLWidget->update();
-//}
 
 void s21::View::ProjectionTypeChange(int idx) {
     int old = ui_->openGLWidget->projectionType_;

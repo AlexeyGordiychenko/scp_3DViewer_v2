@@ -16,7 +16,7 @@ public:
     SetPolygonThicknessCmd& operator=(const SetPolygonThicknessCmd&) = delete;
     SetPolygonThicknessCmd(SetPolygonThicknessCmd&&) = delete;
     SetPolygonThicknessCmd& operator=(SetPolygonThicknessCmd&&) = delete;
-    ~SetPolygonThicknessCmd() = default;
+    ~SetPolygonThicknessCmd();
     void Redo() override;
     void Undo() override;
 private:

@@ -35,7 +35,7 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   void Move(double x, double y, double z);
   void Rotate(double angle_x, double angle_y, double angle_z);
   void ClearTransformations();
-  void SetController(s21::Controller *controller);
+  void SetController(AbstractController *controller);
   double bg_red_ = 0, bg_green_ = 0, bg_blue_ = 0;
   double pol_red_ = 0, pol_green = 0, pol_blue_ = 0;
   double ver_red_ = 0, ver_green_ = 0, ver_blue_ = 0;
@@ -48,7 +48,7 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   int size_h_ = 0, size_w_ = 0;
   double x_rot_ = 0, y_rot_ = 0, z_rot_ = 0, x_trans_ = 0, y_trans_ = 0, zoom_ = 1;
   QPointF last_mouse_pos_;
-  Controller *controller_;
+  AbstractController *controller_;
 
   void SetDimentionalValues();
   void CountVerticesEdges();

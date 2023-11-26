@@ -6,6 +6,11 @@ s21::SetPolygonThicknessCmd::SetPolygonThicknessCmd(double old_thickness, double
 
 }
 
+s21::SetPolygonThicknessCmd::~SetPolygonThicknessCmd()
+{
+
+}
+
 void s21::SetPolygonThicknessCmd::Redo()
 {
     SetPolygonThickness(new_thickness_);

@@ -6,7 +6,7 @@ s21::GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent) {}
 
 void s21::GLWidget::SetFilename(char *filename) { this->filename_ = filename; }
 
-void s21::GLWidget::SetController(s21::Controller *controller) {
+void s21::GLWidget::SetController(AbstractController *controller) {
   this->controller_ = controller;
 }
 

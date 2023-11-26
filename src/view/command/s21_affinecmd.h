@@ -16,7 +16,7 @@ public:
     AffineCmd& operator=(const AffineCmd&) = delete;
     AffineCmd(AffineCmd&&) = delete;
     AffineCmd& operator=(AffineCmd&&) = delete;
-    ~AffineCmd() = default;
+    ~AffineCmd();
     void Undo() override;
     void Redo() override;
 private:

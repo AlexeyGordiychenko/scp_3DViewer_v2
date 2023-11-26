@@ -24,6 +24,7 @@ SOURCES += \
     view/command/s21_setverticecolorcmd.cpp \
     view/command/s21_setverticesizecmd.cpp \
     view/command/s21_setverticetypecmd.cpp \
+    view/s21_proxycontroller.cpp \
     view/s21_view.cc \
     view/s21_gifcreator.cc \
     view/s21_glwidget.cc \
@@ -31,6 +32,7 @@ SOURCES += \
     controller/s21_controller.cc
 
 HEADERS += \
+    controller/s21_abstractcontroller.h \
     thirdparty/gifanim/gifanim.h \
     view/command/s21_affinecmd.h \
     view/command/s21_affinedata.h \
@@ -44,6 +46,7 @@ HEADERS += \
     view/command/s21_setverticecolorcmd.h \
     view/command/s21_setverticesizecmd.h \
     view/command/s21_setverticetypecmd.h \
+    view/s21_proxycontroller.h \
     view/s21_view.h \
     view/s21_gifcreator.h \
     view/s21_glwidget.h \
