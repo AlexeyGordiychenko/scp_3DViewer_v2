@@ -1,4 +1,5 @@
 #include "s21_proxycontroller.h"
+
 #include "ui_s21_view.h"
 //#include "iostream"
 //#include "QMenu"

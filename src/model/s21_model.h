@@ -9,7 +9,7 @@
 namespace s21 {
 
 class Model {
-public:
+ public:
   void Initialize(const std::string filename);
   void RestoreVertices();
 
@@ -28,7 +28,7 @@ public:
   double GetCenterY() const;
   double GetCenterZ() const;
 
-private:
+ private:
   std::vector<s21::Vertex3d> vertices_;
   std::vector<s21::Vertex3d> vertices_origin_;
   std::vector<std::vector<int>> polygons_;
@@ -41,5 +41,5 @@ private:
   void TranslateToOrigin();
   void SaveVertices();
 };
-} // namespace s21
-#endif // S21_3DVIEWER_V2_MODEL_H
+}  // namespace s21
+#endif  // S21_3DVIEWER_V2_MODEL_H

@@ -8,7 +8,7 @@
 
 namespace s21 {
 class ProxyController : public AbstractController, public QObject {
-public:
+ public:
   // Constructors and the destructor
   ProxyController(AbstractController *controller, View *view);
   ProxyController(const ProxyController &) = delete;
@@ -36,13 +36,13 @@ public:
   double GetCenterY() const override;
   double GetCenterZ() const override;
 
-private:
+ private:
   AbstractController *real_controller_;
   View *view_;
 
-private slots:
+ private slots:
   void InitializeRecent(const std::string filename);
 };
-} // namespace s21
+}  // namespace s21
 
-#endif // S21_PROXYProxyController_H
+#endif  // S21_PROXYProxyController_H

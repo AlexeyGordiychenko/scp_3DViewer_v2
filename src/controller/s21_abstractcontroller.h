@@ -9,7 +9,7 @@
 namespace s21 {
 
 class AbstractController {
-public:
+ public:
   virtual ~AbstractController() = default;
 
   // Main functions
@@ -31,5 +31,5 @@ public:
   virtual double GetCenterY() const = 0;
   virtual double GetCenterZ() const = 0;
 };
-} // namespace s21
-#endif // S21_3DVIEWER_V2_CONTROLLER_H
+}  // namespace s21
+#endif  // S21_3DVIEWER_V2_CONTROLLER_H

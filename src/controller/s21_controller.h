@@ -12,7 +12,7 @@ namespace s21 {
 class Model;
 
 class Controller : public AbstractController {
-public:
+ public:
   // Constructors and the destructor
   Controller(Model *model) : model_(model) {}
   Controller(const Controller &) = delete;
@@ -40,8 +40,8 @@ public:
   double GetCenterY() const override;
   double GetCenterZ() const override;
 
-private:
+ private:
   Model *model_;
 };
-} // namespace s21
-#endif // S21_3DVIEWER_V2_CONTROLLER_H
+}  // namespace s21
+#endif  // S21_3DVIEWER_V2_CONTROLLER_H

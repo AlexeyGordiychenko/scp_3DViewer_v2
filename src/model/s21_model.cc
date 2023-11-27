@@ -84,8 +84,7 @@ void s21::Model::AffineScale(double k) {
 
 size_t s21::Model::GetPolygonsEdgesCount() const {
   size_t count = 0;
-  for (auto polygon : polygons_)
-    count += polygon.size();
+  for (auto polygon : polygons_) count += polygon.size();
   return count;
 }
 
@@ -142,7 +141,7 @@ void s21::Model::ParseFile(std::ifstream &file) {
             throw std::runtime_error("Line: " + std::to_string(line_num) +
                                      " failed to read a facet.");
           } else {
-            facet.push_back(index - 1); // To have an index, starting from 0
+            facet.push_back(index - 1);  // To have an index, starting from 0
           }
         }
         if (!facet.empty()) {
@@ -156,18 +155,12 @@ void s21::Model::ParseFile(std::ifstream &file) {
 }
 
 void s21::Model::UpdateMinMaxPoints(Vertex3d point) {
-  if (point.x < min_point_.x)
-    min_point_.x = point.x;
-  if (point.y < min_point_.y)
-    min_point_.y = point.y;
-  if (point.z < min_point_.z)
-    min_point_.z = point.z;
-  if (point.x > max_point_.x)
-    max_point_.x = point.x;
-  if (point.y > max_point_.y)
-    max_point_.y = point.y;
-  if (point.z > max_point_.z)
-    max_point_.z = point.z;
+  if (point.x < min_point_.x) min_point_.x = point.x;
+  if (point.y < min_point_.y) min_point_.y = point.y;
+  if (point.z < min_point_.z) min_point_.z = point.z;
+  if (point.x > max_point_.x) max_point_.x = point.x;
+  if (point.y > max_point_.y) max_point_.y = point.y;
+  if (point.z > max_point_.z) max_point_.z = point.z;
 }
 
 void s21::Model::TranslateToOrigin() {
@@ -177,8 +170,7 @@ void s21::Model::TranslateToOrigin() {
   auto size_coefficient = std::max({fabs(max_point_.x - min_point_.x),
                                     fabs(max_point_.y - min_point_.y),
                                     fabs(max_point_.z - min_point_.z)});
-  if (size_coefficient != 0)
-    size_coefficient = 2 / size_coefficient;
+  if (size_coefficient != 0) size_coefficient = 2 / size_coefficient;
 
   for (auto &vertex : vertices_) {
     vertex.x = (vertex.x - center_x) * size_coefficient;
