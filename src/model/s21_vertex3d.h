@@ -9,5 +9,5 @@ struct Vertex3d {
   double z;
 };
 
-}  // namespace s21
-#endif  // S21_3DVIEWER_V2_VERTEX3D_H
+} // namespace s21
+#endif // S21_3DVIEWER_V2_VERTEX3D_H

@@ -1,14 +1,14 @@
-# Constants
+#Constants
 CC=g++
 CFLAGS=-Wall -Wextra -Werror -std=c++17 -fmax-errors=1
 OFLAGS=-O2
 LDFLAGS=-lgtest -pthread
 
-# Coverage
+#Coverage
 GCOVFLAGS=--coverage
 GCOV_DIR=gcov
 
-# Directories
+#Directories
 TEST_DIR=tests
 MODEL_DIR=model
 SRC_DIR=.
@@ -18,13 +18,13 @@ OBJ_DIR_TEST=$(OBJ_DIR)/$(TEST_DIR)
 BUILD_DIR=build
 INSTALL_DIR=install
 
-# Files
+#Files
 SRCS_TEST=$(wildcard $(TEST_DIR)/s21_*.cc $(MODEL_DIR)/s21_*.cc)
 OBJS_TEST=$(patsubst %.cc, $(OBJ_DIR_TEST)/%.o, $(notdir $(SRCS_TEST)))
 OBJS_GCOV=$(patsubst %.cc, $(OBJ_DIR_GCOV)/%.o, $(notdir $(SRCS_TEST)))
 CLANG_FILES=$(shell find $(SRC_DIR) \( -name "s21_*.cc" -o -name "s21_*.h" \) -print)
 
-# Builds
+#Builds
 PROGRAM=s21_3DViewer_v2
 TEST=test
 TEST_GCOV=$(TEST)_gcov
@@ -32,7 +32,7 @@ TEST_BUILD=$(TEST)_build
 TEST_BUILD_GCOV=$(TEST_BUILD)_gcov
 VPATH=$(TEST_DIR):$(MODEL_DIR)
 
-# Docs
+#Docs
 DOC=doc_3DViewer_v2
 
 .PHONY: all $(TEST) $(TEST_BUILD) $(TEST_GCOV) $(TEST_BUILD_GCOV) build install uninstall gcov_report lcov_report dvi dist clean clean_gcda rebuild clang_n clang_i valgrind valgrind_mac
@@ -83,7 +83,7 @@ lcov_report: $(TEST_GCOV)
 	open $(GCOV_DIR)/index.html
 
 dvi:
-#	TODO
+#TODO
 	texi2dvi --clean --pdf $(DOC).texi
 	open $(DOC).pdf
 

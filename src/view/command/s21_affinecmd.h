@@ -9,24 +9,24 @@
 namespace s21 {
 
 class AffineCmd : public Command {
- public:
+public:
   AffineCmd() = delete;
-  AffineCmd(AffineData old_data, AffineData new_data, View* view);
-  AffineCmd(const AffineCmd&) = delete;
-  AffineCmd& operator=(const AffineCmd&) = delete;
-  AffineCmd(AffineCmd&&) = delete;
-  AffineCmd& operator=(AffineCmd&&) = delete;
-  ~AffineCmd() = default;
+  AffineCmd(AffineData old_data, AffineData new_data, View *view);
+  AffineCmd(const AffineCmd &) = delete;
+  AffineCmd &operator=(const AffineCmd &) = delete;
+  AffineCmd(AffineCmd &&) = delete;
+  AffineCmd &operator=(AffineCmd &&) = delete;
+  ~AffineCmd();
   void Undo() override;
   void Redo() override;
 
- private:
-  View* view_;
+private:
+  View *view_;
   AffineData old_data_;
   AffineData new_data_;
-  void Transform(AffineData& data);
+  void Transform(AffineData &data);
 };
 
-}  // namespace s21
+} // namespace s21
 
 #endif

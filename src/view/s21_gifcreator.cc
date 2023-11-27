@@ -5,14 +5,9 @@ s21::GifCreator::~GifCreator() {}
 s21::GifCreator::GifCreator(QOpenGLWidget *widget, const QString &outputGifPath,
                             int width, int height, int fps, int duration_sec,
                             QObject *parent)
-    : QObject(parent),
-      widget_(widget),
-      output_gif_path_(outputGifPath),
-      frame_count_(0),
-      frame_max_(fps * duration_sec),
-      frame_delay_(1000 / fps),
-      width_(width),
-      height_(height) {
+    : QObject(parent), widget_(widget), output_gif_path_(outputGifPath),
+      frame_count_(0), frame_max_(fps * duration_sec), frame_delay_(1000 / fps),
+      width_(width), height_(height) {
   connect(&timer_, &QTimer::timeout, this, &s21::GifCreator::CaptureFrame);
 }
 

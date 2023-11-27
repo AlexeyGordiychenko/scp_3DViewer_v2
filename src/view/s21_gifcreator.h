@@ -14,7 +14,7 @@ namespace s21 {
 class GifCreator : public QObject {
   Q_OBJECT
 
- public:
+public:
   GifCreator(QOpenGLWidget *widget, const QString &outputGifPath,
              int width = 640, int height = 480, int fps = 10,
              int duration_sec = 5, QObject *parent = nullptr);
@@ -22,10 +22,10 @@ class GifCreator : public QObject {
   void EndGif();
   ~GifCreator();
 
- private slots:
+private slots:
   void CaptureFrame();
 
- private:
+private:
   QOpenGLWidget *widget_;
   QString output_gif_path_;
   QTimer timer_;
@@ -36,5 +36,5 @@ class GifCreator : public QObject {
   int frame_delay_;
   uint32_t width_, height_;
 };
-}  // namespace s21
-#endif  // S21_3DVIEWER_V2_GIFCREATOR_H
+} // namespace s21
+#endif // S21_3DVIEWER_V2_GIFCREATOR_H

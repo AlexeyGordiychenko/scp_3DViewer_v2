@@ -18,14 +18,14 @@
 #include "s21_glwidget.h"
 #include "ui_s21_view.h"
 
+#include "command/s21_affinecmd.h"
 #include "command/s21_projectiontypechangecmd.h"
 #include "command/s21_setbackgroundcolorcmd.h"
-#include "command/s21_affinecmd.h"
 #include "command/s21_setpolygoncolorcmd.h"
-#include "command/s21_setpolygontypecmd.h"
 #include "command/s21_setpolygonthicknesscmd.h"
-#include "command/s21_setverticesizecmd.h"
+#include "command/s21_setpolygontypecmd.h"
 #include "command/s21_setverticecolorcmd.h"
+#include "command/s21_setverticesizecmd.h"
 #include "command/s21_setverticetypecmd.h"
 #include "s21_proxycontroller.h"
 

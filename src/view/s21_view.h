@@ -19,7 +19,7 @@ class GifCreator;
 class View : public QMainWindow {
   Q_OBJECT
 
- public:
+public:
   // Constructors and the destructor
   View(AbstractController *controller, QWidget *parent = nullptr);
   View(const View &) = delete;
@@ -30,7 +30,7 @@ class View : public QMainWindow {
 
   Ui::View *GetUI();
 
- private slots:
+private slots:
   void OpenFile();
   void RenderFile();
   void ProjectionTypeChange(int idx);
@@ -57,7 +57,7 @@ class View : public QMainWindow {
   void SetPolygonType(polygonType type);
   void SetVerticeType(verticeType type);
 
- private:
+private:
   Ui::View *ui_;
   s21::GifCreator *gifCreator_;
   QSettings *settings_;
@@ -65,5 +65,5 @@ class View : public QMainWindow {
   void CreateCommandStack();
 };
 
-}  // namespace s21
-#endif  // S21_3DVIEWER_V2_VIEW_H
+} // namespace s21
+#endif // S21_3DVIEWER_V2_VIEW_H

@@ -2,10 +2,7 @@
 
 #include "../model/s21_model.h"
 
-s21::Controller::~Controller()
-{
-
-}
+s21::Controller::~Controller() {}
 
 void s21::Controller::Initialize(const std::string filename) {
   model_->Initialize(filename);
@@ -39,11 +36,11 @@ size_t s21::Controller::GetVerticesCount() const {
   return model_->GetVerticesCount();
 }
 
-const std::vector<std::vector<int>>& s21::Controller::GetPolygons() const {
+const std::vector<std::vector<int>> &s21::Controller::GetPolygons() const {
   return model_->GetPolygons();
 }
 
-const std::vector<s21::Vertex3d>& s21::Controller::GetVertices() const {
+const std::vector<s21::Vertex3d> &s21::Controller::GetVertices() const {
   return model_->GetVertices();
 }
 

@@ -4,17 +4,18 @@
 namespace s21 {
 
 class Command {
- public:
+public:
   Command() = default;
-  Command(const Command&) = delete;
-  Command& operator=(const Command&) = delete;
-  Command(Command&&) = delete;
-  Command& operator=(Command&&) = delete;
-  ~Command() = default;
+  Command(const Command &) = delete;
+  Command &operator=(const Command &) = delete;
+  Command(Command &&) = delete;
+  Command &operator=(Command &&) = delete;
+  //~Command() = default;
+  virtual ~Command() = default;
   virtual void Redo() = 0;
   virtual void Undo() = 0;
 };
 
-}  // namespace s21
+} // namespace s21
 
 #endif

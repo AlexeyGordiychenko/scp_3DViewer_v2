@@ -1,8 +1,6 @@
 #include "s21_glwidget.h"
 
-s21::GLWidget::~GLWidget() {
-    delete controller_;
-}
+s21::GLWidget::~GLWidget() { delete controller_; }
 
 s21::GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent) {}
 
@@ -136,8 +134,10 @@ void s21::GLWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 void normalizeAngle(double &angle) {
-  while (angle < 0) angle += 360 * 16;
-  while (angle > 360) angle -= 360 * 16;
+  while (angle < 0)
+    angle += 360 * 16;
+  while (angle > 360)
+    angle -= 360 * 16;
 }
 
 void s21::GLWidget::mouseMoveEvent(QMouseEvent *event) {

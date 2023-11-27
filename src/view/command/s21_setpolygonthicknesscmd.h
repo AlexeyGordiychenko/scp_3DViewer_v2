@@ -7,25 +7,26 @@
 
 namespace s21 {
 
-class SetPolygonThicknessCmd : public Command
-{
+class SetPolygonThicknessCmd : public Command {
 public:
-    SetPolygonThicknessCmd() = delete;
-    SetPolygonThicknessCmd(double old_thickness, double new_thickness, View *view);
-    SetPolygonThicknessCmd(const SetPolygonThicknessCmd&) = delete;
-    SetPolygonThicknessCmd& operator=(const SetPolygonThicknessCmd&) = delete;
-    SetPolygonThicknessCmd(SetPolygonThicknessCmd&&) = delete;
-    SetPolygonThicknessCmd& operator=(SetPolygonThicknessCmd&&) = delete;
-    ~SetPolygonThicknessCmd() = default;
-    void Redo() override;
-    void Undo() override;
+  SetPolygonThicknessCmd() = delete;
+  SetPolygonThicknessCmd(double old_thickness, double new_thickness,
+                         View *view);
+  SetPolygonThicknessCmd(const SetPolygonThicknessCmd &) = delete;
+  SetPolygonThicknessCmd &operator=(const SetPolygonThicknessCmd &) = delete;
+  SetPolygonThicknessCmd(SetPolygonThicknessCmd &&) = delete;
+  SetPolygonThicknessCmd &operator=(SetPolygonThicknessCmd &&) = delete;
+  ~SetPolygonThicknessCmd() = default;
+  void Redo() override;
+  void Undo() override;
+
 private:
-    View* view_;
-    void SetPolygonThickness(double thickness);
-    double old_thickness_;
-    double new_thickness_;
+  View *view_;
+  void SetPolygonThickness(double thickness);
+  double old_thickness_;
+  double new_thickness_;
 };
 
-}  // namespace s21
+} // namespace s21
 
 #endif

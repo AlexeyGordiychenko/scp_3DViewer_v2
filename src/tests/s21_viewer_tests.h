@@ -5,4 +5,4 @@
 
 #include "../model/s21_model.h"
 
-#endif  // S21_3DVIEWER_V2_TESTS_H
+#endif // S21_3DVIEWER_V2_TESTS_H

@@ -9,24 +9,24 @@
 namespace s21 {
 
 class SetVerticeTypeCmd : public Command {
- public:
+public:
   SetVerticeTypeCmd() = delete;
-  SetVerticeTypeCmd(verticeType old_type, verticeType new_type, View* view);
-  SetVerticeTypeCmd(const SetVerticeTypeCmd&) = delete;
-  SetVerticeTypeCmd& operator=(const SetVerticeTypeCmd&) = delete;
-  SetVerticeTypeCmd(SetVerticeTypeCmd&&) = delete;
-  SetVerticeTypeCmd& operator=(SetVerticeTypeCmd&&) = delete;
+  SetVerticeTypeCmd(verticeType old_type, verticeType new_type, View *view);
+  SetVerticeTypeCmd(const SetVerticeTypeCmd &) = delete;
+  SetVerticeTypeCmd &operator=(const SetVerticeTypeCmd &) = delete;
+  SetVerticeTypeCmd(SetVerticeTypeCmd &&) = delete;
+  SetVerticeTypeCmd &operator=(SetVerticeTypeCmd &&) = delete;
   ~SetVerticeTypeCmd() = default;
   void Redo() override;
   void Undo() override;
 
- private:
-  View* view_;
+private:
+  View *view_;
   void SetVerticeType(verticeType type);
   verticeType old_type_;
   verticeType new_type_;
 };
 
-}  // namespace s21
+} // namespace s21
 
 #endif
