@@ -15,9 +15,9 @@ class GifCreator : public QObject {
   Q_OBJECT
 
  public:
-  GifCreator(QOpenGLWidget *widget, const QString &outputGifPath,
+  GifCreator(QOpenGLWidget* widget, const QString& outputGifPath,
              int width = 640, int height = 480, int fps = 10,
-             int duration_sec = 5, QObject *parent = nullptr);
+             int duration_sec = 5, QObject* parent = nullptr);
   void CreateGif();
   void EndGif();
   ~GifCreator();
@@ -26,7 +26,7 @@ class GifCreator : public QObject {
   void CaptureFrame();
 
  private:
-  QOpenGLWidget *widget_;
+  QOpenGLWidget* widget_;
   QString output_gif_path_;
   QTimer timer_;
   GifAnim gif_anim_;

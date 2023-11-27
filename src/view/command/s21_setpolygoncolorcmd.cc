@@ -1,7 +1,7 @@
 #include "s21_setpolygoncolorcmd.h"
 
 s21::SetPolygonColorCmd::SetPolygonColorCmd(QColor old_color, QColor color,
-                                            View *mw)
+                                            View* mw)
     : view_(mw), old_color_(old_color), color_(color) {}
 
 void s21::SetPolygonColorCmd::Redo() { SetPolygonColor(color_); }
@@ -9,7 +9,7 @@ void s21::SetPolygonColorCmd::Redo() { SetPolygonColor(color_); }
 void s21::SetPolygonColorCmd::Undo() { SetPolygonColor(old_color_); }
 
 void s21::SetPolygonColorCmd::SetPolygonColor(QColor color) {
-  Ui::View *ui = view_->GetUI();
+  Ui::View* ui = view_->GetUI();
   if (color.isValid()) {
     ui->openGLWidget->pol_red_ = color.redF();
     ui->openGLWidget->pol_green = color.greenF();

@@ -24,8 +24,8 @@ class AbstractController {
 
   virtual size_t GetPolygonsEdgesCount() const = 0;
   virtual size_t GetVerticesCount() const = 0;
-  virtual const std::vector<std::vector<int>> &GetPolygons() const = 0;
-  virtual const std::vector<s21::Vertex3d> &GetVertices() const = 0;
+  virtual const std::vector<std::vector<int>>& GetPolygons() const = 0;
+  virtual const std::vector<s21::Vertex3d>& GetVertices() const = 0;
 
   virtual double GetCenterX() const = 0;
   virtual double GetCenterY() const = 0;

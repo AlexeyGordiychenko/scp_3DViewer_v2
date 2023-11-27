@@ -8,24 +8,24 @@
 namespace s21 {
 
 class SetVerticeSizeCmd : public Command {
-public:
+ public:
   SetVerticeSizeCmd() = delete;
-  SetVerticeSizeCmd(double old_thickness, double new_thickness, View *mw);
-  SetVerticeSizeCmd(const SetVerticeSizeCmd &) = delete;
-  SetVerticeSizeCmd &operator=(const SetVerticeSizeCmd &) = delete;
-  SetVerticeSizeCmd(SetVerticeSizeCmd &&) = delete;
-  SetVerticeSizeCmd &operator=(SetVerticeSizeCmd &&) = delete;
+  SetVerticeSizeCmd(double old_thickness, double new_thickness, View* mw);
+  SetVerticeSizeCmd(const SetVerticeSizeCmd&) = delete;
+  SetVerticeSizeCmd& operator=(const SetVerticeSizeCmd&) = delete;
+  SetVerticeSizeCmd(SetVerticeSizeCmd&&) = delete;
+  SetVerticeSizeCmd& operator=(SetVerticeSizeCmd&&) = delete;
   ~SetVerticeSizeCmd() = default;
   void Redo() override;
   void Undo() override;
 
-private:
-  View *view_;
+ private:
+  View* view_;
   void SetVerticeSize(double thickness);
   double old_thickness_;
   double new_thickness_;
 };
 
-} // namespace s21
+}  // namespace s21
 
 #endif

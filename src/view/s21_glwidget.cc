@@ -2,11 +2,11 @@
 
 s21::GLWidget::~GLWidget() { delete controller_; }
 
-s21::GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent) {}
+s21::GLWidget::GLWidget(QWidget* parent) : QOpenGLWidget(parent) {}
 
-void s21::GLWidget::SetFilename(char *filename) { this->filename_ = filename; }
+void s21::GLWidget::SetFilename(char* filename) { this->filename_ = filename; }
 
-void s21::GLWidget::SetController(AbstractController *controller) {
+void s21::GLWidget::SetController(AbstractController* controller) {
   this->controller_ = controller;
 }
 
@@ -92,7 +92,7 @@ void s21::GLWidget::paintGL() {
     glTranslatef(this->x_trans_, this->y_trans_, 0.0);
 
     auto vertices = this->controller_->GetVertices();
-    for (auto &polygon : this->controller_->GetPolygons()) {
+    for (auto& polygon : this->controller_->GetPolygons()) {
       if (this->edges_type_ == DASHED) {
         glEnable(GL_LINE_STIPPLE);
         glLineStipple(1, 0x00FF);
@@ -129,16 +129,16 @@ void s21::GLWidget::paintGL() {
   }
 }
 
-void s21::GLWidget::mousePressEvent(QMouseEvent *event) {
+void s21::GLWidget::mousePressEvent(QMouseEvent* event) {
   this->last_mouse_pos_ = event->position();
 }
 
-void normalizeAngle(double &angle) {
+void normalizeAngle(double& angle) {
   while (angle < 0) angle += 360 * 16;
   while (angle > 360) angle -= 360 * 16;
 }
 
-void s21::GLWidget::mouseMoveEvent(QMouseEvent *event) {
+void s21::GLWidget::mouseMoveEvent(QMouseEvent* event) {
   GLfloat dx = GLfloat(event->position().x() - this->last_mouse_pos_.x()) /
                this->size_w_;
   GLfloat dy = GLfloat(event->position().y() - this->last_mouse_pos_.y()) /
@@ -163,7 +163,7 @@ void s21::GLWidget::mouseMoveEvent(QMouseEvent *event) {
   update();
 }
 
-void s21::GLWidget::wheelEvent(QWheelEvent *event) {
+void s21::GLWidget::wheelEvent(QWheelEvent* event) {
   QPoint angleDelta = event->angleDelta();
 
   if (!angleDelta.isNull()) {

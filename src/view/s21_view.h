@@ -21,14 +21,14 @@ class View : public QMainWindow {
 
  public:
   // Constructors and the destructor
-  View(AbstractController *controller, QWidget *parent = nullptr);
-  View(const View &) = delete;
-  View &operator=(const View &) = delete;
-  View(View &&) = delete;
-  View &operator=(View &&) = delete;
+  View(AbstractController* controller, QWidget* parent = nullptr);
+  View(const View&) = delete;
+  View& operator=(const View&) = delete;
+  View(View&&) = delete;
+  View& operator=(View&&) = delete;
   ~View();
 
-  Ui::View *GetUI();
+  Ui::View* GetUI();
 
  private slots:
   void OpenFile();
@@ -58,10 +58,10 @@ class View : public QMainWindow {
   void SetVerticeType(verticeType type);
 
  private:
-  Ui::View *ui_;
-  s21::GifCreator *gifCreator_;
-  QSettings *settings_;
-  CommandStack *undo_stack_;
+  Ui::View* ui_;
+  s21::GifCreator* gifCreator_;
+  QSettings* settings_;
+  CommandStack* undo_stack_;
   void CreateCommandStack();
 };
 

@@ -7,13 +7,13 @@
 namespace s21 {
 
 class AffineData {
-public:
+ public:
   AffineData() = default;
-  AffineData(Ui::View *ui);
-  AffineData(const AffineData &) = default;
-  AffineData &operator=(const AffineData &) = delete;
-  AffineData(AffineData &&) = delete;
-  AffineData &operator=(AffineData &&) = default;
+  AffineData(Ui::View* ui);
+  AffineData(const AffineData&) = default;
+  AffineData& operator=(const AffineData&) = delete;
+  AffineData(AffineData&&) = delete;
+  AffineData& operator=(AffineData&&) = default;
   ~AffineData() = default;
   double move_x;
   double move_y;
@@ -24,6 +24,6 @@ public:
   double rotate_z;
 };
 
-} // namespace s21
+}  // namespace s21
 
 #endif

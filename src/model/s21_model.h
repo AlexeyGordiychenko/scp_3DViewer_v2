@@ -21,8 +21,8 @@ class Model {
 
   size_t GetPolygonsEdgesCount() const;
   size_t GetVerticesCount() const;
-  const std::vector<std::vector<int>> &GetPolygons() const;
-  const std::vector<s21::Vertex3d> &GetVertices() const;
+  const std::vector<std::vector<int>>& GetPolygons() const;
+  const std::vector<s21::Vertex3d>& GetVertices() const;
 
   double GetCenterX() const;
   double GetCenterY() const;
@@ -36,7 +36,7 @@ class Model {
   double center_x = 0, center_y = 0, center_z = 0;
 
   void ClearData();
-  void ParseFile(std::ifstream &file);
+  void ParseFile(std::ifstream& file);
   void UpdateMinMaxPoints(s21::Vertex3d point);
   void TranslateToOrigin();
   void SaveVertices();

@@ -2,7 +2,7 @@
 
 s21::SetPolygonThicknessCmd::SetPolygonThicknessCmd(double old_thickness,
                                                     double new_thickness,
-                                                    View *mw)
+                                                    View* mw)
     : view_(mw), old_thickness_(old_thickness), new_thickness_(new_thickness) {}
 
 void s21::SetPolygonThicknessCmd::Redo() {
@@ -14,7 +14,7 @@ void s21::SetPolygonThicknessCmd::Undo() {
 }
 
 void s21::SetPolygonThicknessCmd::SetPolygonThickness(double thickness) {
-  Ui::View *ui = view_->GetUI();
+  Ui::View* ui = view_->GetUI();
   ui->openGLWidget->edges_thickness_ = thickness / 10;
   ui->openGLWidget->update();
   ui->polygonThickness->setValue(thickness);

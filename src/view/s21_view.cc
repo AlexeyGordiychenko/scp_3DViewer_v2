@@ -19,7 +19,7 @@
 #include "s21_proxycontroller.h"
 #include "ui_s21_view.h"
 
-s21::View::View(AbstractController *controller, QWidget *parent)
+s21::View::View(AbstractController* controller, QWidget* parent)
     : QMainWindow(parent), ui_(new Ui::View) {
   ui_->setupUi(this);
   connect(ui_->openFile, SIGNAL(clicked()), this, SLOT(OpenFile()));
@@ -71,7 +71,7 @@ s21::View::~View() {
   delete undo_stack_;
 }
 
-Ui::View *s21::View::GetUI() { return ui_; }
+Ui::View* s21::View::GetUI() { return ui_; }
 
 void s21::View::OpenFile() {
   QString QString_filename = QFileDialog::getOpenFileName(
@@ -91,10 +91,10 @@ void s21::View::Reset() {
 void s21::View::RenderFile() {
   if (ui_->openGLWidget->fileChanged) {
     std::string std_filename = ui_->filePath->text().toStdString();
-    ui_->openGLWidget->SetFilename((char *)std_filename.c_str());
+    ui_->openGLWidget->SetFilename((char*)std_filename.c_str());
     try {
       ui_->openGLWidget->ParseFile();
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
       QMessageBox messageBoxImage;
       messageBoxImage.information(0, "", e.what());
     }
@@ -157,7 +157,7 @@ void s21::View::GetGIF() {
   QString gifName =
       saveGifDialog.getSaveFileName(this, "GIF saving", saveFilename, gifExt);
   if (gifName.length() > 0) {
-    s21::GifCreator *gifCreator =
+    s21::GifCreator* gifCreator =
         new s21::GifCreator(ui_->openGLWidget, gifName);
     gifCreator->CreateGif();
   }

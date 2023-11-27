@@ -1,11 +1,11 @@
 #include "s21_proxycontroller.h"
 
 #include "ui_s21_view.h"
-//#include "iostream"
-//#include "QMenu"
+// #include "iostream"
+// #include "QMenu"
 
-s21::ProxyController::ProxyController(AbstractController *controller,
-                                      View *view)
+s21::ProxyController::ProxyController(AbstractController* controller,
+                                      View* view)
     : real_controller_(controller), view_(view) {}
 
 void s21::ProxyController::Initialize(const std::string filename) {
@@ -16,7 +16,7 @@ void s21::ProxyController::Initialize(const std::string filename) {
   for (auto i = action_list.begin(); i != action_list.cend() && !contain; ++i)
     contain = (*i)->text() == qstring;
   if (!contain) {
-    QAction *recent_file = new QAction(QString::fromStdString(filename));
+    QAction* recent_file = new QAction(QString::fromStdString(filename));
     view_->GetUI()->menuRecent->addAction(recent_file);
     connect(recent_file, &QAction::triggered, this,
             [this, filename]() { InitializeRecent(filename); });
@@ -24,7 +24,7 @@ void s21::ProxyController::Initialize(const std::string filename) {
 }
 
 void s21::ProxyController::InitializeRecent(const std::string filename) {
-  Ui::View *ui_ = view_->GetUI();
+  Ui::View* ui_ = view_->GetUI();
   ui_->filePath->setText(QString::fromStdString(filename));
   ui_->openGLWidget->fileChanged = true;
 }
@@ -61,11 +61,11 @@ size_t s21::ProxyController::GetVerticesCount() const {
   return real_controller_->GetVerticesCount();
 }
 
-const std::vector<std::vector<int>> &s21::ProxyController::GetPolygons() const {
+const std::vector<std::vector<int>>& s21::ProxyController::GetPolygons() const {
   return real_controller_->GetPolygons();
 }
 
-const std::vector<s21::Vertex3d> &s21::ProxyController::GetVertices() const {
+const std::vector<s21::Vertex3d>& s21::ProxyController::GetVertices() const {
   return real_controller_->GetVertices();
 }
 

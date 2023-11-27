@@ -1,8 +1,8 @@
 #include "s21_commandstack.h"
 
 s21::CommandStack::CommandStack()
-    : undo_stack_(std::stack<Command *>()),
-      redo_stack_(std::stack<Command *>()) {}
+    : undo_stack_(std::stack<Command*>()),
+      redo_stack_(std::stack<Command*>()) {}
 
 s21::CommandStack::~CommandStack() {
   ClearRedoStack();
@@ -25,7 +25,7 @@ void s21::CommandStack::Undo() {
   }
 }
 
-void s21::CommandStack::Push(Command *cmd) {
+void s21::CommandStack::Push(Command* cmd) {
   cmd->Redo();
   undo_stack_.push(cmd);
   ClearRedoStack();

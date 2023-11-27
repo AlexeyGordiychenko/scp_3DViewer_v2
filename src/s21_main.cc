@@ -4,7 +4,7 @@
 #include "model/s21_model.h"
 #include "view/s21_view.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   QLocale::setDefault(QLocale::C);
   QApplication app(argc, argv);
   s21::Model model;

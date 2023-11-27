@@ -2,9 +2,9 @@
 
 s21::GifCreator::~GifCreator() {}
 
-s21::GifCreator::GifCreator(QOpenGLWidget *widget, const QString &outputGifPath,
+s21::GifCreator::GifCreator(QOpenGLWidget* widget, const QString& outputGifPath,
                             int width, int height, int fps, int duration_sec,
-                            QObject *parent)
+                            QObject* parent)
     : QObject(parent),
       widget_(widget),
       output_gif_path_(outputGifPath),

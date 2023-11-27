@@ -36,11 +36,11 @@ size_t s21::Controller::GetVerticesCount() const {
   return model_->GetVerticesCount();
 }
 
-const std::vector<std::vector<int>> &s21::Controller::GetPolygons() const {
+const std::vector<std::vector<int>>& s21::Controller::GetPolygons() const {
   return model_->GetPolygons();
 }
 
-const std::vector<s21::Vertex3d> &s21::Controller::GetVertices() const {
+const std::vector<s21::Vertex3d>& s21::Controller::GetVertices() const {
   return model_->GetVertices();
 }
 

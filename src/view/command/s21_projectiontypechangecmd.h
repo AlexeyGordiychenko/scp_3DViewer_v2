@@ -7,24 +7,24 @@
 namespace s21 {
 
 class ProjectionTypeChangeCommand : public Command {
-public:
+ public:
   ProjectionTypeChangeCommand() = delete;
-  ProjectionTypeChangeCommand(int old_idx, int new_idx, View *mw);
-  ProjectionTypeChangeCommand(const ProjectionTypeChangeCommand &) = delete;
-  ProjectionTypeChangeCommand &
-  operator=(const ProjectionTypeChangeCommand &) = delete;
-  ProjectionTypeChangeCommand(ProjectionTypeChangeCommand &&) = delete;
-  ProjectionTypeChangeCommand &
-  operator=(ProjectionTypeChangeCommand &&) = delete;
+  ProjectionTypeChangeCommand(int old_idx, int new_idx, View* mw);
+  ProjectionTypeChangeCommand(const ProjectionTypeChangeCommand&) = delete;
+  ProjectionTypeChangeCommand& operator=(const ProjectionTypeChangeCommand&) =
+      delete;
+  ProjectionTypeChangeCommand(ProjectionTypeChangeCommand&&) = delete;
+  ProjectionTypeChangeCommand& operator=(ProjectionTypeChangeCommand&&) =
+      delete;
   ~ProjectionTypeChangeCommand() = default;
   void Undo() override;
   void Redo() override;
 
-private:
-  View *view_;
+ private:
+  View* view_;
   int old_idx_;
   int new_idx_;
   void SetProjectionType(int idx);
 };
 
-} // namespace s21
+}  // namespace s21

@@ -1,6 +1,6 @@
 #include "s21_affinedata.h"
 
-s21::AffineData::AffineData(Ui::View *ui) {
+s21::AffineData::AffineData(Ui::View* ui) {
   move_x = (ui->move_on_x->value());
   move_y = (ui->move_on_y->value());
   move_z = (ui->move_on_z->value());

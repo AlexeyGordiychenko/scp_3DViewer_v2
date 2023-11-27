@@ -90,11 +90,11 @@ size_t s21::Model::GetPolygonsEdgesCount() const {
 
 size_t s21::Model::GetVerticesCount() const { return vertices_.size(); }
 
-const std::vector<std::vector<int>> &s21::Model::GetPolygons() const {
+const std::vector<std::vector<int>>& s21::Model::GetPolygons() const {
   return polygons_;
 }
 
-const std::vector<s21::Vertex3d> &s21::Model::GetVertices() const {
+const std::vector<s21::Vertex3d>& s21::Model::GetVertices() const {
   return vertices_;
 }
 
@@ -110,7 +110,7 @@ void s21::Model::ClearData() {
   center_x = 0, center_y = 0, center_z = 0;
 }
 
-void s21::Model::ParseFile(std::ifstream &file) {
+void s21::Model::ParseFile(std::ifstream& file) {
   std::string line;
   size_t line_num = 1;
   while (std::getline(file, line)) {
@@ -172,7 +172,7 @@ void s21::Model::TranslateToOrigin() {
                                     fabs(max_point_.z - min_point_.z)});
   if (size_coefficient != 0) size_coefficient = 2 / size_coefficient;
 
-  for (auto &vertex : vertices_) {
+  for (auto& vertex : vertices_) {
     vertex.x = (vertex.x - center_x) * size_coefficient;
     vertex.y = (vertex.y - center_y) * size_coefficient;
     vertex.z = (vertex.z - center_z) * size_coefficient;
