@@ -1,22 +1,33 @@
 #include "s21_proxycontroller.h"
 #include "ui_s21_view.h"
+//#include "iostream"
+//#include "QMenu"
 
 s21::ProxyController::ProxyController(AbstractController* controller, View *view)
   : real_controller_(controller), view_(view)
 { 
-  //paths_ = std::list<std::string>();
-    paths_ = QStringList();
+
 }
 
 void s21::ProxyController::Initialize(const std::string filename) {
   real_controller_->Initialize(filename);
-  //paths_.push_back(filename);
-  //paths_.append()
-  view_->GetUI()->recent_paths_comboBox->addItem(QString::fromStdString(filename));
+  QString qstring = QString::fromStdString(filename);
+  auto action_list = view_->GetUI()->menuRecent->actions();
+  bool contain = false;
+  for(auto i = action_list.begin(); i != action_list.cend() && !contain; ++i)
+        contain = (*i)->text() == qstring;
+  if (!contain) {
+      QAction* recent_file = new QAction(QString::fromStdString(filename));
+      view_->GetUI()->menuRecent->addAction(recent_file);
+      connect(recent_file, &QAction::triggered, this, [this, filename](){ InitializeRecent(filename); });
+  }
 }
 
-s21::ProxyController::~ProxyController() {
-    delete real_controller_;
+void s21::ProxyController::InitializeRecent(const std::string filename)
+{
+    Ui::View* ui_ = view_->GetUI();
+    ui_->filePath->setText(QString::fromStdString(filename));
+    ui_->openGLWidget->fileChanged = true;
 }
 
 void s21::ProxyController::RestoreVertices() { real_controller_->RestoreVertices(); }

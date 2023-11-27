@@ -19,7 +19,7 @@ class Controller : public AbstractController {
   Controller& operator=(const Controller&) = delete;
   Controller(Controller&&) = delete;
   Controller& operator=(Controller&&) = delete;
-  ~Controller() = default;
+  ~Controller();
 
   // Main functions
   void Initialize(const std::string filename) override;

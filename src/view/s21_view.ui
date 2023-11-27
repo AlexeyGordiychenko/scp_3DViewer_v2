@@ -60,16 +60,6 @@
     <property name="autoFillBackground">
      <bool>true</bool>
     </property>
-    <widget class="QComboBox" name="recent_paths_comboBox">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>0</y>
-       <width>761</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
    </widget>
    <widget class="QComboBox" name="projectionType">
     <property name="geometry">
@@ -197,7 +187,7 @@
       <x>816</x>
       <y>499</y>
       <width>350</width>
-      <height>170</height>
+      <height>171</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -606,6 +596,49 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="0" colspan="2">
+      <widget class="QLabel" name="rotate_text">
+       <property name="text">
+        <string>Rotate (x, y, z)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QDoubleSpinBox" name="scale_on_k">
+       <property name="minimum">
+        <double>-1000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="3" colspan="2">
+      <widget class="QPushButton" name="reset_params">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   border: 2px solid gray;
+  border-radius: 6px;
+}</string>
+       </property>
+       <property name="text">
+        <string>Reset</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="2">
+      <widget class="QLabel" name="scale_text">
+       <property name="text">
+        <string>Scale (k)</string>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="2">
       <widget class="QDoubleSpinBox" name="rotate_x">
        <property name="sizePolicy">
@@ -628,6 +661,34 @@
        </property>
        <property name="maximum">
         <double>1000.990000000000009</double>
+       </property>
+       <property name="value">
+        <double>0.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QDoubleSpinBox" name="move_on_x">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>71</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="minimum">
+        <double>-1000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000.000000000000000</double>
        </property>
        <property name="value">
         <double>0.000000000000000</double>
@@ -662,8 +723,8 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="3">
-      <widget class="QDoubleSpinBox" name="rotate_y">
+     <item row="1" column="4">
+      <widget class="QDoubleSpinBox" name="rotate_z">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -690,63 +751,8 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0" colspan="2">
-      <widget class="QLabel" name="rotate_text">
-       <property name="text">
-        <string>Rotate (x, y, z)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QDoubleSpinBox" name="move_on_x">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="baseSize">
-        <size>
-         <width>71</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
-       <property name="minimum">
-        <double>-1000.000000000000000</double>
-       </property>
-       <property name="maximum">
-        <double>1000.000000000000000</double>
-       </property>
-       <property name="value">
-        <double>0.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0" colspan="2">
-      <widget class="QLabel" name="scale_text">
-       <property name="text">
-        <string>Scale (k)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QDoubleSpinBox" name="scale_on_k">
-       <property name="minimum">
-        <double>-1000.000000000000000</double>
-       </property>
-       <property name="maximum">
-        <double>1000.000000000000000</double>
-       </property>
-       <property name="value">
-        <double>1.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="4">
-      <widget class="QDoubleSpinBox" name="rotate_z">
+     <item row="1" column="3">
+      <widget class="QDoubleSpinBox" name="rotate_y">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -801,22 +807,6 @@
        </property>
        <property name="value">
         <double>0.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="3" colspan="2">
-      <widget class="QPushButton" name="reset_params">
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-   border: 2px solid gray;
-  border-radius: 6px;
-}</string>
-       </property>
-       <property name="text">
-        <string>Reset</string>
-       </property>
-       <property name="default">
-        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -967,6 +957,12 @@
      <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuRecent">
+    <property name="title">
+     <string>recent files</string>
+    </property>
+   </widget>
+   <addaction name="menuRecent"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="sizePolicy">

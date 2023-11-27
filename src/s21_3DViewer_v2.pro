@@ -24,7 +24,7 @@ SOURCES += \
     view/command/s21_setverticecolorcmd.cc \
     view/command/s21_setverticesizecmd.cc \
     view/command/s21_setverticetypecmd.cc \
-    view/s21_proxycontroller.cс \
+    view/s21_proxycontroller.cc \
     view/s21_view.cc \
     view/s21_gifcreator.cc \
     view/s21_glwidget.cc \

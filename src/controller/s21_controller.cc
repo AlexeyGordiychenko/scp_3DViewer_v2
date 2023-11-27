@@ -2,6 +2,11 @@
 
 #include "../model/s21_model.h"
 
+s21::Controller::~Controller()
+{
+
+}
+
 void s21::Controller::Initialize(const std::string filename) {
   model_->Initialize(filename);
 }

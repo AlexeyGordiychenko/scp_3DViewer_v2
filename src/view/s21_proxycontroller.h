@@ -7,7 +7,7 @@
 #include "s21_view.h"
 
 namespace s21 {
-class ProxyController : public AbstractController
+class ProxyController : public AbstractController, public QObject
 {
 public:
  // Constructors and the destructor
@@ -16,7 +16,7 @@ public:
  ProxyController& operator=(const ProxyController&) = delete;
  ProxyController(ProxyController&&) = delete;
  ProxyController& operator=(ProxyController&&) = delete;
- ~ProxyController();
+ ~ProxyController() = default;
 
  // Main functions
  void Initialize(const std::string filename) override;
@@ -39,10 +39,10 @@ public:
 
 private:
  AbstractController* real_controller_;
- //std::list<std::string> paths_;
- QStringList paths_;
-
  View* view_;
+
+private slots:
+  void InitializeRecent(const std::string filename);
 };
 }
 
