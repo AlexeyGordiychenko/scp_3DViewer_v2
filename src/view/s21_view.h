@@ -37,6 +37,7 @@ class View : public QMainWindow {
   void TakeScreenshot();
   void GetGIF();
   void Affine();
+  void Affine_old();
   void Reset();
   void ResetParams();
   void SetBackgroundColor();

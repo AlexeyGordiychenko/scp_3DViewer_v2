@@ -169,11 +169,32 @@ void s21::View::ResetParams() {
   ui_->rotate_z->setValue(0);
 }
 
-void s21::View::Affine() {
+void s21::View::Affine_old() {
   static AffineData old_data = AffineData();
   AffineData new_data = AffineData(ui_);
   undo_stack_->Push(new AffineCmd(old_data, new_data, this));
   old_data = std::move(new_data);
+}
+
+void s21::View::Affine() {
+  AffineData data(ui_);
+  if (data.scale_k == 0) data.scale_k = 1;
+  ui_->openGLWidget->ClearTransformations();
+  ui_->openGLWidget->RestoreVertices();
+  ui_->openGLWidget->Scale(data.scale_k);
+  ui_->openGLWidget->Move(data.move_x, data.move_y, data.move_z);
+  ui_->openGLWidget->Rotate((data.rotate_x) * M_PI / 180,
+                           (data.rotate_y) * M_PI / 180,
+                           (data.rotate_z) * M_PI / 180);
+  ui_->openGLWidget->update();
+
+  ui_->move_on_x->setValue(data.move_x);
+  ui_->move_on_y->setValue(data.move_y);
+  ui_->move_on_z->setValue(data.move_z);
+  ui_->scale_on_k->setValue(data.scale_k);
+  ui_->rotate_x->setValue(data.rotate_x);
+  ui_->rotate_y->setValue(data.rotate_y);
+  ui_->rotate_z->setValue(data.rotate_z);
 }
 
 void s21::View::SetBackgroundColor() {
