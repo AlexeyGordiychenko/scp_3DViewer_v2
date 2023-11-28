@@ -6,6 +6,7 @@
 
 #include "../controller/s21_controller.h"
 #include "command/s21_affinecmd.h"
+#include "command/s21_affinesave.h"
 #include "command/s21_projectiontypechangecmd.h"
 #include "command/s21_setbackgroundcolorcmd.h"
 #include "command/s21_setpolygoncolorcmd.h"
@@ -216,6 +217,16 @@ void s21::View::SetVerticeType(verticeType type) {
   undo_stack_->Push(new SetVerticeTypeCmd(old, type, this));
 }
 
+void s21::View::SaveAffine()
+{
+    static AffineData old_data = AffineData();
+    AffineData new_data = AffineData(ui_);
+    if (old_data != new_data) {
+        undo_stack_->Push(new AffineSave(old_data, new_data, this));
+        old_data = std::move(new_data);
+    }
+}
+
 void s21::View::SetVerticeSize(int value) {
   ui_->openGLWidget->vertice_size_ = value / 5;
   ui_->openGLWidget->update();
@@ -303,9 +314,9 @@ void s21::View::SetValuesOnButtons() {
   } else {
     ui_->squareVertice->setChecked(true);
   }
-  ui_->polygonThickness->setValue(settings_->value("edges_thickness").toInt() *
+  ui_->polygonThickness->setValue(settings_->value("edges_thickness").toDouble() *
                                   10);
-  ui_->sizeVertice->setValue(settings_->value("vertice_size").toInt() * 5);
+  ui_->sizeVertice->setValue(settings_->value("vertice_size").toDouble() * 5);
   if (ui_->openGLWidget->projectionType_ == PARALLEL) {
     ui_->projectionType->setCurrentIndex(0);
   } else {
@@ -323,17 +334,31 @@ void s21::View::CreateCommandStack() {
           &View::PolygonThicknessSliderReleased);
   connect(ui_->sizeVertice, &QSlider::sliderReleased, this,
           &View::VerticeSizeSliderReleased);
+  connect(ui_->move_on_x, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
+  connect(ui_->move_on_y, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
+  connect(ui_->move_on_z, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
+  connect(ui_->scale_on_k, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
+  connect(ui_->rotate_x, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
+  connect(ui_->rotate_y, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
+  connect(ui_->rotate_z, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
 }
 
 void s21::View::PolygonThicknessSliderReleased() {
-  static double old = settings_->value("edges_thickness").toInt();
+  static double old = settings_->value("edges_thickness").toDouble() * 10;
   double value = ui_->polygonThickness->value();
   undo_stack_->Push(new s21::SetPolygonThicknessCmd(old, value, this));
   old = value;
 }
 
 void s21::View::VerticeSizeSliderReleased() {
-  static double old = settings_->value("vertice_size").toInt();
+  static double old = settings_->value("vertice_size").toDouble() * 5;
   double value = ui_->sizeVertice->value();
   undo_stack_->Push(new SetVerticeSizeCmd(old, value, this));
   old = value;

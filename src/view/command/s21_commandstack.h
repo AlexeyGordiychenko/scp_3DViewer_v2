@@ -17,6 +17,7 @@ class CommandStack : public QObject {
   CommandStack& operator=(CommandStack&&) = delete;
   ~CommandStack();
   void Push(Command* cmd);
+  void PushNoRedo(Command* cmd);
  public slots:
   void Redo();
   void Undo();

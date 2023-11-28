@@ -15,6 +15,7 @@ class AffineData {
   AffineData(AffineData&&) = delete;
   AffineData& operator=(AffineData&&) = default;
   ~AffineData() = default;
+  bool operator!=(AffineData&);
   double move_x;
   double move_y;
   double move_z;

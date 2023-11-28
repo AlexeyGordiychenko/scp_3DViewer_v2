@@ -56,6 +56,7 @@ class View : public QMainWindow {
   void VerticeSizeSliderReleased();
   void SetPolygonType(polygonType type);
   void SetVerticeType(verticeType type);
+  void SaveAffine();
 
  private:
   Ui::View* ui_;

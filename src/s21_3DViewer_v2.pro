@@ -14,6 +14,7 @@ SOURCES += \
     thirdparty/gifanim/gifanim.cpp \
     view/command/s21_affinecmd.cc \
     view/command/s21_affinedata.cc \
+    view/command/s21_affinesavecmd.cc \
     view/command/s21_command.cc \
     view/command/s21_commandstack.cc \
     view/command/s21_projectiontypechangecmd.cc \
@@ -36,6 +37,7 @@ HEADERS += \
     thirdparty/gifanim/gifanim.h \
     view/command/s21_affinecmd.h \
     view/command/s21_affinedata.h \
+    view/command/s21_affinesave.h \
     view/command/s21_command.h \
     view/command/s21_commandstack.h \
     view/command/s21_projectiontypechangecmd.h \

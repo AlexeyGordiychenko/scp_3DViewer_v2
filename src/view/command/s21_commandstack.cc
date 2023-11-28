@@ -31,6 +31,11 @@ void s21::CommandStack::Push(Command* cmd) {
   ClearRedoStack();
 }
 
+void s21::CommandStack::PushNoRedo(Command* cmd) {
+  undo_stack_.push(cmd);
+  ClearRedoStack();
+}
+
 void s21::CommandStack::ClearRedoStack() {
   while (!redo_stack_.empty()) {
     delete redo_stack_.top();
