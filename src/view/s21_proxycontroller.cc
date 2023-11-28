@@ -1,8 +1,6 @@
 #include "s21_proxycontroller.h"
 
 #include "ui_s21_view.h"
-// #include "iostream"
-// #include "QMenu"
 
 s21::ProxyController::ProxyController(AbstractController* controller,
                                       View* view)
@@ -16,7 +14,8 @@ void s21::ProxyController::Initialize(const std::string filename) {
   for (auto i = action_list.begin(); i != action_list.cend() && !contain; ++i)
     contain = (*i)->text() == qstring;
   if (!contain) {
-    QAction* recent_file = new QAction(QString::fromStdString(filename));
+    QAction* recent_file = new QAction(QString::fromStdString(filename),
+                                       view_->GetUI()->menuRecent);
     view_->GetUI()->menuRecent->addAction(recent_file);
     connect(recent_file, &QAction::triggered, this,
             [this, filename]() { InitializeRecent(filename); });
