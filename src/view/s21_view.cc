@@ -107,11 +107,6 @@ void s21::View::RenderFile() {
   }
 }
 
-// void s21::View::ProjectionTypeChange(int idx) {
-//   ui_->openGLWidget->setProjectionType(idx);
-//   ui_->openGLWidget->update();
-// }
-
 void s21::View::ProjectionTypeChange(int idx) {
   int old = ui_->openGLWidget->projectionType_;
   if (old != idx)
