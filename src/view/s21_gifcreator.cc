@@ -13,8 +13,8 @@ s21::GifCreator *s21::GifCreator::GetInstance(QOpenGLWidget *widget) {
 };
 
 s21::GifCreator::GifCreator(QOpenGLWidget *widget, int width, int height,
-                            int fps, int duration_sec, QObject *parent)
-    : QObject(parent),
+                            int fps, int duration_sec)
+    : QObject(widget),
       widget_(widget),
       frame_count_(0),
       frame_max_(fps * duration_sec),

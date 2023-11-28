@@ -39,7 +39,7 @@ class GifCreator final : public QObject {
   uint32_t frame_count_, frame_max_, frame_delay_, width_, height_;
 
   GifCreator(QOpenGLWidget *widget, int width = 640, int height = 480,
-             int fps = 10, int duration_sec = 5, QObject *parent = nullptr);
+             int fps = 10, int duration_sec = 5);
 };
 }  // namespace s21
 #endif  // S21_3DVIEWER_V2_GIFCREATOR_H
