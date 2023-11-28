@@ -16,7 +16,7 @@ class AffineCmd : public Command {
   AffineCmd& operator=(const AffineCmd&) = delete;
   AffineCmd(AffineCmd&&) = delete;
   AffineCmd& operator=(AffineCmd&&) = delete;
-  ~AffineCmd();
+  ~AffineCmd() = default;
   void Undo() override;
   void Redo() override;
 
