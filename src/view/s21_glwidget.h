@@ -1,20 +1,10 @@
 #ifndef S21_3DVIEWER_V2_GLWIDGET_H
 #define S21_3DVIEWER_V2_GLWIDGET_H
 
-// #define GL_SILENCE_DEPRECATION
-// #include <GL/gl.h>
-// #include <GL/glut.h>
-
 #include <QOpenGLWidget>
-#include <QWidget>
 #include <QtOpenGL>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <vector>
 
 #include "../controller/s21_controller.h"
-#include "../model/s21_vertex3d.h"
 
 namespace s21 {
 
@@ -59,9 +49,6 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
          zoom_ = 1;
   QPointF last_mouse_pos_;
   AbstractController* controller_;
-
-  void SetDimentionalValues();
-  void CountVerticesEdges();
 
  protected:
   // OPENGL
