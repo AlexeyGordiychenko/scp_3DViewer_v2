@@ -167,6 +167,7 @@ void s21::View::ResetParams() {
   ui_->rotate_x->setValue(0);
   ui_->rotate_y->setValue(0);
   ui_->rotate_z->setValue(0);
+  SaveAffine();
 }
 
 void s21::View::Affine_old() {
@@ -184,8 +185,8 @@ void s21::View::Affine() {
   ui_->openGLWidget->Scale(data.scale_k);
   ui_->openGLWidget->Move(data.move_x, data.move_y, data.move_z);
   ui_->openGLWidget->Rotate((data.rotate_x) * M_PI / 180,
-                           (data.rotate_y) * M_PI / 180,
-                           (data.rotate_z) * M_PI / 180);
+                            (data.rotate_y) * M_PI / 180,
+                            (data.rotate_z) * M_PI / 180);
   ui_->openGLWidget->update();
 
   ui_->move_on_x->setValue(data.move_x);
@@ -238,14 +239,13 @@ void s21::View::SetVerticeType(verticeType type) {
   undo_stack_->Push(new SetVerticeTypeCmd(old, type, this));
 }
 
-void s21::View::SaveAffine()
-{
-    static AffineData old_data = AffineData();
-    AffineData new_data = AffineData(ui_);
-    if (old_data != new_data) {
-        undo_stack_->Push(new AffineSave(old_data, new_data, this));
-        old_data = std::move(new_data);
-    }
+void s21::View::SaveAffine() {
+  static AffineData old_data = AffineData();
+  AffineData new_data = AffineData(ui_);
+  if (old_data != new_data) {
+    undo_stack_->Push(new AffineSave(old_data, new_data, this));
+    old_data = std::move(new_data);
+  }
 }
 
 void s21::View::SetVerticeSize(int value) {
@@ -335,8 +335,8 @@ void s21::View::SetValuesOnButtons() {
   } else {
     ui_->squareVertice->setChecked(true);
   }
-  ui_->polygonThickness->setValue(settings_->value("edges_thickness").toDouble() *
-                                  10);
+  ui_->polygonThickness->setValue(
+      settings_->value("edges_thickness").toDouble() * 10);
   ui_->sizeVertice->setValue(settings_->value("vertice_size").toDouble() * 5);
   if (ui_->openGLWidget->projectionType_ == PARALLEL) {
     ui_->projectionType->setCurrentIndex(0);

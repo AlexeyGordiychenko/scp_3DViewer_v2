@@ -1,5 +1,7 @@
 #include "s21_affinedata.h"
 
+s21::AffineData::AffineData() { scale_k = 1; }
+
 s21::AffineData::AffineData(Ui::View* ui) {
   move_x = (ui->move_on_x->value());
   move_y = (ui->move_on_y->value());

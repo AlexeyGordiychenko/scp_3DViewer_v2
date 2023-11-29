@@ -8,7 +8,7 @@ namespace s21 {
 
 class AffineData {
  public:
-  AffineData() = default;
+  AffineData();
   AffineData(Ui::View* ui);
   AffineData(const AffineData&) = default;
   AffineData& operator=(const AffineData&) = delete;
