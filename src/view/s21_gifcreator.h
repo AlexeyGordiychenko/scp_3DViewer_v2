@@ -36,7 +36,7 @@ class GifCreator final : public QObject {
   QTimer timer_;
   GifAnim gif_anim_;
   GifWriter gif_writer_;
-  uint32_t frame_count_, frame_max_, frame_delay_, width_, height_;
+  uint32_t frames_count_, frames_max_, frame_delay_, width_, height_;
 
   GifCreator(QOpenGLWidget *widget, int width = 640, int height = 480,
              int fps = 10, int duration_sec = 5);
