@@ -92,7 +92,7 @@ void s21::View::Reset() {
 void s21::View::RenderFile() {
   if (ui_->openGLWidget->fileChanged) {
     std::string std_filename = ui_->filePath->text().toStdString();
-    ui_->openGLWidget->SetFilename((char*)std_filename.c_str());
+    ui_->openGLWidget->SetFilename(std_filename);
     try {
       ui_->openGLWidget->ParseFile();
     } catch (const std::exception& e) {

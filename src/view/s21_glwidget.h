@@ -27,7 +27,7 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   explicit GLWidget(QWidget* parent = Q_NULLPTR);
   uint32_t numVertices = 0, numEdges = 0;
   bool isParsed = false, fileChanged = true;
-  void SetFilename(char* filename);
+  void SetFilename(std::string filename);
   void SetProjectionType(int idx);
   void ParseFile();
   void RestoreVertices();
@@ -44,7 +44,7 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 
  private:
   ~GLWidget() override;
-  char* filename_;
+  std::string filename_;
   int size_h_ = 0, size_w_ = 0;
   double x_rot_ = 0, y_rot_ = 0, z_rot_ = 0, x_trans_ = 0, y_trans_ = 0,
          zoom_ = 1;
