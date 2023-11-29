@@ -24,7 +24,14 @@ enum VerticeType { kNone, kCircle, kSquare };
 
 class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
  public:
+  // Constructors
   explicit GLWidget(QWidget* parent = Q_NULLPTR);
+  GLWidget(const GLWidget&) = delete;
+  GLWidget& operator=(const GLWidget&) = delete;
+  GLWidget(GLWidget&&) = delete;
+  GLWidget& operator=(GLWidget&&) = delete;
+
+  // Funcitons
   void SetFilename(std::string filename);
   void SetProjectionType(int idx);
   void ParseFile();
@@ -61,6 +68,8 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   void initializeGL() override;
   void paintGL() override;
   void resizeGL(int w, int h) override;
+
+  // Mouse events
   void mousePressEvent(QMouseEvent* event) override;
   void mouseMoveEvent(QMouseEvent* event) override;
   void wheelEvent(QWheelEvent* event) override;
