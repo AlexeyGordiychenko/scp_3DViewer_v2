@@ -155,12 +155,12 @@ void s21::Model::ParseFile(std::ifstream& file) {
 }
 
 void s21::Model::UpdateMinMaxPoints(Vertex3d point) {
-  if (point.x < min_point_.x) min_point_.x = point.x;
-  if (point.y < min_point_.y) min_point_.y = point.y;
-  if (point.z < min_point_.z) min_point_.z = point.z;
-  if (point.x > max_point_.x) max_point_.x = point.x;
-  if (point.y > max_point_.y) max_point_.y = point.y;
-  if (point.z > max_point_.z) max_point_.z = point.z;
+  min_point_.x = std::min(min_point_.x, point.x);
+  min_point_.y = std::min(min_point_.y, point.y);
+  min_point_.z = std::min(min_point_.z, point.z);
+  max_point_.x = std::max(max_point_.x, point.x);
+  max_point_.y = std::max(max_point_.y, point.y);
+  max_point_.z = std::max(max_point_.z, point.z);
 }
 
 void s21::Model::TranslateToOrigin() {
