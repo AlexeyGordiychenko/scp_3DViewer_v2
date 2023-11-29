@@ -20,9 +20,9 @@ void s21::Model::Initialize(const std::string filename) {
 
 void s21::Model::RestoreVertices() {
   vertices_ = vertices_origin_;
-  center_x = 0;
-  center_y = 0;
-  center_z = 0;
+  center_x_ = 0;
+  center_y_ = 0;
+  center_z_ = 0;
 }
 
 void s21::Model::AffineMove(double ax, double ay, double az) {
@@ -31,19 +31,19 @@ void s21::Model::AffineMove(double ax, double ay, double az) {
     vertices_[i].y += ay;
     vertices_[i].z += az;
   }
-  center_x += ax;
-  center_y += ay;
-  center_z += az;
+  center_x_ += ax;
+  center_y_ += ay;
+  center_z_ += az;
 }
 
 void s21::Model::AffineRotateX(double angle) {
   if (angle) {
     double cos_angle = cos(angle), sin_angle = sin(angle);
     for (size_t i = 0; i < vertices_.size(); i++) {
-      double temp_y = vertices_[i].y - center_y,
-             temp_z = vertices_[i].z - center_z;
-      vertices_[i].y = temp_y * cos_angle - temp_z * sin_angle + center_y;
-      vertices_[i].z = temp_y * sin_angle + temp_z * cos_angle + center_z;
+      double temp_y = vertices_[i].y - center_y_,
+             temp_z = vertices_[i].z - center_z_;
+      vertices_[i].y = temp_y * cos_angle - temp_z * sin_angle + center_y_;
+      vertices_[i].z = temp_y * sin_angle + temp_z * cos_angle + center_z_;
     }
   }
 }
@@ -52,10 +52,10 @@ void s21::Model::AffineRotateY(double angle) {
   if (angle) {
     double cos_angle = cos(angle), sin_angle = sin(angle);
     for (size_t i = 0; i < vertices_.size(); i++) {
-      double temp_x = vertices_[i].x - center_x,
-             temp_z = vertices_[i].z - center_z;
-      vertices_[i].x = temp_x * cos_angle - temp_z * sin_angle + center_x;
-      vertices_[i].z = temp_x * sin_angle + temp_z * cos_angle + center_z;
+      double temp_x = vertices_[i].x - center_x_,
+             temp_z = vertices_[i].z - center_z_;
+      vertices_[i].x = temp_x * cos_angle - temp_z * sin_angle + center_x_;
+      vertices_[i].z = temp_x * sin_angle + temp_z * cos_angle + center_z_;
     }
   }
 }
@@ -64,10 +64,10 @@ void s21::Model::AffineRotateZ(double angle) {
   if (angle) {
     double cos_angle = cos(angle), sin_angle = sin(angle);
     for (size_t i = 0; i < vertices_.size(); i++) {
-      double temp_x = vertices_[i].x - center_x,
-             temp_y = vertices_[i].y - center_y;
-      vertices_[i].x = temp_x * cos_angle - temp_y * sin_angle + center_x;
-      vertices_[i].y = temp_x * sin_angle + temp_y * cos_angle + center_y;
+      double temp_x = vertices_[i].x - center_x_,
+             temp_y = vertices_[i].y - center_y_;
+      vertices_[i].x = temp_x * cos_angle - temp_y * sin_angle + center_x_;
+      vertices_[i].y = temp_x * sin_angle + temp_y * cos_angle + center_y_;
     }
   }
 }
@@ -98,16 +98,16 @@ const std::vector<s21::Vertex3d>& s21::Model::GetVertices() const {
   return vertices_;
 }
 
-double s21::Model::GetCenterX() const { return center_x; }
-double s21::Model::GetCenterY() const { return center_y; }
-double s21::Model::GetCenterZ() const { return center_z; }
+double s21::Model::GetCenterX() const { return center_x_; }
+double s21::Model::GetCenterY() const { return center_y_; }
+double s21::Model::GetCenterZ() const { return center_z_; }
 
 void s21::Model::ClearData() {
   vertices_.clear();
   polygons_.clear();
   min_point_ = {0, 0, 0};
   max_point_ = {0, 0, 0};
-  center_x = 0, center_y = 0, center_z = 0;
+  center_x_ = 0, center_y_ = 0, center_z_ = 0;
 }
 
 void s21::Model::ParseFile(std::ifstream& file) {

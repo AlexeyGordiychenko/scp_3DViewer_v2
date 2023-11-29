@@ -33,7 +33,7 @@ class Model {
   std::vector<s21::Vertex3d> vertices_origin_;
   std::vector<std::vector<int>> polygons_;
   s21::Vertex3d min_point_ = {0, 0, 0}, max_point_ = {0, 0, 0};
-  double center_x = 0, center_y = 0, center_z = 0;
+  double center_x_ = 0, center_y_ = 0, center_z_ = 0;
 
   void ClearData();
   void ParseFile(std::ifstream& file);
