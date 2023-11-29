@@ -78,11 +78,11 @@ void s21::View::OpenFile() {
   QString QString_filename = QFileDialog::getOpenFileName(
       this, tr("Open .obj file:"), "~/", tr("Obj Files (*.obj)"));
   ui_->filePath->setText(QString_filename);
-  ui_->openGLWidget->fileChanged = true;
+  ui_->openGLWidget->file_changed_ = true;
 }
 
 void s21::View::Reset() {
-  if (ui_->openGLWidget->isParsed && !ui_->openGLWidget->fileChanged) {
+  if (ui_->openGLWidget->is_parsed && !ui_->openGLWidget->file_changed_) {
     ui_->openGLWidget->ClearTransformations();
     ui_->openGLWidget->RestoreVertices();
     ui_->openGLWidget->update();
@@ -90,7 +90,7 @@ void s21::View::Reset() {
 }
 
 void s21::View::RenderFile() {
-  if (ui_->openGLWidget->fileChanged) {
+  if (ui_->openGLWidget->file_changed_) {
     std::string std_filename = ui_->filePath->text().toStdString();
     ui_->openGLWidget->SetFilename(std_filename);
     try {
@@ -100,7 +100,7 @@ void s21::View::RenderFile() {
       messageBoxImage.information(0, "", e.what());
     }
 
-    ui_->openGLWidget->fileChanged = false;
+    ui_->openGLWidget->file_changed_ = false;
   } else {
     ui_->openGLWidget->ClearTransformations();
     ui_->openGLWidget->RestoreVertices();
@@ -109,7 +109,7 @@ void s21::View::RenderFile() {
 }
 
 void s21::View::ProjectionTypeChange(int idx) {
-  int old = ui_->openGLWidget->projectionType_;
+  int old = ui_->openGLWidget->projection_type_;
   if (old != idx)
     undo_stack_->Push(new ProjectionTypeChangeCommand(old, idx, this));
 }
@@ -275,7 +275,7 @@ void s21::View::SaveSettings() {
   settings_->setValue("ver_red", ui_->openGLWidget->ver_red_);
   settings_->setValue("ver_green", ui_->openGLWidget->ver_green_);
   settings_->setValue("ver_blue", ui_->openGLWidget->ver_blue_);
-  settings_->setValue("projectionType", ui_->openGLWidget->projectionType_);
+  settings_->setValue("projectionType", ui_->openGLWidget->projection_type_);
 }
 
 void s21::View::LoadSettings() {
@@ -301,7 +301,7 @@ void s21::View::LoadSettings() {
   } else {
     ui_->openGLWidget->ver_blue_ = 1;
   }
-  ui_->openGLWidget->projectionType_ =
+  ui_->openGLWidget->projection_type_ =
       settings_->value("projectionType").toInt();
   ui_->openGLWidget->update();
 }
@@ -338,7 +338,7 @@ void s21::View::SetValuesOnButtons() {
   ui_->polygonThickness->setValue(
       settings_->value("edges_thickness").toDouble() * 10);
   ui_->sizeVertice->setValue(settings_->value("vertice_size").toDouble() * 5);
-  if (ui_->openGLWidget->projectionType_ == kParallel) {
+  if (ui_->openGLWidget->projection_type_ == kParallel) {
     ui_->projectionType->setCurrentIndex(0);
   } else {
     ui_->projectionType->setCurrentIndex(1);

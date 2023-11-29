@@ -13,7 +13,7 @@ void s21::GLWidget::SetController(AbstractController* controller) {
 }
 
 void s21::GLWidget::SetProjectionType(int projectionType) {
-  this->projectionType_ = projectionType;
+  this->projection_type_ = projectionType;
 }
 
 void s21::GLWidget::RestoreVertices() { this->controller_->RestoreVertices(); }
@@ -45,12 +45,12 @@ void s21::GLWidget::ClearTransformations() {
 }
 
 void s21::GLWidget::ParseFile() {
-  this->isParsed = false;
+  this->is_parsed = false;
   this->ClearTransformations();
   this->controller_->Initialize(this->filename_);
-  this->numVertices = this->controller_->GetVerticesCount();
-  this->numEdges = this->controller_->GetPolygonsEdgesCount();
-  this->isParsed = true;
+  this->num_vertices_ = this->controller_->GetVerticesCount();
+  this->num_edges_ = this->controller_->GetPolygonsEdgesCount();
+  this->is_parsed = true;
   update();
 }
 
@@ -74,8 +74,8 @@ void s21::GLWidget::paintGL() {
   static double aspect_ratio =
       static_cast<double>(this->size_w_) / static_cast<double>(this->size_h_);
 
-  if (this->isParsed) {
-    if (this->projectionType_ == kParallel) {
+  if (this->is_parsed) {
+    if (this->projection_type_ == kParallel) {
       glOrtho(-1.5 * aspect_ratio, 1.5 * aspect_ratio, -1.5, 1.5, -2, 1000);
     } else {
       glFrustum(-1 * aspect_ratio, 1 * aspect_ratio, -1, 1, 1, 99999);

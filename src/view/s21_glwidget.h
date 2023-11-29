@@ -25,8 +25,6 @@ enum VerticeType { kNone, kCircle, kSquare };
 class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
  public:
   explicit GLWidget(QWidget* parent = Q_NULLPTR);
-  uint32_t numVertices = 0, numEdges = 0;
-  bool isParsed = false, fileChanged = true;
   void SetFilename(std::string filename);
   void SetProjectionType(int idx);
   void ParseFile();
@@ -36,11 +34,15 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   void Rotate(double angle_x, double angle_y, double angle_z);
   void ClearTransformations();
   void SetController(AbstractController* controller);
+
+  // Variables
+  uint32_t num_vertices_ = 0, num_edges_ = 0;
+  bool is_parsed = false, file_changed_ = true;
   double bg_red_ = 0, bg_green_ = 0, bg_blue_ = 0;
   double pol_red_ = 0, pol_green = 0, pol_blue_ = 0;
   double ver_red_ = 0, ver_green_ = 0, ver_blue_ = 0;
   double edges_thickness_ = 1, vertice_size_ = 1;
-  int vertice_type_ = 0, projectionType_ = 0, edges_type_ = 0;
+  int vertice_type_ = 0, projection_type_ = 0, edges_type_ = 0;
 
  private:
   ~GLWidget() override;
