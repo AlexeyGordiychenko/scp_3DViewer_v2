@@ -18,9 +18,9 @@
 
 namespace s21 {
 
-enum projectionType { PARALLEL, CENTRAL };
-enum polygonType { SOLID, DASHED };
-enum verticeType { NONE, CIRCLE, SQUARE };
+enum ProjectionType { kParallel, kCentral };
+enum PolygonType { kSolid, kDashed };
+enum VerticeType { kNone, kCircle, kSquare };
 
 class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
  public:

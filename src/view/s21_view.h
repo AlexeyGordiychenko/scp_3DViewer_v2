@@ -55,8 +55,8 @@ class View : public QMainWindow {
   void SetValuesOnButtons();
   void PolygonThicknessSliderReleased();
   void VerticeSizeSliderReleased();
-  void SetPolygonType(polygonType type);
-  void SetVerticeType(verticeType type);
+  void SetPolygonType(PolygonType type);
+  void SetVerticeType(VerticeType type);
   void SaveAffine();
 
  private:

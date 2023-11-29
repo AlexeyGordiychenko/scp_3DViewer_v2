@@ -73,7 +73,7 @@ void s21::GLWidget::paintGL() {
       static_cast<double>(this->size_w_) / static_cast<double>(this->size_h_);
 
   if (this->isParsed) {
-    if (this->projectionType_ == PARALLEL) {
+    if (this->projectionType_ == kParallel) {
       glOrtho(-1.5 * aspect_ratio, 1.5 * aspect_ratio, -1.5, 1.5, -2, 1000);
     } else {
       glFrustum(-1 * aspect_ratio, 1 * aspect_ratio, -1, 1, 1, 99999);
@@ -93,11 +93,11 @@ void s21::GLWidget::paintGL() {
 
     auto vertices = this->controller_->GetVertices();
     for (auto& polygon : this->controller_->GetPolygons()) {
-      if (this->edges_type_ == DASHED) {
+      if (this->edges_type_ == kDashed) {
         glEnable(GL_LINE_STIPPLE);
         glLineStipple(1, 0x00FF);
       }
-      if (this->edges_type_ == SOLID) {
+      if (this->edges_type_ == kSolid) {
         glDisable(GL_LINE_STIPPLE);
       }
       glLineWidth(this->edges_thickness_);
@@ -109,8 +109,8 @@ void s21::GLWidget::paintGL() {
       }
 
       glEnd();
-      if (this->vertice_type_ != NONE) {
-        if (this->vertice_type_ == CIRCLE) {
+      if (this->vertice_type_ != kNone) {
+        if (this->vertice_type_ == kCircle) {
           glEnable(GL_POINT_SMOOTH);
         } else {
           glDisable(GL_POINT_SMOOTH);

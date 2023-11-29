@@ -11,7 +11,7 @@ namespace s21 {
 class SetVerticeTypeCmd : public Command {
  public:
   SetVerticeTypeCmd() = delete;
-  SetVerticeTypeCmd(verticeType old_type, verticeType new_type, View* view);
+  SetVerticeTypeCmd(VerticeType old_type, VerticeType new_type, View* view);
   SetVerticeTypeCmd(const SetVerticeTypeCmd&) = delete;
   SetVerticeTypeCmd& operator=(const SetVerticeTypeCmd&) = delete;
   SetVerticeTypeCmd(SetVerticeTypeCmd&&) = delete;
@@ -22,9 +22,9 @@ class SetVerticeTypeCmd : public Command {
 
  private:
   View* view_;
-  void SetVerticeType(verticeType type);
-  verticeType old_type_;
-  verticeType new_type_;
+  void SetVerticeType(VerticeType type);
+  VerticeType old_type_;
+  VerticeType new_type_;
 };
 
 }  // namespace s21

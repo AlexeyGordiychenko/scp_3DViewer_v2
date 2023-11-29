@@ -51,8 +51,8 @@ s21::View::View(AbstractController* controller, QWidget* parent)
   connect(ui_->setVerticeColor, SIGNAL(clicked()), this,
           SLOT(SetVerticeColor()));
 
-  ui_->projectionType->addItem("Parallel", PARALLEL);
-  ui_->projectionType->addItem("Central", CENTRAL);
+  ui_->projectionType->addItem("Parallel", kParallel);
+  ui_->projectionType->addItem("Central", kCentral);
 
   ui_->filePath->setReadOnly(true);
 
@@ -214,12 +214,12 @@ void s21::View::SetPolygonColor() {
   undo_stack_->Push(new SetPolygonColorCmd(old_color, color, this));
 }
 
-void s21::View::SolidPolygonType() { SetPolygonType(SOLID); }
+void s21::View::SolidPolygonType() { SetPolygonType(kSolid); }
 
-void s21::View::DashedPolygonType() { SetPolygonType(DASHED); }
+void s21::View::DashedPolygonType() { SetPolygonType(kDashed); }
 
-void s21::View::SetPolygonType(polygonType type) {
-  polygonType old = type == DASHED ? SOLID : DASHED;
+void s21::View::SetPolygonType(PolygonType type) {
+  PolygonType old = type == kDashed ? kSolid : kDashed;
   undo_stack_->Push(new SetPolygonTypeCmd(old, type, this));
 }
 
@@ -228,14 +228,14 @@ void s21::View::SetPolygonThickness(int value) {
   ui_->openGLWidget->update();
 }
 
-void s21::View::SetNoneVertice() { SetVerticeType(NONE); }
+void s21::View::SetNoneVertice() { SetVerticeType(kNone); }
 
-void s21::View::SetCircleVertice() { SetVerticeType(CIRCLE); }
+void s21::View::SetCircleVertice() { SetVerticeType(kCircle); }
 
-void s21::View::SetSquareVertice() { SetVerticeType(SQUARE); }
+void s21::View::SetSquareVertice() { SetVerticeType(kSquare); }
 
-void s21::View::SetVerticeType(verticeType type) {
-  verticeType old = (verticeType)(ui_->openGLWidget->vertice_type_);
+void s21::View::SetVerticeType(VerticeType type) {
+  VerticeType old = (VerticeType)(ui_->openGLWidget->vertice_type_);
   undo_stack_->Push(new SetVerticeTypeCmd(old, type, this));
 }
 
@@ -323,14 +323,14 @@ void s21::View::SetValuesOnButtons() {
           (int)(ui_->openGLWidget->ver_green_ * 255),
           (int)(ui_->openGLWidget->ver_blue_ * 255));
   ui_->setVerticeColor->setStyleSheet(ver_color);
-  if (ui_->openGLWidget->edges_type_ == SOLID) {
+  if (ui_->openGLWidget->edges_type_ == kSolid) {
     ui_->solidPolygonType->setChecked(true);
   } else {
     ui_->dashedPolygonType->setChecked(true);
   }
-  if (ui_->openGLWidget->vertice_type_ == NONE) {
+  if (ui_->openGLWidget->vertice_type_ == kNone) {
     ui_->noneVertice->setChecked(true);
-  } else if (ui_->openGLWidget->vertice_type_ == CIRCLE) {
+  } else if (ui_->openGLWidget->vertice_type_ == kCircle) {
     ui_->circleVertice->setChecked(true);
   } else {
     ui_->squareVertice->setChecked(true);
@@ -338,7 +338,7 @@ void s21::View::SetValuesOnButtons() {
   ui_->polygonThickness->setValue(
       settings_->value("edges_thickness").toDouble() * 10);
   ui_->sizeVertice->setValue(settings_->value("vertice_size").toDouble() * 5);
-  if (ui_->openGLWidget->projectionType_ == PARALLEL) {
+  if (ui_->openGLWidget->projectionType_ == kParallel) {
     ui_->projectionType->setCurrentIndex(0);
   } else {
     ui_->projectionType->setCurrentIndex(1);
