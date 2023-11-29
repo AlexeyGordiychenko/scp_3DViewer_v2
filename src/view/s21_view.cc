@@ -58,7 +58,7 @@ s21::View::View(AbstractController* controller, QWidget* parent)
 
   ui_->openGLWidget->SetController(new ProxyController(controller, this));
 
-  settings_ = new QSettings("21school", "3DViewer_v1.0", this);
+  settings_ = new QSettings("21school", "3DViewer_v2.0", this);
   LoadSettings();
   SetValuesOnButtons();
 
