@@ -1,14 +1,28 @@
 #include "s21_affinesave.h"
 
-s21::AffineSave::AffineSave(AffineData old_data, AffineData new_data,
-                            View* view)
-    : view_(view), old_data_(old_data), new_data_(new_data) {}
+s21::AffineSaveCmd::AffineSaveCmd(AffineData old_data, AffineData new_data,
+                                  View* view)
+    : view_(view), new_data_(new_data), old_data_(old_data) {}
 
-void s21::AffineSave::Undo() { Transform(old_data_); }
+s21::AffineSaveCmd::AffineSaveCmd(AffineData new_data, View* view)
+    : view_(view), new_data_(new_data) {
+  old_data_ = prev_old;
+  prev_old = new_data_;
+}
 
-void s21::AffineSave::Redo() { Transform(new_data_); }
+void s21::AffineSaveCmd::Undo() {
+  Transform(old_data_);
+  prev_old = old_data_;
+}
 
-void s21::AffineSave::Transform(AffineData& data) {
+void s21::AffineSaveCmd::Redo() {
+  Transform(new_data_);
+  prev_old = new_data_;
+}
+
+s21::AffineData s21::AffineSaveCmd::get_old() { return prev_old; }
+
+void s21::AffineSaveCmd::Transform(AffineData& data) {
   Ui::View* ui = view_->GetUI();
   ui->move_on_x->setValue(data.move_x);
   ui->move_on_y->setValue(data.move_y);

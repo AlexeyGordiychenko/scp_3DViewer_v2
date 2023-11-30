@@ -240,11 +240,10 @@ void s21::View::SetVerticeType(VerticeType type) {
 }
 
 void s21::View::SaveAffine() {
-  static AffineData old_data = AffineData();
+  AffineData old_data = AffineSaveCmd::get_old();
   AffineData new_data = AffineData(ui_);
   if (old_data != new_data) {
-    undo_stack_->Push(new AffineSave(old_data, new_data, this));
-    old_data = std::move(new_data);
+    undo_stack_->Push(new AffineSaveCmd(old_data, new_data, this));
   }
 }
 

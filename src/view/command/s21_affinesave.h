@@ -8,22 +8,26 @@
 
 namespace s21 {
 
-class AffineSave : public Command {
+class AffineSaveCmd : public Command {
  public:
-  AffineSave() = delete;
-  AffineSave(AffineData old_data, AffineData new_data, View* view);
-  AffineSave(const AffineSave&) = delete;
-  AffineSave& operator=(const AffineSave&) = delete;
-  AffineSave(AffineSave&&) = delete;
-  AffineSave& operator=(AffineSave&&) = delete;
-  ~AffineSave() = default;
+  AffineSaveCmd() = delete;
+  AffineSaveCmd(AffineData old_data, AffineData new_data, View* view);
+  AffineSaveCmd(AffineData new_data, View* view);
+  AffineSaveCmd(const AffineSaveCmd&) = delete;
+  AffineSaveCmd& operator=(const AffineSaveCmd&) = delete;
+  AffineSaveCmd(AffineSaveCmd&&) = delete;
+  AffineSaveCmd& operator=(AffineSaveCmd&&) = delete;
+  ~AffineSaveCmd() = default;
   void Undo() override;
   void Redo() override;
+  static void init_old(AffineData old_data);
+  static AffineData get_old();
 
  private:
   View* view_;
-  AffineData old_data_;
+  inline static AffineData prev_old = AffineData();
   AffineData new_data_;
+  AffineData old_data_;
   void Transform(AffineData& data);
 };
 

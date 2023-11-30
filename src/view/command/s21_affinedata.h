@@ -11,7 +11,7 @@ class AffineData {
   AffineData();
   AffineData(Ui::View* ui);
   AffineData(const AffineData&) = default;
-  AffineData& operator=(const AffineData&) = delete;
+  AffineData& operator=(const AffineData&) = default;
   AffineData(AffineData&&) = delete;
   AffineData& operator=(AffineData&&) = default;
   ~AffineData() = default;
