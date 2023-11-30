@@ -97,7 +97,9 @@ void s21::View::RenderFile() {
       QMessageBox messageBoxImage;
       messageBoxImage.information(0, "", e.what());
     }
-
+    ui_->numVertices->setText(QString::number(controller_->GetVerticesCount()));
+    ui_->numEdges->setText(
+        QString::number(controller_->GetPolygonsEdgesCount()));
     ui_->openGLWidget->file_changed_ = false;
   } else {
     ui_->openGLWidget->ClearTransformations();
