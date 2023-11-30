@@ -181,7 +181,7 @@ void s21::View::Affine() {
 }
 
 void s21::View::Reset() {
-  if (ui_->openGLWidget->is_parsed && !ui_->openGLWidget->file_changed_) {
+  if (ui_->openGLWidget->is_parsed_ && !ui_->openGLWidget->file_changed_) {
     ui_->openGLWidget->ClearTransformations();
     ui_->openGLWidget->RestoreVertices();
     ui_->openGLWidget->update();
