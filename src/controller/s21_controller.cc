@@ -47,3 +47,5 @@ const std::vector<s21::Vertex3d>& s21::Controller::GetVertices() const {
 double s21::Controller::GetCenterX() const { return model_->GetCenterX(); }
 double s21::Controller::GetCenterY() const { return model_->GetCenterY(); }
 double s21::Controller::GetCenterZ() const { return model_->GetCenterZ(); }
+
+bool s21::Controller::Empty() const { return model_->Empty(); }

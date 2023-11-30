@@ -38,6 +38,8 @@ class Controller {
   double GetCenterY() const;
   double GetCenterZ() const;
 
+  bool Empty() const;
+
  private:
   Model* model_;
 };

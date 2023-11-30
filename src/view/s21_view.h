@@ -59,6 +59,7 @@ class View : public QMainWindow {
   QSettings* settings_;
   CommandStack* undo_stack_;
   int history_max_list_ = 10;
+  bool file_changed_ = true;
 
   void CreateCommandStack();
   void SaveSettings();

@@ -88,7 +88,7 @@ void s21::View::OpenFile() {
 }
 
 void s21::View::RenderFile() {
-  if (ui_->openGLWidget->file_changed_) {
+  if (file_changed_) {
     std::string std_filename = ui_->filePath->currentText().toStdString();
     ui_->openGLWidget->SetFilename(std_filename);
     try {
@@ -100,7 +100,7 @@ void s21::View::RenderFile() {
     ui_->numVertices->setText(QString::number(controller_->GetVerticesCount()));
     ui_->numEdges->setText(
         QString::number(controller_->GetPolygonsEdgesCount()));
-    ui_->openGLWidget->file_changed_ = false;
+    file_changed_ = false;
   } else {
     ui_->openGLWidget->ClearTransformations();
     ui_->openGLWidget->RestoreVertices();
@@ -180,13 +180,7 @@ void s21::View::Affine() {
   ui_->rotate_z->setValue(data.rotate_z);
 }
 
-void s21::View::Reset() {
-  if (ui_->openGLWidget->is_parsed_ && !ui_->openGLWidget->file_changed_) {
-    ui_->openGLWidget->ClearTransformations();
-    ui_->openGLWidget->RestoreVertices();
-    ui_->openGLWidget->update();
-  }
-}
+void s21::View::Reset() {}
 
 void s21::View::ResetParams() {
   ui_->scale_on_k->setValue(1);
@@ -245,7 +239,7 @@ void s21::View::SetVerticeColor() {
 
 void s21::View::FilePathChange(int idx) {
   ui_->filePath->setCurrentIndex(idx);
-  ui_->openGLWidget->file_changed_ = true;
+  file_changed_ = true;
 }
 
 void s21::View::PolygonThicknessSliderReleased() {

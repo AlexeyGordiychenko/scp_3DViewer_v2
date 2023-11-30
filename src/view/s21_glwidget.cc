@@ -42,12 +42,12 @@ void s21::GLWidget::ClearTransformations() {
 }
 
 void s21::GLWidget::ParseFile() {
-  is_parsed_ = false;
+  // is_parsed_ = false;
   ClearTransformations();
   controller_->Initialize(filename_);
   num_vertices_ = controller_->GetVerticesCount();
   num_edges_ = controller_->GetPolygonsEdgesCount();
-  is_parsed_ = true;
+  // is_parsed_ = true;
   update();
 }
 
@@ -71,7 +71,7 @@ void s21::GLWidget::paintGL() {
   static double aspect_ratio =
       static_cast<double>(size_w_) / static_cast<double>(size_h_);
 
-  if (is_parsed_) {
+  if (!controller_->Empty()) {
     if (projection_type_ == kParallel) {
       glOrtho(-1.5 * aspect_ratio, 1.5 * aspect_ratio, -1.5, 1.5, -2, 1000);
     } else {

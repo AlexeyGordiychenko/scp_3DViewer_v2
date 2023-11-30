@@ -6,6 +6,8 @@
 #include <sstream>
 
 void s21::Model::Initialize(const std::string filename) {
+  is_empty_ = true;
+
   std::ifstream file(filename);
 
   if (!file.is_open()) {
@@ -16,6 +18,8 @@ void s21::Model::Initialize(const std::string filename) {
   ParseFile(file);
   TranslateToOrigin();
   SaveVertices();
+
+  is_empty_ = false;
 }
 
 void s21::Model::RestoreVertices() {
@@ -101,6 +105,8 @@ const std::vector<s21::Vertex3d>& s21::Model::GetVertices() const {
 double s21::Model::GetCenterX() const { return center_x_; }
 double s21::Model::GetCenterY() const { return center_y_; }
 double s21::Model::GetCenterZ() const { return center_z_; }
+
+bool s21::Model::Empty() const { return is_empty_; }
 
 void s21::Model::ClearData() {
   vertices_.clear();

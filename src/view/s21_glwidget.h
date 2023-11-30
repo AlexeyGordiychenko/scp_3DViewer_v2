@@ -31,7 +31,6 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 
   // Variables
   uint32_t num_vertices_ = 0, num_edges_ = 0;
-  bool is_parsed_ = false, file_changed_ = true;
   double bg_red_ = 0, bg_green_ = 0, bg_blue_ = 0;
   double pol_red_ = 0, pol_green = 0, pol_blue_ = 0;
   double ver_red_ = 0, ver_green_ = 0, ver_blue_ = 0;

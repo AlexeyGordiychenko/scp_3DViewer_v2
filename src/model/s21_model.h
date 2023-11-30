@@ -28,12 +28,15 @@ class Model {
   double GetCenterY() const;
   double GetCenterZ() const;
 
+  bool Empty() const;
+
  private:
   std::vector<s21::Vertex3d> vertices_;
   std::vector<s21::Vertex3d> vertices_origin_;
   std::vector<std::vector<int>> polygons_;
   s21::Vertex3d min_point_ = {0, 0, 0}, max_point_ = {0, 0, 0};
   double center_x_ = 0, center_y_ = 0, center_z_ = 0;
+  bool is_empty_ = true;
 
   void ClearData();
   void ParseFile(std::ifstream& file);
