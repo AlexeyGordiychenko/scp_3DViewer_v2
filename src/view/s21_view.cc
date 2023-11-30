@@ -90,19 +90,6 @@ void s21::View::OpenFile() {
   FilePathChange(index);
 }
 
-void s21::View::FilePathChange(int idx) {
-  ui_->filePath->setCurrentIndex(idx);
-  ui_->openGLWidget->file_changed_ = true;
-}
-
-void s21::View::Reset() {
-  if (ui_->openGLWidget->is_parsed && !ui_->openGLWidget->file_changed_) {
-    ui_->openGLWidget->ClearTransformations();
-    ui_->openGLWidget->RestoreVertices();
-    ui_->openGLWidget->update();
-  }
-}
-
 void s21::View::RenderFile() {
   if (ui_->openGLWidget->file_changed_) {
     std::string std_filename = ui_->filePath->currentText().toStdString();
@@ -173,24 +160,6 @@ void s21::View::GetGIF() {
   }
 }
 
-void s21::View::ResetParams() {
-  ui_->scale_on_k->setValue(1);
-  ui_->move_on_x->setValue(0);
-  ui_->move_on_y->setValue(0);
-  ui_->move_on_z->setValue(0);
-  ui_->rotate_x->setValue(0);
-  ui_->rotate_y->setValue(0);
-  ui_->rotate_z->setValue(0);
-  SaveAffine();
-}
-
-void s21::View::Affine_old() {
-  static AffineData old_data = AffineData();
-  AffineData new_data = AffineData(ui_);
-  undo_stack_->Push(new AffineCmd(old_data, new_data, this));
-  old_data = std::move(new_data);
-}
-
 void s21::View::Affine() {
   AffineData data(ui_);
   if (data.scale_k == 0) data.scale_k = 1;
@@ -210,6 +179,25 @@ void s21::View::Affine() {
   ui_->rotate_x->setValue(data.rotate_x);
   ui_->rotate_y->setValue(data.rotate_y);
   ui_->rotate_z->setValue(data.rotate_z);
+}
+
+void s21::View::Reset() {
+  if (ui_->openGLWidget->is_parsed && !ui_->openGLWidget->file_changed_) {
+    ui_->openGLWidget->ClearTransformations();
+    ui_->openGLWidget->RestoreVertices();
+    ui_->openGLWidget->update();
+  }
+}
+
+void s21::View::ResetParams() {
+  ui_->scale_on_k->setValue(1);
+  ui_->move_on_x->setValue(0);
+  ui_->move_on_y->setValue(0);
+  ui_->move_on_z->setValue(0);
+  ui_->rotate_x->setValue(0);
+  ui_->rotate_y->setValue(0);
+  ui_->rotate_z->setValue(0);
+  SaveAffine();
 }
 
 void s21::View::SetBackgroundColor() {
@@ -232,11 +220,6 @@ void s21::View::SolidPolygonType() { SetPolygonType(kSolid); }
 
 void s21::View::DashedPolygonType() { SetPolygonType(kDashed); }
 
-void s21::View::SetPolygonType(PolygonType type) {
-  PolygonType old = type == kDashed ? kSolid : kDashed;
-  undo_stack_->Push(new SetPolygonTypeCmd(old, type, this));
-}
-
 void s21::View::SetPolygonThickness(int value) {
   ui_->openGLWidget->edges_thickness_ = value / 10;
   ui_->openGLWidget->update();
@@ -247,19 +230,6 @@ void s21::View::SetNoneVertice() { SetVerticeType(kNone); }
 void s21::View::SetCircleVertice() { SetVerticeType(kCircle); }
 
 void s21::View::SetSquareVertice() { SetVerticeType(kSquare); }
-
-void s21::View::SetVerticeType(VerticeType type) {
-  VerticeType old = (VerticeType)(ui_->openGLWidget->vertice_type_);
-  undo_stack_->Push(new SetVerticeTypeCmd(old, type, this));
-}
-
-void s21::View::SaveAffine() {
-  AffineData old_data = AffineSaveCmd::get_old();
-  AffineData new_data = AffineData(ui_);
-  if (old_data != new_data) {
-    undo_stack_->Push(new AffineSaveCmd(old_data, new_data, this));
-  }
-}
 
 void s21::View::SetVerticeSize(int value) {
   ui_->openGLWidget->vertice_size_ = value / 5;
@@ -272,6 +242,66 @@ void s21::View::SetVerticeColor() {
                             ui_->openGLWidget->ver_green_ * 255,
                             ui_->openGLWidget->ver_blue_ * 255);
   undo_stack_->Push(new SetVerticeColorCmd(old_color, color, this));
+}
+
+void s21::View::FilePathChange(int idx) {
+  ui_->filePath->setCurrentIndex(idx);
+  ui_->openGLWidget->file_changed_ = true;
+}
+
+void s21::View::PolygonThicknessSliderReleased() {
+  static double old = settings_->value("edges_thickness").toDouble() * 10;
+  double value = ui_->polygonThickness->value();
+  undo_stack_->Push(new s21::SetPolygonThicknessCmd(old, value, this));
+  old = value;
+}
+
+void s21::View::VerticeSizeSliderReleased() {
+  static double old = settings_->value("vertice_size").toDouble() * 5;
+  double value = ui_->sizeVertice->value();
+  undo_stack_->Push(new SetVerticeSizeCmd(old, value, this));
+  old = value;
+}
+
+void s21::View::SaveAffine() {
+  AffineData old_data = AffineSaveCmd::get_old();
+  AffineData new_data = AffineData(ui_);
+  if (old_data != new_data) {
+    undo_stack_->Push(new AffineSaveCmd(old_data, new_data, this));
+  }
+}
+
+void s21::View::CreateCommandStack() {
+  undo_stack_ = new CommandStack();
+  connect(ui_->undo_button, &QPushButton::clicked, undo_stack_,
+          &CommandStack::Undo);
+  connect(ui_->redo_button, &QPushButton::clicked, undo_stack_,
+          &CommandStack::Redo);
+  connect(ui_->polygonThickness, &QSlider::sliderReleased, this,
+          &View::PolygonThicknessSliderReleased);
+  connect(ui_->sizeVertice, &QSlider::sliderReleased, this,
+          &View::VerticeSizeSliderReleased);
+  connect(ui_->move_on_x, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
+  connect(ui_->move_on_y, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
+  connect(ui_->move_on_z, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
+  connect(ui_->scale_on_k, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
+  connect(ui_->rotate_x, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
+  connect(ui_->rotate_y, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
+  connect(ui_->rotate_z, &QDoubleSpinBox::editingFinished, this,
+          &View::SaveAffine);
+}
+
+void s21::View::Affine_old() {
+  static AffineData old_data = AffineData();
+  AffineData new_data = AffineData(ui_);
+  undo_stack_->Push(new AffineCmd(old_data, new_data, this));
+  old_data = std::move(new_data);
 }
 
 void s21::View::SaveSettings() {
@@ -358,42 +388,12 @@ void s21::View::SetValuesOnButtons() {
   }
 }
 
-void s21::View::CreateCommandStack() {
-  undo_stack_ = new CommandStack();
-  connect(ui_->undo_button, &QPushButton::clicked, undo_stack_,
-          &CommandStack::Undo);
-  connect(ui_->redo_button, &QPushButton::clicked, undo_stack_,
-          &CommandStack::Redo);
-  connect(ui_->polygonThickness, &QSlider::sliderReleased, this,
-          &View::PolygonThicknessSliderReleased);
-  connect(ui_->sizeVertice, &QSlider::sliderReleased, this,
-          &View::VerticeSizeSliderReleased);
-  connect(ui_->move_on_x, &QDoubleSpinBox::editingFinished, this,
-          &View::SaveAffine);
-  connect(ui_->move_on_y, &QDoubleSpinBox::editingFinished, this,
-          &View::SaveAffine);
-  connect(ui_->move_on_z, &QDoubleSpinBox::editingFinished, this,
-          &View::SaveAffine);
-  connect(ui_->scale_on_k, &QDoubleSpinBox::editingFinished, this,
-          &View::SaveAffine);
-  connect(ui_->rotate_x, &QDoubleSpinBox::editingFinished, this,
-          &View::SaveAffine);
-  connect(ui_->rotate_y, &QDoubleSpinBox::editingFinished, this,
-          &View::SaveAffine);
-  connect(ui_->rotate_z, &QDoubleSpinBox::editingFinished, this,
-          &View::SaveAffine);
+void s21::View::SetPolygonType(PolygonType type) {
+  PolygonType old = type == kDashed ? kSolid : kDashed;
+  undo_stack_->Push(new SetPolygonTypeCmd(old, type, this));
 }
 
-void s21::View::PolygonThicknessSliderReleased() {
-  static double old = settings_->value("edges_thickness").toDouble() * 10;
-  double value = ui_->polygonThickness->value();
-  undo_stack_->Push(new s21::SetPolygonThicknessCmd(old, value, this));
-  old = value;
-}
-
-void s21::View::VerticeSizeSliderReleased() {
-  static double old = settings_->value("vertice_size").toDouble() * 5;
-  double value = ui_->sizeVertice->value();
-  undo_stack_->Push(new SetVerticeSizeCmd(old, value, this));
-  old = value;
+void s21::View::SetVerticeType(VerticeType type) {
+  VerticeType old = (VerticeType)(ui_->openGLWidget->vertice_type_);
+  undo_stack_->Push(new SetVerticeTypeCmd(old, type, this));
 }

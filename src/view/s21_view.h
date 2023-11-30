@@ -32,13 +32,11 @@ class View : public QMainWindow {
 
  private slots:
   void OpenFile();
-  void FilePathChange(int idx);
   void RenderFile();
   void ProjectionTypeChange(int idx);
   void TakeScreenshot();
   void GetGIF();
   void Affine();
-  void Affine_old();
   void Reset();
   void ResetParams();
   void SetBackgroundColor();
@@ -51,13 +49,9 @@ class View : public QMainWindow {
   void SetSquareVertice();
   void SetVerticeSize(int value);
   void SetVerticeColor();
-  void SaveSettings();
-  void LoadSettings();
-  void SetValuesOnButtons();
+  void FilePathChange(int idx);
   void PolygonThicknessSliderReleased();
   void VerticeSizeSliderReleased();
-  void SetPolygonType(PolygonType type);
-  void SetVerticeType(VerticeType type);
   void SaveAffine();
 
  private:
@@ -65,8 +59,15 @@ class View : public QMainWindow {
   s21::GifCreator* gifCreator_;
   QSettings* settings_;
   CommandStack* undo_stack_;
-  void CreateCommandStack();
   int history_max_list_ = 10;
+
+  void CreateCommandStack();
+  void Affine_old();
+  void SaveSettings();
+  void LoadSettings();
+  void SetValuesOnButtons();
+  void SetPolygonType(PolygonType type);
+  void SetVerticeType(VerticeType type);
 };
 
 }  // namespace s21
