@@ -20,7 +20,7 @@
 #include "ui_s21_view.h"
 
 s21::View::View(Controller* controller, QWidget* parent)
-    : QMainWindow(parent), ui_(new Ui::View) {
+    : QMainWindow(parent), ui_(new Ui::View), controller_(controller) {
   ui_->setupUi(this);
   connect(ui_->openFile, SIGNAL(clicked()), this, SLOT(OpenFile()));
   connect(ui_->renderFile, SIGNAL(clicked()), this, SLOT(RenderFile()));

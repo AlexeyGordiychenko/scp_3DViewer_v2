@@ -54,6 +54,7 @@ class View : public QMainWindow {
 
  private:
   Ui::View* ui_;
+  Controller* controller_;
   s21::GifCreator* gifCreator_;
   QSettings* settings_;
   CommandStack* undo_stack_;
