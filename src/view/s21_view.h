@@ -6,7 +6,7 @@
 
 #include "../controller/s21_controller.h"
 #include "command/s21_commandstack.h"
-#include "s21_glwidget.h"
+#include "s21_enums.h"
 
 namespace Ui {
 class View;

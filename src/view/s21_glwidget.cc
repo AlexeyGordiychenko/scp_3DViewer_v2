@@ -1,5 +1,7 @@
 #include "s21_glwidget.h"
 
+#include "s21_enums.h"
+
 s21::GLWidget::GLWidget(QWidget* parent) : QOpenGLWidget(parent) {}
 
 void s21::GLWidget::SetFilename(std::string filename) { filename_ = filename; }
