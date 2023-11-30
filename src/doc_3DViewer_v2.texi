@@ -1,0 +1,59 @@
+\input texinfo
+@setfilename S21_3DViewer_v2.0.info
+
+@settitle S21 3DViewer v2.0 Program Documentation
+
+@titlepage
+@title S21 3DViewer v2.0
+@subtitle Program Documentation
+@author by ternesim
+@end titlepage
+
+@menu
+* Introduction::     
+* Usage::            
+* Buttons:: 
+@end menu
+
+@node Introduction
+@section Introduction
+
+This program is a 3DViewer developed in C++17, following the object-oriented programming paradigm and utilizing design patterns such as MVC (Model-View-Controller), command, singleton, and facade. Its GUI implementation is based on QT 6.4.3.
+The program is intended to be used as a 3D model explorer, with the ability to adjust a wide range of view parameters, allowing users to appreciate the beauty of each individual 3D object.
+To improve the user experience, has been implemented the ability to undo/redo actions and view recently visited objects.
+The undo/redo functionality in this program has been implemented using a command template. This template enables the storage of actions and previous states as objects in a stack, allowing for easy undoing of actions when needed.
+The 3DViewer has the ability to create a GIF that captures all object transformations and generates object images.
+Because the GIF creator object is present in the program in singular form, the decision was made to use the Singleton pattern to guarantee the uniqueness of the object.
+The Facade pattern has been used to hide all the complexities of the model from the view.
+
+@node Usage
+@section Usage
+
+First you need to install the program.
+Open the folder with the source files of the program. Run make install. After the program done installing just run ./install/s21_3DViewer_v2
+
+@node Buttons
+@section Buttons
+
+@multitable @columnfractions 0.2 0.8
+@item Open @tab Open object file with file explorer 
+@item Render @tab Render object wireframe
+@item Projection @tab Change projection
+@item Screenshot @tab Take screenshot
+@item Gif @tab Create gif
+@item Undo @tab Undo last action
+@item Redo @tab Redo last action
+@item Rotation @tab Change object rotation
+@item Scale @tab Change object scale
+@item Move @tab Change object position
+@item Apply @tab Apply affine transformations to object
+@item Reset @tab Reset object transformations
+@item Background @tab Change background color
+@item Line type @tab Change objects edges form
+@item Thickness @tab Change objects edges thickness
+@item Edge color @tab Change objects edges color
+@item Disaply @tab Change objects virtisce form
+@item Vertex color @tab Change objects vertices color
+@end multitable
+
+@bye
