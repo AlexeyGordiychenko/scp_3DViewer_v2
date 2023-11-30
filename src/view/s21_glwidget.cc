@@ -4,8 +4,6 @@
 
 s21::GLWidget::GLWidget(QWidget* parent) : QOpenGLWidget(parent) {}
 
-void s21::GLWidget::SetFilename(std::string filename) { filename_ = filename; }
-
 void s21::GLWidget::SetController(Controller* controller) {
   this->controller_ = controller;
 }
@@ -39,16 +37,6 @@ void s21::GLWidget::Rotate(double angle_x, double angle_y, double angle_z) {
 
 void s21::GLWidget::ClearTransformations() {
   x_rot_ = 0, y_rot_ = 0, z_rot_ = 0, x_trans_ = 0, y_trans_ = 0, zoom_ = 1;
-}
-
-void s21::GLWidget::ParseFile() {
-  // is_parsed_ = false;
-  ClearTransformations();
-  controller_->Initialize(filename_);
-  num_vertices_ = controller_->GetVerticesCount();
-  num_edges_ = controller_->GetPolygonsEdgesCount();
-  // is_parsed_ = true;
-  update();
 }
 
 void s21::GLWidget::initializeGL() {

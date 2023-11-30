@@ -89,10 +89,9 @@ void s21::View::OpenFile() {
 
 void s21::View::RenderFile() {
   if (file_changed_) {
-    std::string std_filename = ui_->filePath->currentText().toStdString();
-    ui_->openGLWidget->SetFilename(std_filename);
+    std::string filename = ui_->filePath->currentText().toStdString();
     try {
-      ui_->openGLWidget->ParseFile();
+      controller_->Initialize(filename);
     } catch (const std::exception& e) {
       QMessageBox messageBoxImage;
       messageBoxImage.information(0, "", e.what());
@@ -102,10 +101,10 @@ void s21::View::RenderFile() {
         QString::number(controller_->GetPolygonsEdgesCount()));
     file_changed_ = false;
   } else {
-    ui_->openGLWidget->ClearTransformations();
-    ui_->openGLWidget->RestoreVertices();
-    ui_->openGLWidget->update();
+    controller_->RestoreVertices();
   }
+  ui_->openGLWidget->ClearTransformations();
+  ui_->openGLWidget->update();
 }
 
 void s21::View::ProjectionTypeChange(int idx) {

@@ -18,8 +18,6 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   GLWidget& operator=(GLWidget&&) = delete;
 
   // Funcitons
-  void SetFilename(std::string filename);
-  void SetController(AbstractController* controller);
   void SetProjectionType(int idx);
   void RestoreVertices();
   void Scale(double scale);
@@ -27,10 +25,8 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   void Rotate(double angle_x, double angle_y, double angle_z);
   void ClearTransformations();
   void SetController(Controller* controller);
-  void ParseFile();
 
   // Variables
-  uint32_t num_vertices_ = 0, num_edges_ = 0;
   double bg_red_ = 0, bg_green_ = 0, bg_blue_ = 0;
   double pol_red_ = 0, pol_green = 0, pol_blue_ = 0;
   double ver_red_ = 0, ver_green_ = 0, ver_blue_ = 0;
@@ -54,7 +50,6 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   void NormalizeAngle(double& angle);
 
   // Variables
-  std::string filename_;
   int size_h_ = 0, size_w_ = 0;
   double x_rot_ = 0, y_rot_ = 0, z_rot_ = 0, x_trans_ = 0, y_trans_ = 0,
          zoom_ = 1;
