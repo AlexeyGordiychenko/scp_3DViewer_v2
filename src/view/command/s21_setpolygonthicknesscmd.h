@@ -19,12 +19,15 @@ class SetPolygonThicknessCmd : public Command {
   ~SetPolygonThicknessCmd() = default;
   void Redo() override;
   void Undo() override;
+  void static init_old(double old);
+  double static get_old();
 
  private:
   View* view_;
   void SetPolygonThickness(double thickness);
   double old_thickness_;
   double new_thickness_;
+  inline static double prev_old_;
 };
 
 }  // namespace s21

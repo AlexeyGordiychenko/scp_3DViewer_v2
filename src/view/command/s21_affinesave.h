@@ -12,7 +12,6 @@ class AffineSaveCmd : public Command {
  public:
   AffineSaveCmd() = delete;
   AffineSaveCmd(AffineData old_data, AffineData new_data, View* view);
-  AffineSaveCmd(AffineData new_data, View* view);
   AffineSaveCmd(const AffineSaveCmd&) = delete;
   AffineSaveCmd& operator=(const AffineSaveCmd&) = delete;
   AffineSaveCmd(AffineSaveCmd&&) = delete;

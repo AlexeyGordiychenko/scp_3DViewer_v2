@@ -824,6 +824,7 @@
     <property name="font">
      <font>
       <pointsize>20</pointsize>
+      <weight>75</weight>
       <italic>true</italic>
       <bold>true</bold>
       <underline>false</underline>
@@ -850,6 +851,7 @@
     </property>
     <property name="font">
      <font>
+      <weight>75</weight>
       <italic>true</italic>
       <bold>true</bold>
      </font>
@@ -959,15 +961,9 @@
      <x>0</x>
      <y>0</y>
      <width>1175</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuRecent">
-    <property name="title">
-     <string>recent files</string>
-    </property>
-   </widget>
-   <addaction name="menuRecent"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="sizePolicy">

@@ -17,10 +17,9 @@
 #include "command/s21_setverticetypecmd.h"
 #include "s21_gifcreator.h"
 #include "s21_glwidget.h"
-#include "s21_proxycontroller.h"
 #include "ui_s21_view.h"
 
-s21::View::View(AbstractController* controller, QWidget* parent)
+s21::View::View(Controller* controller, QWidget* parent)
     : QMainWindow(parent), ui_(new Ui::View) {
   ui_->setupUi(this);
   connect(ui_->openFile, SIGNAL(clicked()), this, SLOT(OpenFile()));
@@ -56,7 +55,7 @@ s21::View::View(AbstractController* controller, QWidget* parent)
   ui_->projectionType->addItem("Parallel", kParallel);
   ui_->projectionType->addItem("Central", kCentral);
 
-  ui_->openGLWidget->SetController(new ProxyController(controller, this));
+  ui_->openGLWidget->SetController(controller);
 
   settings_ = new QSettings("21school", "3DViewer_v2.0", this);
   LoadSettings();
@@ -250,17 +249,15 @@ void s21::View::FilePathChange(int idx) {
 }
 
 void s21::View::PolygonThicknessSliderReleased() {
-  static double old = settings_->value("edges_thickness").toDouble() * 10;
+  double old = SetPolygonThicknessCmd::get_old();
   double value = ui_->polygonThickness->value();
   undo_stack_->Push(new s21::SetPolygonThicknessCmd(old, value, this));
-  old = value;
 }
 
 void s21::View::VerticeSizeSliderReleased() {
-  static double old = settings_->value("vertice_size").toDouble() * 5;
+  double old = SetVerticeSizeCmd::get_old();
   double value = ui_->sizeVertice->value();
   undo_stack_->Push(new SetVerticeSizeCmd(old, value, this));
-  old = value;
 }
 
 void s21::View::SaveAffine() {
@@ -295,13 +292,10 @@ void s21::View::CreateCommandStack() {
           &View::SaveAffine);
   connect(ui_->rotate_z, &QDoubleSpinBox::editingFinished, this,
           &View::SaveAffine);
-}
-
-void s21::View::Affine_old() {
-  static AffineData old_data = AffineData();
-  AffineData new_data = AffineData(ui_);
-  undo_stack_->Push(new AffineCmd(old_data, new_data, this));
-  old_data = std::move(new_data);
+  SetPolygonThicknessCmd::init_old(
+      settings_->value("edges_thickness").toDouble() * 10);
+  SetPolygonThicknessCmd::init_old(settings_->value("vertice_size").toDouble() *
+                                   5);
 }
 
 void s21::View::SaveSettings() {

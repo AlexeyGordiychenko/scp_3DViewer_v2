@@ -10,9 +10,14 @@ void s21::SetVerticeSizeCmd::Redo() { SetVerticeSize(new_thickness_); }
 
 void s21::SetVerticeSizeCmd::Undo() { SetVerticeSize(old_thickness_); }
 
+void s21::SetVerticeSizeCmd::init_old(double old) { prev_old_ = old; }
+
+double s21::SetVerticeSizeCmd::get_old() { return prev_old_; }
+
 void s21::SetVerticeSizeCmd::SetVerticeSize(double thickness) {
   Ui::View* ui = view_->GetUI();
   ui->openGLWidget->vertice_size_ = thickness / 5;
   ui->openGLWidget->update();
   ui->sizeVertice->setValue(thickness);
+  prev_old_ = thickness;
 }

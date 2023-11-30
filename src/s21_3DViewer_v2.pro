@@ -25,7 +25,6 @@ SOURCES += \
     view/command/s21_setverticecolorcmd.cc \
     view/command/s21_setverticesizecmd.cc \
     view/command/s21_setverticetypecmd.cc \
-    view/s21_proxycontroller.cc \
     view/s21_view.cc \
     view/s21_gifcreator.cc \
     view/s21_glwidget.cc \
@@ -48,7 +47,6 @@ HEADERS += \
     view/command/s21_setverticecolorcmd.h \
     view/command/s21_setverticesizecmd.h \
     view/command/s21_setverticetypecmd.h \
-    view/s21_proxycontroller.h \
     view/s21_view.h \
     view/s21_gifcreator.h \
     view/s21_glwidget.h \

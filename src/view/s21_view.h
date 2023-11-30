@@ -21,7 +21,7 @@ class View : public QMainWindow {
 
  public:
   // Constructors and the destructor
-  View(AbstractController* controller, QWidget* parent = nullptr);
+  View(Controller* controller, QWidget* parent = nullptr);
   View(const View&) = delete;
   View& operator=(const View&) = delete;
   View(View&&) = delete;
@@ -62,7 +62,6 @@ class View : public QMainWindow {
   int history_max_list_ = 10;
 
   void CreateCommandStack();
-  void Affine_old();
   void SaveSettings();
   void LoadSettings();
   void SetValuesOnButtons();

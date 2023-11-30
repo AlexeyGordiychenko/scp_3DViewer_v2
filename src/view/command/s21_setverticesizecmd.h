@@ -18,12 +18,15 @@ class SetVerticeSizeCmd : public Command {
   ~SetVerticeSizeCmd() = default;
   void Redo() override;
   void Undo() override;
+  static void init_old(double old);
+  static double get_old();
 
  private:
   View* view_;
   void SetVerticeSize(double thickness);
   double old_thickness_;
   double new_thickness_;
+  inline static double prev_old_;
 };
 
 }  // namespace s21

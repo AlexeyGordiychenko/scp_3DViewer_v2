@@ -6,8 +6,8 @@ s21::GLWidget::GLWidget(QWidget* parent) : QOpenGLWidget(parent) {}
 
 void s21::GLWidget::SetFilename(std::string filename) { filename_ = filename; }
 
-void s21::GLWidget::SetController(AbstractController* controller) {
-  controller_ = controller;
+void s21::GLWidget::SetController(Controller* controller) {
+  this->controller_ = controller;
 }
 
 void s21::GLWidget::SetProjectionType(int projection_type) {
