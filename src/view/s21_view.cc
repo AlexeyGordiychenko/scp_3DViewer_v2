@@ -50,11 +50,11 @@ s21::View::View(AbstractController* controller, QWidget* parent)
           SLOT(SetVerticeSize(int)));
   connect(ui_->setVerticeColor, SIGNAL(clicked()), this,
           SLOT(SetVerticeColor()));
+  connect(ui_->filePath, SIGNAL(currentIndexChanged(int)), this,
+          SLOT(FilePathChange(int)));
 
   ui_->projectionType->addItem("Parallel", kParallel);
   ui_->projectionType->addItem("Central", kCentral);
-
-  ui_->filePath->setReadOnly(true);
 
   ui_->openGLWidget->SetController(new ProxyController(controller, this));
 
@@ -77,7 +77,21 @@ Ui::View* s21::View::GetUI() { return ui_; }
 void s21::View::OpenFile() {
   QString QString_filename = QFileDialog::getOpenFileName(
       this, tr("Open .obj file:"), "~/", tr("Obj Files (*.obj)"));
-  ui_->filePath->setText(QString_filename);
+  auto index = ui_->filePath->findText(QString_filename);
+  auto count = ui_->filePath->count();
+  if (index == -1) {
+    if (count >= history_max_list_) {
+      ui_->filePath->removeItem(0);
+      count--;
+    }
+    ui_->filePath->addItem(QString_filename);
+    index = count;
+  }
+  FilePathChange(index);
+}
+
+void s21::View::FilePathChange(int idx) {
+  ui_->filePath->setCurrentIndex(idx);
   ui_->openGLWidget->file_changed_ = true;
 }
 
@@ -91,7 +105,7 @@ void s21::View::Reset() {
 
 void s21::View::RenderFile() {
   if (ui_->openGLWidget->file_changed_) {
-    std::string std_filename = ui_->filePath->text().toStdString();
+    std::string std_filename = ui_->filePath->currentText().toStdString();
     ui_->openGLWidget->SetFilename(std_filename);
     try {
       ui_->openGLWidget->ParseFile();
@@ -118,7 +132,7 @@ void s21::View::TakeScreenshot() {
   const QString suffixJpeg = ".jpeg", suffixBmp = ".bmp",
                 filterJpeg = "JPEG Image (*." + suffixJpeg + ")",
                 filterBmp = "Bitmap Image (*." + suffixBmp + ")";
-  QFileInfo fileInfo(ui_->filePath->text());
+  QFileInfo fileInfo(ui_->filePath->currentText());
   QFileDialog saveImageDialog(this);
   QString saveFilename =
       fileInfo.baseName() + " render " +
@@ -145,7 +159,7 @@ void s21::View::TakeScreenshot() {
 
 void s21::View::GetGIF() {
   const QString gifExt = ".gif";
-  QFileInfo fileInfo(ui_->filePath->text());
+  QFileInfo fileInfo(ui_->filePath->currentText());
   QFileDialog saveGifDialog(this);
   QString saveFilename =
       fileInfo.baseName() + " anim " +

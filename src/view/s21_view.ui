@@ -143,22 +143,6 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLineEdit" name="filePath">
-    <property name="geometry">
-     <rect>
-      <x>2</x>
-      <y>34</y>
-      <width>800</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLineEdit {
-   border: 2px solid gray;
-  border-radius: 8px;
-}</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="renderFile">
     <property name="geometry">
      <rect>
@@ -899,7 +883,8 @@
      <string>Undo</string>
     </property>
     <property name="icon">
-     <iconset theme="edit-undo"/>
+     <iconset theme="edit-undo">
+      <normaloff>.</normaloff>.</iconset>
     </property>
     <property name="default">
      <bool>true</bool>
@@ -924,10 +909,30 @@
      <string>Redo</string>
     </property>
     <property name="icon">
-     <iconset theme="edit-redo"/>
+     <iconset theme="edit-redo">
+      <normaloff>.</normaloff>.</iconset>
     </property>
     <property name="default">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="filePath">
+    <property name="geometry">
+     <rect>
+      <x>2</x>
+      <y>34</y>
+      <width>798</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QComboBox{
+   border: 2px solid gray;
+  border-radius: 8px;
+}</string>
+    </property>
+    <property name="currentText">
+     <string/>
     </property>
    </widget>
    <zorder>frame_5</zorder>

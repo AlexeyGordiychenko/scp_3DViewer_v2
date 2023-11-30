@@ -32,6 +32,7 @@ class View : public QMainWindow {
 
  private slots:
   void OpenFile();
+  void FilePathChange(int idx);
   void RenderFile();
   void ProjectionTypeChange(int idx);
   void TakeScreenshot();
@@ -65,6 +66,7 @@ class View : public QMainWindow {
   QSettings* settings_;
   CommandStack* undo_stack_;
   void CreateCommandStack();
+  int history_max_list_ = 10;
 };
 
 }  // namespace s21

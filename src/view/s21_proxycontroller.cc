@@ -23,9 +23,9 @@ void s21::ProxyController::Initialize(const std::string filename) {
 }
 
 void s21::ProxyController::InitializeRecent(const std::string filename) {
-  Ui::View* ui_ = view_->GetUI();
-  ui_->filePath->setText(QString::fromStdString(filename));
-  ui_->openGLWidget->file_changed_ = true;
+  // Ui::View* ui_ = view_->GetUI();
+  // ui_->filePath->setText(QString::fromStdString(filename));
+  // ui_->openGLWidget->file_changed_ = true;
 }
 
 void s21::ProxyController::RestoreVertices() {
