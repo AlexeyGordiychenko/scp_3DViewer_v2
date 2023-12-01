@@ -4,7 +4,9 @@
 #include <string>
 #include <vector>
 
+#include "../utils/s21_affinedata.h"
 #include "../utils/s21_vertex3d.h"
+
 namespace s21 {
 
 class Model;
@@ -22,10 +24,7 @@ class Controller {
   // Main functions
   void Initialize(const std::string filename);
   void RestoreVertices();
-
-  void AffineMove(double ax, double ay, double az);
-  void AffineRotate(double angle_x, double angle_y, double angle_z);
-  void AffineScale(double k);
+  void Affine(AffineData& data);
 
   size_t GetPolygonsEdgesCount() const;
   size_t GetVerticesCount() const;

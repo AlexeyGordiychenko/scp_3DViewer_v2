@@ -162,11 +162,7 @@ void s21::View::Affine() {
   if (data.scale_k == 0) data.scale_k = 1;
   ui_->openGLWidget->ClearTransformations();
   controller_->RestoreVertices();
-  controller_->AffineScale(data.scale_k);
-  controller_->AffineMove(data.move_x, data.move_y, data.move_z);
-  controller_->AffineRotate((data.rotate_x) * M_PI / 180,
-                            (data.rotate_y) * M_PI / 180,
-                            (data.rotate_z) * M_PI / 180);
+  controller_->Affine(data);
   ui_->openGLWidget->update();
 }
 
