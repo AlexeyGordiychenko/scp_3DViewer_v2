@@ -13,7 +13,9 @@ void s21::GLWidget::SetProjectionType(int projection_type) {
 }
 
 void s21::GLWidget::ClearTransformations() {
-  x_rot_ = 0, y_rot_ = 0, z_rot_ = 0, x_trans_ = 0, y_trans_ = 0, zoom_ = 1;
+  rotation_vertex_ = {0, 0, 0};
+  translation_vertex_ = {0, 0, 0};
+  zoom_ = 1;
 }
 
 void s21::GLWidget::initializeGL() {
@@ -44,16 +46,16 @@ void s21::GLWidget::paintGL() {
       glTranslatef(0, 0, -2.5);
     }
     glScalef(zoom_, zoom_, zoom_);
-    glTranslatef(controller_->GetCenterX() + x_trans_,
-                 controller_->GetCenterY() + y_trans_,
+    glTranslatef(controller_->GetCenterX() + translation_vertex_.x,
+                 controller_->GetCenterY() + translation_vertex_.y,
                  controller_->GetCenterZ());
-    glRotatef(x_rot_, 1.0, 0.0, 0.0);
-    glRotatef(y_rot_, 0.0, 1.0, 0.0);
-    glRotatef(z_rot_, 0.0, 0.0, 1.0);
-    glTranslatef(-controller_->GetCenterX() - x_trans_,
-                 -controller_->GetCenterY() - y_trans_,
+    glRotatef(rotation_vertex_.x, 1.0, 0.0, 0.0);
+    glRotatef(rotation_vertex_.y, 0.0, 1.0, 0.0);
+    glRotatef(rotation_vertex_.z, 0.0, 0.0, 1.0);
+    glTranslatef(-controller_->GetCenterX() - translation_vertex_.x,
+                 -controller_->GetCenterY() - translation_vertex_.y,
                  -controller_->GetCenterZ());
-    glTranslatef(x_trans_, y_trans_, 0.0);
+    glTranslatef(translation_vertex_.x, translation_vertex_.y, 0.0);
 
     auto vertices = controller_->GetVertices();
     for (auto& polygon : controller_->GetPolygons()) {
@@ -102,18 +104,18 @@ void s21::GLWidget::mouseMoveEvent(QMouseEvent* event) {
   GLfloat dy = GLfloat(event->position().y() - last_mouse_pos_.y()) / size_h_;
 
   if (event->buttons() & Qt::LeftButton) {
-    x_rot_ += 360 * dy;
-    y_rot_ += 360 * dx;
-    controller_->NormalizeAngle(x_rot_);
-    controller_->NormalizeAngle(y_rot_);
+    rotation_vertex_.x += 360 * dy;
+    rotation_vertex_.y += 360 * dx;
+    controller_->NormalizeAngle(rotation_vertex_.x);
+    controller_->NormalizeAngle(rotation_vertex_.y);
   } else if (event->buttons() & Qt::RightButton) {
-    x_rot_ += 360 * dy;
-    z_rot_ += 360 * dx;
-    controller_->NormalizeAngle(x_rot_);
-    controller_->NormalizeAngle(z_rot_);
+    rotation_vertex_.x += 360 * dy;
+    rotation_vertex_.z += 360 * dx;
+    controller_->NormalizeAngle(rotation_vertex_.x);
+    controller_->NormalizeAngle(rotation_vertex_.z);
   } else if (event->buttons() & Qt::MiddleButton) {
-    x_trans_ += dx;
-    y_trans_ -= dy;
+    translation_vertex_.x += dx;
+    translation_vertex_.y -= dy;
   }
 
   last_mouse_pos_ = event->position();

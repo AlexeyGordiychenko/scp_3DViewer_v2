@@ -46,8 +46,9 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 
   // Variables
   int size_h_ = 0, size_w_ = 0;
-  double x_rot_ = 0, y_rot_ = 0, z_rot_ = 0, x_trans_ = 0, y_trans_ = 0,
-         zoom_ = 1;
+  Vertex3d rotation_vertex_ = {0, 0, 0};
+  Vertex3d translation_vertex_ = {0, 0, 0};
+  double zoom_ = 1;
   QPointF last_mouse_pos_;
   Controller* controller_;
 };
