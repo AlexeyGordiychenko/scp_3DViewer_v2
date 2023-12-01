@@ -15,11 +15,11 @@ void s21::AffineCmd::Transform(AffineData& data) {
   if (data.scale_k == 0) data.scale_k = 1;
   ui_->openGLWidget->ClearTransformations();
   ui_->openGLWidget->RestoreVertices();
-  ui_->openGLWidget->Scale(data.scale_k);
-  ui_->openGLWidget->Move(data.move_x, data.move_y, data.move_z);
-  ui_->openGLWidget->Rotate((data.rotate_x) * M_PI / 180,
-                            (data.rotate_y) * M_PI / 180,
-                            (data.rotate_z) * M_PI / 180);
+  // ui_->openGLWidget->Scale(data.scale_k);
+  // ui_->openGLWidget->Move(data.move_x, data.move_y, data.move_z);
+  // ui_->openGLWidget->Rotate((data.rotate_x) * M_PI / 180,
+  //                          (data.rotate_y) * M_PI / 180,
+  //                          (data.rotate_z) * M_PI / 180);
   ui_->openGLWidget->update();
 
   ui_->move_on_x->setValue(data.move_x);

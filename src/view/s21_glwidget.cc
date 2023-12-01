@@ -14,27 +14,6 @@ void s21::GLWidget::SetProjectionType(int projection_type) {
 
 void s21::GLWidget::RestoreVertices() { controller_->RestoreVertices(); }
 
-void s21::GLWidget::Scale(double k) {
-  if (k) {
-    controller_->AffineScale(k);
-  }
-}
-
-void s21::GLWidget::Move(double x, double y, double z) {
-  if (x || y || z) {
-    controller_->AffineMove(x, y, z);
-  }
-}
-
-void s21::GLWidget::Rotate(double angle_x, double angle_y, double angle_z) {
-  if (angle_x || angle_y || angle_z) {
-    controller_->AffineRotateX(angle_x);
-    controller_->AffineRotateY(angle_y);
-    controller_->AffineRotateZ(angle_z);
-    update();
-  }
-}
-
 void s21::GLWidget::ClearTransformations() {
   x_rot_ = 0, y_rot_ = 0, z_rot_ = 0, x_trans_ = 0, y_trans_ = 0, zoom_ = 1;
 }

@@ -30,6 +30,8 @@ void s21::Model::RestoreVertices() {
 }
 
 void s21::Model::AffineMove(double ax, double ay, double az) {
+  if (!ax && !ay && !az) return;
+
   for (size_t i = 0; i < vertices_.size(); i++) {
     vertices_[i].x += ax;
     vertices_[i].y += ay;
@@ -41,48 +43,45 @@ void s21::Model::AffineMove(double ax, double ay, double az) {
 }
 
 void s21::Model::AffineRotateX(double angle) {
-  if (angle) {
-    double cos_angle = cos(angle), sin_angle = sin(angle);
-    for (size_t i = 0; i < vertices_.size(); i++) {
-      double temp_y = vertices_[i].y - center_y_,
-             temp_z = vertices_[i].z - center_z_;
-      vertices_[i].y = temp_y * cos_angle - temp_z * sin_angle + center_y_;
-      vertices_[i].z = temp_y * sin_angle + temp_z * cos_angle + center_z_;
-    }
+  if (!angle) return;
+
+  double cos_angle = cos(angle), sin_angle = sin(angle);
+  for (size_t i = 0; i < vertices_.size(); i++) {
+    double temp_y = vertices_[i].y - center_y_,
+           temp_z = vertices_[i].z - center_z_;
+    vertices_[i].y = temp_y * cos_angle - temp_z * sin_angle + center_y_;
+    vertices_[i].z = temp_y * sin_angle + temp_z * cos_angle + center_z_;
   }
 }
 
 void s21::Model::AffineRotateY(double angle) {
-  if (angle) {
-    double cos_angle = cos(angle), sin_angle = sin(angle);
-    for (size_t i = 0; i < vertices_.size(); i++) {
-      double temp_x = vertices_[i].x - center_x_,
-             temp_z = vertices_[i].z - center_z_;
-      vertices_[i].x = temp_x * cos_angle - temp_z * sin_angle + center_x_;
-      vertices_[i].z = temp_x * sin_angle + temp_z * cos_angle + center_z_;
-    }
+  if (!angle) return;
+  double cos_angle = cos(angle), sin_angle = sin(angle);
+  for (size_t i = 0; i < vertices_.size(); i++) {
+    double temp_x = vertices_[i].x - center_x_,
+           temp_z = vertices_[i].z - center_z_;
+    vertices_[i].x = temp_x * cos_angle - temp_z * sin_angle + center_x_;
+    vertices_[i].z = temp_x * sin_angle + temp_z * cos_angle + center_z_;
   }
 }
 
 void s21::Model::AffineRotateZ(double angle) {
-  if (angle) {
-    double cos_angle = cos(angle), sin_angle = sin(angle);
-    for (size_t i = 0; i < vertices_.size(); i++) {
-      double temp_x = vertices_[i].x - center_x_,
-             temp_y = vertices_[i].y - center_y_;
-      vertices_[i].x = temp_x * cos_angle - temp_y * sin_angle + center_x_;
-      vertices_[i].y = temp_x * sin_angle + temp_y * cos_angle + center_y_;
-    }
+  if (!angle) return;
+  double cos_angle = cos(angle), sin_angle = sin(angle);
+  for (size_t i = 0; i < vertices_.size(); i++) {
+    double temp_x = vertices_[i].x - center_x_,
+           temp_y = vertices_[i].y - center_y_;
+    vertices_[i].x = temp_x * cos_angle - temp_y * sin_angle + center_x_;
+    vertices_[i].y = temp_x * sin_angle + temp_y * cos_angle + center_y_;
   }
 }
 
 void s21::Model::AffineScale(double k) {
-  if (k) {
-    for (size_t i = 0; i < vertices_.size(); i++) {
-      vertices_[i].x *= k;
-      vertices_[i].y *= k;
-      vertices_[i].z *= k;
-    }
+  if (!k) return;
+  for (size_t i = 0; i < vertices_.size(); i++) {
+    vertices_[i].x *= k;
+    vertices_[i].y *= k;
+    vertices_[i].z *= k;
   }
 }
 

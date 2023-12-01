@@ -24,9 +24,7 @@ class Controller {
   void RestoreVertices();
 
   void AffineMove(double ax, double ay, double az);
-  void AffineRotateX(double angle);
-  void AffineRotateY(double angle);
-  void AffineRotateZ(double angle);
+  void AffineRotate(double angle_x, double angle_y, double angle_z);
   void AffineScale(double k);
 
   size_t GetPolygonsEdgesCount() const;

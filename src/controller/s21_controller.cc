@@ -14,16 +14,11 @@ void s21::Controller::AffineMove(double ax, double ay, double az) {
   model_->AffineMove(ax, ay, az);
 }
 
-void s21::Controller::AffineRotateX(double angle) {
-  model_->AffineRotateX(angle);
-}
-
-void s21::Controller::AffineRotateY(double angle) {
-  model_->AffineRotateY(angle);
-}
-
-void s21::Controller::AffineRotateZ(double angle) {
-  model_->AffineRotateZ(angle);
+void s21::Controller::AffineRotate(double angle_x, double angle_y,
+                                   double angle_z) {
+  model_->AffineRotateX(angle_x);
+  model_->AffineRotateY(angle_y);
+  model_->AffineRotateZ(angle_z);
 }
 
 void s21::Controller::AffineScale(double k) { model_->AffineScale(k); }
