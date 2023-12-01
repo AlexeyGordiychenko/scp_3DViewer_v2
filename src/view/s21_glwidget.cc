@@ -30,7 +30,7 @@ void s21::GLWidget::resizeGL(int w, int h) {
 }
 
 void s21::GLWidget::paintGL() {
-  glClearColor(bg_red_, bg_green_, bg_blue_, 1);
+  glClearColor(bg_color_.redF(), bg_color_.greenF(), bg_color_.blueF(), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -67,7 +67,7 @@ void s21::GLWidget::paintGL() {
         glDisable(GL_LINE_STIPPLE);
       }
       glLineWidth(edges_thickness_);
-      glColor3f(pol_red_, pol_green, pol_blue_);
+      glColor3f(line_color_.redF(), line_color_.greenF(), line_color_.blueF());
       glBegin(GL_LINE_LOOP);
       for (auto vertex : polygon) {
         auto point = vertices[vertex];
@@ -82,7 +82,8 @@ void s21::GLWidget::paintGL() {
           glDisable(GL_POINT_SMOOTH);
         }
         glPointSize(vertice_size_);
-        glColor3f(ver_red_, ver_green_, ver_blue_);
+        glColor3f(vertice_color_.redF(), vertice_color_.greenF(),
+                  vertice_color_.blueF());
         glBegin(GL_POINTS);
         for (auto vertex : polygon) {
           auto point = vertices[vertex];

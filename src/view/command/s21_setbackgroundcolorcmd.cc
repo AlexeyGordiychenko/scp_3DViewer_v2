@@ -12,9 +12,7 @@ void s21::SetBackgroundColorCmd::Redo() { SetBackgroundColor(color_); }
 
 void s21::SetBackgroundColorCmd::SetBackgroundColor(QColor color) {
   if (color.isValid()) {
-    ui_->openGLWidget->bg_red_ = color.redF();
-    ui_->openGLWidget->bg_green_ = color.greenF();
-    ui_->openGLWidget->bg_blue_ = color.blueF();
+    ui_->openGLWidget->bg_color_ = color;
     char rgba_color[40];
     sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
             color.green(), color.blue());

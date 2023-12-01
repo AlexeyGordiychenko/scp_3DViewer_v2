@@ -185,17 +185,13 @@ void s21::View::ResetParams() {
 
 void s21::View::SetBackgroundColor() {
   QColor color = QColorDialog::getColor();
-  QColor old_color = QColor(ui_->openGLWidget->bg_red_ * 255,
-                            ui_->openGLWidget->bg_green_ * 255,
-                            ui_->openGLWidget->bg_blue_ * 255);
+  auto old_color = ui_->openGLWidget->bg_color_;
   undo_stack_->Push(new SetBackgroundColorCmd(old_color, color, ui_));
 }
 
 void s21::View::SetPolygonColor() {
   QColor color = QColorDialog::getColor();
-  QColor old_color = QColor(ui_->openGLWidget->pol_red_ * 255,
-                            ui_->openGLWidget->pol_green * 255,
-                            ui_->openGLWidget->pol_blue_ * 255);
+  auto old_color = ui_->openGLWidget->line_color_;
   undo_stack_->Push(new SetPolygonColorCmd(old_color, color, ui_));
 }
 
@@ -221,9 +217,7 @@ void s21::View::SetVerticeSize(int value) {
 
 void s21::View::SetVerticeColor() {
   QColor color = QColorDialog::getColor();
-  QColor old_color = QColor(ui_->openGLWidget->ver_red_ * 255,
-                            ui_->openGLWidget->ver_green_ * 255,
-                            ui_->openGLWidget->ver_blue_ * 255);
+  QColor old_color = ui_->openGLWidget->vertice_color_;
   undo_stack_->Push(new SetVerticeColorCmd(old_color, color, ui_));
 }
 
@@ -282,67 +276,47 @@ void s21::View::CreateCommandStack() {
 }
 
 void s21::View::SaveSettings() {
-  settings_->setValue("bg_red", ui_->openGLWidget->bg_red_);
-  settings_->setValue("bg_green", ui_->openGLWidget->bg_green_);
-  settings_->setValue("bg_blue", ui_->openGLWidget->bg_blue_);
-  settings_->setValue("pol_red", ui_->openGLWidget->pol_red_);
-  settings_->setValue("pol_green", ui_->openGLWidget->pol_green);
-  settings_->setValue("pol_blue", ui_->openGLWidget->pol_blue_);
+  settings_->setValue("bg_color", ui_->openGLWidget->bg_color_);
+  settings_->setValue("line_color", ui_->openGLWidget->line_color_);
+  settings_->setValue("vertice_color", ui_->openGLWidget->vertice_color_);
   settings_->setValue("edges_type", ui_->openGLWidget->edges_type_);
   settings_->setValue("edges_thickness", ui_->openGLWidget->edges_thickness_);
   settings_->setValue("vertice_type", ui_->openGLWidget->vertice_type_);
   settings_->setValue("vertice_size", ui_->openGLWidget->vertice_size_);
-  settings_->setValue("ver_red", ui_->openGLWidget->ver_red_);
-  settings_->setValue("ver_green", ui_->openGLWidget->ver_green_);
-  settings_->setValue("ver_blue", ui_->openGLWidget->ver_blue_);
   settings_->setValue("projectionType", ui_->openGLWidget->projection_type_);
 }
 
 void s21::View::LoadSettings() {
-  ui_->openGLWidget->bg_red_ = settings_->value("bg_red").toDouble();
-  ui_->openGLWidget->bg_green_ = settings_->value("bg_green").toDouble();
-  ui_->openGLWidget->bg_blue_ = settings_->value("bg_blue").toDouble();
-  ui_->openGLWidget->pol_red_ = settings_->value("pol_red").toDouble();
-  if (settings_->contains("pol_green")) {
-    ui_->openGLWidget->pol_green = settings_->value("pol_green").toDouble();
-  } else {
-    ui_->openGLWidget->pol_green = 1;
+  if (settings_->contains("bg_color")) {
+    ui_->openGLWidget->bg_color_ = settings_->value("bg_color").value<QColor>();
   }
-  ui_->openGLWidget->pol_blue_ = settings_->value("pol_blue").toDouble();
+  if (settings_->contains("line_color")) {
+    ui_->openGLWidget->line_color_ =
+        settings_->value("line_color").value<QColor>();
+  }
+  if (settings_->contains("vertice_color")) {
+    ui_->openGLWidget->vertice_color_ =
+        settings_->value("vertice_color").value<QColor>();
+  }
   ui_->openGLWidget->edges_type_ = settings_->value("edges_type").toInt();
   ui_->openGLWidget->edges_thickness_ =
       settings_->value("edges_thickness").toDouble();
   ui_->openGLWidget->vertice_type_ = settings_->value("vertice_type").toInt();
   ui_->openGLWidget->vertice_size_ = settings_->value("vertice_size").toInt();
-  ui_->openGLWidget->ver_red_ = settings_->value("ver_red").toDouble();
-  ui_->openGLWidget->ver_green_ = settings_->value("ver_green").toDouble();
-  if (settings_->contains("ver_blue")) {
-    ui_->openGLWidget->ver_blue_ = settings_->value("ver_blue").toDouble();
-  } else {
-    ui_->openGLWidget->ver_blue_ = 1;
-  }
   ui_->openGLWidget->projection_type_ =
       settings_->value("projectionType").toInt();
   ui_->openGLWidget->update();
 }
 
 void s21::View::SetValuesOnButtons() {
-  char bg_color[40], pol_color[40], ver_color[40];
-  sprintf(bg_color, "background-color: rgb(%d,%d,%d)",
-          (int)(ui_->openGLWidget->bg_red_ * 255),
-          (int)(ui_->openGLWidget->bg_green_ * 255),
-          (int)(ui_->openGLWidget->bg_blue_ * 255));
-  ui_->setBgColor->setStyleSheet(bg_color);
-  sprintf(pol_color, "background-color: rgb(%d,%d,%d)",
-          (int)(ui_->openGLWidget->pol_red_ * 255),
-          (int)(ui_->openGLWidget->pol_green * 255),
-          (int)(ui_->openGLWidget->pol_blue_ * 255));
-  ui_->setPolygonColor->setStyleSheet(pol_color);
-  sprintf(ver_color, "background-color: rgb(%d,%d,%d)",
-          (int)(ui_->openGLWidget->ver_red_ * 255),
-          (int)(ui_->openGLWidget->ver_green_ * 255),
-          (int)(ui_->openGLWidget->ver_blue_ * 255));
-  ui_->setVerticeColor->setStyleSheet(ver_color);
+  ui_->setBgColor->setStyleSheet(
+      QString("background-color: %1").arg(ui_->openGLWidget->bg_color_.name()));
+  ui_->setPolygonColor->setStyleSheet(
+      QString("background-color: %1")
+          .arg(ui_->openGLWidget->line_color_.name()));
+  ui_->setVerticeColor->setStyleSheet(
+      QString("background-color: %1")
+          .arg(ui_->openGLWidget->vertice_color_.name()));
   if (ui_->openGLWidget->edges_type_ == kSolid) {
     ui_->solidPolygonType->setChecked(true);
   } else {

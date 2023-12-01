@@ -10,13 +10,9 @@ void s21::SetVerticeColorCmd::Undo() { SetVerticeColor(old_color_); }
 
 void s21::SetVerticeColorCmd::SetVerticeColor(QColor color) {
   if (color.isValid()) {
-    ui_->openGLWidget->ver_red_ = color.redF();
-    ui_->openGLWidget->ver_green_ = color.greenF();
-    ui_->openGLWidget->ver_blue_ = color.blueF();
-    char rgba_color[40];
-    sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
-            color.green(), color.blue());
-    ui_->setVerticeColor->setStyleSheet(rgba_color);
+    ui_->openGLWidget->vertice_color_ = color;
+    ui_->setVerticeColor->setStyleSheet(
+        QString("background-color: %1").arg(color.name()));
     ui_->openGLWidget->update();
   }
 }

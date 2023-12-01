@@ -23,9 +23,9 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   void SetController(Controller* controller);
 
   // Variables
-  double bg_red_ = 0, bg_green_ = 0, bg_blue_ = 0;
-  double pol_red_ = 0, pol_green = 0, pol_blue_ = 0;
-  double ver_red_ = 0, ver_green_ = 0, ver_blue_ = 0;
+  QColor bg_color_ = QColor(0, 0, 0);
+  QColor line_color_ = QColor(0, 255, 0);
+  QColor vertice_color_ = QColor(0, 0, 255);
   double edges_thickness_ = 1, vertice_size_ = 1;
   int vertice_type_ = 0, projection_type_ = 0, edges_type_ = 0;
 
