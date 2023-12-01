@@ -12,8 +12,6 @@ void s21::GLWidget::SetProjectionType(int projection_type) {
   projection_type_ = projection_type;
 }
 
-void s21::GLWidget::RestoreVertices() { controller_->RestoreVertices(); }
-
 void s21::GLWidget::ClearTransformations() {
   x_rot_ = 0, y_rot_ = 0, z_rot_ = 0, x_trans_ = 0, y_trans_ = 0, zoom_ = 1;
 }

@@ -19,7 +19,6 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 
   // Funcitons
   void SetProjectionType(int idx);
-  void RestoreVertices();
   void ClearTransformations();
   void SetController(Controller* controller);
 
