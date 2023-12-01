@@ -85,7 +85,7 @@ void s21::Model::AffineRotateZ(double angle) {
 }
 
 void s21::Model::AffineScale(double k) {
-  if (!k) return;
+  k = (k == 0) ? 1 : k;
   for (size_t i = 0; i < vertices_.size(); i++) {
     vertices_[i].x *= k;
     vertices_[i].y *= k;

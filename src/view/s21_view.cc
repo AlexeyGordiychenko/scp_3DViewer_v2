@@ -159,7 +159,6 @@ void s21::View::GetGIF() {
 
 void s21::View::Affine() {
   AffineData data(ui_);
-  if (data.scale_k == 0) data.scale_k = 1;
   ui_->openGLWidget->ClearTransformations();
   controller_->RestoreVertices();
   controller_->Affine(data);
