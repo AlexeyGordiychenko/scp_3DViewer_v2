@@ -1,8 +1,8 @@
 #ifndef S21_3DVIEWER_V2_COMMAND_AFFINESAVECOMMAND_H
 #define S21_3DVIEWER_V2_COMMAND_AFFINESAVECOMMAND_H
 
+#include "../../utils/s21_affinedata.h"
 #include "../s21_view.h"
-#include "s21_affinedata.h"
 #include "s21_command.h"
 #include "ui_s21_view.h"
 

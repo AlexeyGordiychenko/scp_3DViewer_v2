@@ -5,8 +5,8 @@
 #include <QSettings>
 
 #include "../controller/s21_controller.h"
+#include "../utils/s21_enums.h"
 #include "command/s21_commandstack.h"
-#include "s21_enums.h"
 
 namespace Ui {
 class View;

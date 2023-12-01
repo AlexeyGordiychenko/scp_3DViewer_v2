@@ -12,7 +12,6 @@ CONFIG += c++17
 SOURCES += \
     s21_main.cc \
     thirdparty/gifanim/gifanim.cpp \
-    view/command/s21_affinedata.cc \
     view/command/s21_affinesavecmd.cc \
     view/command/s21_command.cc \
     view/command/s21_commandstack.cc \
@@ -28,11 +27,11 @@ SOURCES += \
     view/s21_gifcreator.cc \
     view/s21_glwidget.cc \
     model/s21_model.cc \
-    controller/s21_controller.cc
+    controller/s21_controller.cc \
+    utils/s21_affinedata.cc
 
 HEADERS += \
     thirdparty/gifanim/gifanim.h \
-    view/command/s21_affinedata.h \
     view/command/s21_affinesave.h \
     view/command/s21_command.h \
     view/command/s21_commandstack.h \
@@ -48,7 +47,10 @@ HEADERS += \
     view/s21_gifcreator.h \
     view/s21_glwidget.h \
     model/s21_model.h \
-    controller/s21_controller.h
+    controller/s21_controller.h \
+    utils/s21_affinedata.h \
+    utils/s21_vertex3d.h \
+    utils/s21_enums.h \
 
 FORMS += \
     view/s21_view.ui

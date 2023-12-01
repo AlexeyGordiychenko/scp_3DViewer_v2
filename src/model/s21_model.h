@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "s21_vertex3d.h"
+#include "../utils/s21_vertex3d.h"
 
 namespace s21 {
 

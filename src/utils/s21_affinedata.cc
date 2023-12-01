@@ -1,5 +1,7 @@
 #include "s21_affinedata.h"
 
+#include "ui_s21_view.h"
+
 s21::AffineData::AffineData() {
   scale_k = 1;
   move_x = 0;

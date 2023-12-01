@@ -1,8 +1,9 @@
-#ifndef S21_3DVIEWER_V2_COMMAND_AFFINE_DATA_H
-#define S21_3DVIEWER_V2_COMMAND_AFFINE_DATA_H
+#ifndef S21_3DVIEWER_V2_AFFINE_DATA_H
+#define S21_3DVIEWER_V2_AFFINE_DATA_H
 
-#include "../s21_view.h"
-#include "ui_s21_view.h"
+namespace Ui {
+class View;
+}
 
 namespace s21 {
 
@@ -26,5 +27,4 @@ class AffineData {
 };
 
 }  // namespace s21
-
-#endif
+#endif  // S21_3DVIEWER_V2_AFFINE_DATA_H

@@ -1,6 +1,6 @@
 #include "s21_glwidget.h"
 
-#include "s21_enums.h"
+#include "../utils/s21_enums.h"
 
 s21::GLWidget::GLWidget(QWidget* parent) : QOpenGLWidget(parent) {}
 
