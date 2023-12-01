@@ -5,7 +5,6 @@
 #include <QMessageBox>
 
 #include "../controller/s21_controller.h"
-#include "command/s21_affinecmd.h"
 #include "command/s21_affinesave.h"
 #include "command/s21_projectiontypechangecmd.h"
 #include "command/s21_setbackgroundcolorcmd.h"
@@ -169,14 +168,6 @@ void s21::View::Affine() {
                             (data.rotate_y) * M_PI / 180,
                             (data.rotate_z) * M_PI / 180);
   ui_->openGLWidget->update();
-
-  ui_->move_on_x->setValue(data.move_x);
-  ui_->move_on_y->setValue(data.move_y);
-  ui_->move_on_z->setValue(data.move_z);
-  ui_->scale_on_k->setValue(data.scale_k);
-  ui_->rotate_x->setValue(data.rotate_x);
-  ui_->rotate_y->setValue(data.rotate_y);
-  ui_->rotate_z->setValue(data.rotate_z);
 }
 
 void s21::View::Reset() {}
@@ -287,8 +278,7 @@ void s21::View::CreateCommandStack() {
           &View::SaveAffine);
   SetPolygonThicknessCmd::init_old(
       settings_->value("edges_thickness").toDouble() * 10);
-  SetPolygonThicknessCmd::init_old(settings_->value("vertice_size").toDouble() *
-                                   5);
+  SetVerticeSizeCmd::init_old(settings_->value("vertice_size").toDouble() * 5);
 }
 
 void s21::View::SaveSettings() {
