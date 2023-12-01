@@ -11,7 +11,7 @@ namespace s21 {
 class SetVerticeTypeCmd : public Command {
  public:
   SetVerticeTypeCmd() = delete;
-  SetVerticeTypeCmd(VerticeType old_type, VerticeType new_type, View* view);
+  SetVerticeTypeCmd(VerticeType old_type, VerticeType new_type, Ui::View* ui);
   SetVerticeTypeCmd(const SetVerticeTypeCmd&) = delete;
   SetVerticeTypeCmd& operator=(const SetVerticeTypeCmd&) = delete;
   SetVerticeTypeCmd(SetVerticeTypeCmd&&) = delete;
@@ -21,7 +21,7 @@ class SetVerticeTypeCmd : public Command {
   void Undo() override;
 
  private:
-  View* view_;
+  Ui::View* ui_;
   void SetVerticeType(VerticeType type);
   VerticeType old_type_;
   VerticeType new_type_;

@@ -11,7 +11,7 @@ class SetPolygonThicknessCmd : public Command {
  public:
   SetPolygonThicknessCmd() = delete;
   SetPolygonThicknessCmd(double old_thickness, double new_thickness,
-                         View* view);
+                         Ui::View* ui);
   SetPolygonThicknessCmd(const SetPolygonThicknessCmd&) = delete;
   SetPolygonThicknessCmd& operator=(const SetPolygonThicknessCmd&) = delete;
   SetPolygonThicknessCmd(SetPolygonThicknessCmd&&) = delete;
@@ -23,7 +23,7 @@ class SetPolygonThicknessCmd : public Command {
   double static get_old();
 
  private:
-  View* view_;
+  Ui::View* ui_;
   void SetPolygonThickness(double thickness);
   double old_thickness_;
   double new_thickness_;

@@ -170,7 +170,7 @@ void s21::GLWidget::wheelEvent(QWheelEvent* event) {
   }
 }
 
-s21::GLWidget::~GLWidget() { delete controller_; }
+s21::GLWidget::~GLWidget() {}
 
 void s21::GLWidget::NormalizeAngle(double& angle) {
   while (angle < 0) angle += 360 * 16;

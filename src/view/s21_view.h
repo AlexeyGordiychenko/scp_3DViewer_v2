@@ -28,8 +28,6 @@ class View : public QMainWindow {
   View& operator=(View&&) = delete;
   ~View();
 
-  Ui::View* GetUI();
-
  private slots:
   void OpenFile();
   void RenderFile();

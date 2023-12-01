@@ -11,7 +11,7 @@ namespace s21 {
 class AffineCmd : public Command {
  public:
   AffineCmd() = delete;
-  AffineCmd(AffineData old_data, AffineData new_data, View* view);
+  AffineCmd(AffineData old_data, AffineData new_data, Ui::View* view);
   AffineCmd(const AffineCmd&) = delete;
   AffineCmd& operator=(const AffineCmd&) = delete;
   AffineCmd(AffineCmd&&) = delete;
@@ -21,7 +21,7 @@ class AffineCmd : public Command {
   void Redo() override;
 
  private:
-  View* view_;
+  Ui::View* ui_;
   AffineData old_data_;
   AffineData new_data_;
   void Transform(AffineData& data);

@@ -10,7 +10,7 @@ namespace s21 {
 class SetVerticeSizeCmd : public Command {
  public:
   SetVerticeSizeCmd() = delete;
-  SetVerticeSizeCmd(double old_thickness, double new_thickness, View* mw);
+  SetVerticeSizeCmd(double old_thickness, double new_thickness, Ui::View* ui);
   SetVerticeSizeCmd(const SetVerticeSizeCmd&) = delete;
   SetVerticeSizeCmd& operator=(const SetVerticeSizeCmd&) = delete;
   SetVerticeSizeCmd(SetVerticeSizeCmd&&) = delete;
@@ -22,7 +22,7 @@ class SetVerticeSizeCmd : public Command {
   static double get_old();
 
  private:
-  View* view_;
+  Ui::View* ui_;
   void SetVerticeSize(double thickness);
   double old_thickness_;
   double new_thickness_;

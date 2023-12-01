@@ -12,7 +12,7 @@ namespace s21 {
 class SetVerticeColorCmd : public Command {
  public:
   SetVerticeColorCmd() = delete;
-  SetVerticeColorCmd(QColor old_color, QColor color, View* view);
+  SetVerticeColorCmd(QColor old_color, QColor color, Ui::View* ui);
   SetVerticeColorCmd(const SetVerticeColorCmd&) = delete;
   SetVerticeColorCmd& operator=(const SetVerticeColorCmd&) = delete;
   SetVerticeColorCmd(SetVerticeColorCmd&&) = delete;
@@ -22,7 +22,7 @@ class SetVerticeColorCmd : public Command {
   void Undo() override;
 
  private:
-  View* view_;
+  Ui::View* ui_;
   void SetVerticeColor(QColor color);
   QColor old_color_;
   QColor color_;

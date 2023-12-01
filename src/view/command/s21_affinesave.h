@@ -11,7 +11,7 @@ namespace s21 {
 class AffineSaveCmd : public Command {
  public:
   AffineSaveCmd() = delete;
-  AffineSaveCmd(AffineData old_data, AffineData new_data, View* view);
+  AffineSaveCmd(AffineData old_data, AffineData new_data, Ui::View* ui);
   AffineSaveCmd(const AffineSaveCmd&) = delete;
   AffineSaveCmd& operator=(const AffineSaveCmd&) = delete;
   AffineSaveCmd(AffineSaveCmd&&) = delete;
@@ -23,7 +23,7 @@ class AffineSaveCmd : public Command {
   static AffineData get_old();
 
  private:
-  View* view_;
+  Ui::View* ui_;
   inline static AffineData prev_old = AffineData();
   AffineData new_data_;
   AffineData old_data_;

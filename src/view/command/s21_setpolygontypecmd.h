@@ -13,7 +13,7 @@ namespace s21 {
 class SetPolygonTypeCmd : public Command {
  public:
   SetPolygonTypeCmd() = delete;
-  SetPolygonTypeCmd(PolygonType old_type, PolygonType new_type, View* mw);
+  SetPolygonTypeCmd(PolygonType old_type, PolygonType new_type, Ui::View* ui);
   SetPolygonTypeCmd(const SetPolygonTypeCmd&) = delete;
   SetPolygonTypeCmd& operator=(const SetPolygonTypeCmd&) = delete;
   SetPolygonTypeCmd(SetPolygonTypeCmd&&) = delete;
@@ -23,7 +23,7 @@ class SetPolygonTypeCmd : public Command {
   void Undo() override;
 
  private:
-  View* view_;
+  Ui::View* ui_;
   void SetPolygonType(PolygonType type);
   PolygonType old_type_;
   PolygonType new_type_;

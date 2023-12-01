@@ -8,7 +8,7 @@ namespace s21 {
 class SetBackgroundColorCmd : public Command {
  public:
   SetBackgroundColorCmd() = delete;
-  SetBackgroundColorCmd(QColor old_color, QColor color, View* view);
+  SetBackgroundColorCmd(QColor old_color, QColor color, Ui::View* view);
   SetBackgroundColorCmd(const SetBackgroundColorCmd&) = delete;
   SetBackgroundColorCmd& operator=(const SetBackgroundColorCmd&) = delete;
   SetBackgroundColorCmd(SetBackgroundColorCmd&&) = delete;
@@ -18,7 +18,7 @@ class SetBackgroundColorCmd : public Command {
   void Redo();
 
  private:
-  View* view_;
+  Ui::View* ui_;
   QColor old_color_;
   QColor color_;
   void SetBackgroundColor(QColor color);

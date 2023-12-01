@@ -71,8 +71,6 @@ s21::View::~View() {
   delete undo_stack_;
 }
 
-Ui::View* s21::View::GetUI() { return ui_; }
-
 void s21::View::OpenFile() {
   QString QString_filename = QFileDialog::getOpenFileName(
       this, tr("Open .obj file:"), "~/", tr("Obj Files (*.obj)"));
@@ -111,7 +109,7 @@ void s21::View::RenderFile() {
 void s21::View::ProjectionTypeChange(int idx) {
   int old = ui_->openGLWidget->projection_type_;
   if (old != idx)
-    undo_stack_->Push(new ProjectionTypeChangeCommand(old, idx, this));
+    undo_stack_->Push(new ProjectionTypeChangeCommand(old, idx, ui_));
 }
 
 void s21::View::TakeScreenshot() {
@@ -204,7 +202,7 @@ void s21::View::SetBackgroundColor() {
   QColor old_color = QColor(ui_->openGLWidget->bg_red_ * 255,
                             ui_->openGLWidget->bg_green_ * 255,
                             ui_->openGLWidget->bg_blue_ * 255);
-  undo_stack_->Push(new SetBackgroundColorCmd(old_color, color, this));
+  undo_stack_->Push(new SetBackgroundColorCmd(old_color, color, ui_));
 }
 
 void s21::View::SetPolygonColor() {
@@ -212,7 +210,7 @@ void s21::View::SetPolygonColor() {
   QColor old_color = QColor(ui_->openGLWidget->pol_red_ * 255,
                             ui_->openGLWidget->pol_green * 255,
                             ui_->openGLWidget->pol_blue_ * 255);
-  undo_stack_->Push(new SetPolygonColorCmd(old_color, color, this));
+  undo_stack_->Push(new SetPolygonColorCmd(old_color, color, ui_));
 }
 
 void s21::View::SolidPolygonType() { SetPolygonType(kSolid); }
@@ -240,7 +238,7 @@ void s21::View::SetVerticeColor() {
   QColor old_color = QColor(ui_->openGLWidget->ver_red_ * 255,
                             ui_->openGLWidget->ver_green_ * 255,
                             ui_->openGLWidget->ver_blue_ * 255);
-  undo_stack_->Push(new SetVerticeColorCmd(old_color, color, this));
+  undo_stack_->Push(new SetVerticeColorCmd(old_color, color, ui_));
 }
 
 void s21::View::FilePathChange(int idx) {
@@ -251,20 +249,20 @@ void s21::View::FilePathChange(int idx) {
 void s21::View::PolygonThicknessSliderReleased() {
   double old = SetPolygonThicknessCmd::get_old();
   double value = ui_->polygonThickness->value();
-  undo_stack_->Push(new s21::SetPolygonThicknessCmd(old, value, this));
+  undo_stack_->Push(new s21::SetPolygonThicknessCmd(old, value, ui_));
 }
 
 void s21::View::VerticeSizeSliderReleased() {
   double old = SetVerticeSizeCmd::get_old();
   double value = ui_->sizeVertice->value();
-  undo_stack_->Push(new SetVerticeSizeCmd(old, value, this));
+  undo_stack_->Push(new SetVerticeSizeCmd(old, value, ui_));
 }
 
 void s21::View::SaveAffine() {
   AffineData old_data = AffineSaveCmd::get_old();
   AffineData new_data = AffineData(ui_);
   if (old_data != new_data) {
-    undo_stack_->Push(new AffineSaveCmd(old_data, new_data, this));
+    undo_stack_->Push(new AffineSaveCmd(old_data, new_data, ui_));
   }
 }
 
@@ -384,10 +382,10 @@ void s21::View::SetValuesOnButtons() {
 
 void s21::View::SetPolygonType(PolygonType type) {
   PolygonType old = type == kDashed ? kSolid : kDashed;
-  undo_stack_->Push(new SetPolygonTypeCmd(old, type, this));
+  undo_stack_->Push(new SetPolygonTypeCmd(old, type, ui_));
 }
 
 void s21::View::SetVerticeType(VerticeType type) {
   VerticeType old = (VerticeType)(ui_->openGLWidget->vertice_type_);
-  undo_stack_->Push(new SetVerticeTypeCmd(old, type, this));
+  undo_stack_->Push(new SetVerticeTypeCmd(old, type, ui_));
 }

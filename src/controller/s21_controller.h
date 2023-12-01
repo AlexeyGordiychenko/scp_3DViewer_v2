@@ -5,13 +5,11 @@
 #include <vector>
 
 #include "../model/s21_vertex3d.h"
-#include "s21_abstractcontroller.h"
-
 namespace s21 {
 
 class Model;
 
-class Controller : public AbstractController {
+class Controller {
  public:
   // Constructors and the destructor
   Controller(Model* model) : model_(model) {}
@@ -22,23 +20,23 @@ class Controller : public AbstractController {
   ~Controller();
 
   // Main functions
-  void Initialize(const std::string filename) override;
-  void RestoreVertices() override;
+  void Initialize(const std::string filename);
+  void RestoreVertices();
 
-  void AffineMove(double ax, double ay, double az) override;
-  void AffineRotateX(double angle) override;
-  void AffineRotateY(double angle) override;
-  void AffineRotateZ(double angle) override;
-  void AffineScale(double k) override;
+  void AffineMove(double ax, double ay, double az);
+  void AffineRotateX(double angle);
+  void AffineRotateY(double angle);
+  void AffineRotateZ(double angle);
+  void AffineScale(double k);
 
-  size_t GetPolygonsEdgesCount() const override;
-  size_t GetVerticesCount() const override;
-  const std::vector<std::vector<int>>& GetPolygons() const override;
-  const std::vector<s21::Vertex3d>& GetVertices() const override;
+  size_t GetPolygonsEdgesCount() const;
+  size_t GetVerticesCount() const;
+  const std::vector<std::vector<int>>& GetPolygons() const;
+  const std::vector<s21::Vertex3d>& GetVertices() const;
 
-  double GetCenterX() const override;
-  double GetCenterY() const override;
-  double GetCenterZ() const override;
+  double GetCenterX() const;
+  double GetCenterY() const;
+  double GetCenterZ() const;
 
  private:
   Model* model_;

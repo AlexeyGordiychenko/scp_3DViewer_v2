@@ -9,7 +9,7 @@ namespace s21 {
 class ProjectionTypeChangeCommand : public Command {
  public:
   ProjectionTypeChangeCommand() = delete;
-  ProjectionTypeChangeCommand(int old_idx, int new_idx, View* mw);
+  ProjectionTypeChangeCommand(int old_idx, int new_idx, Ui::View* ui);
   ProjectionTypeChangeCommand(const ProjectionTypeChangeCommand&) = delete;
   ProjectionTypeChangeCommand& operator=(const ProjectionTypeChangeCommand&) =
       delete;
@@ -21,7 +21,7 @@ class ProjectionTypeChangeCommand : public Command {
   void Redo() override;
 
  private:
-  View* view_;
+  Ui::View* ui_;
   int old_idx_;
   int new_idx_;
   void SetProjectionType(int idx);

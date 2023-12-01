@@ -32,7 +32,6 @@ SOURCES += \
     controller/s21_controller.cc
 
 HEADERS += \
-    controller/s21_abstractcontroller.h \
     thirdparty/gifanim/gifanim.h \
     view/command/s21_affinecmd.h \
     view/command/s21_affinedata.h \

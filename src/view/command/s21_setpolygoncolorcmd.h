@@ -12,7 +12,7 @@ namespace s21 {
 class SetPolygonColorCmd : public Command {
  public:
   SetPolygonColorCmd() = delete;
-  SetPolygonColorCmd(QColor old_color, QColor color, View* mw);
+  SetPolygonColorCmd(QColor old_color, QColor color, Ui::View* ui);
   SetPolygonColorCmd(const SetPolygonColorCmd&) = delete;
   SetPolygonColorCmd& operator=(const SetPolygonColorCmd&) = delete;
   SetPolygonColorCmd(SetPolygonColorCmd&&) = delete;
@@ -22,7 +22,7 @@ class SetPolygonColorCmd : public Command {
   void Undo() override;
 
  private:
-  View* view_;
+  Ui::View* ui_;
   void SetPolygonColor(QColor color);
   QColor old_color_;
   QColor color_;
