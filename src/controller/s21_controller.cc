@@ -44,3 +44,7 @@ double s21::Controller::GetCenterY() const { return model_->GetCenterY(); }
 double s21::Controller::GetCenterZ() const { return model_->GetCenterZ(); }
 
 bool s21::Controller::Empty() const { return model_->Empty(); }
+
+void s21::Controller::NormalizeAngle(double& angle) {
+  model_->NormalizeAngle(angle);
+}

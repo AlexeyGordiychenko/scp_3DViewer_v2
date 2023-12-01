@@ -44,7 +44,6 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
  private:
   // Funcitons
   ~GLWidget() override;
-  void NormalizeAngle(double& angle);
 
   // Variables
   int size_h_ = 0, size_w_ = 0;

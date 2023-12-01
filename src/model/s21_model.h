@@ -30,6 +30,8 @@ class Model {
 
   bool Empty() const;
 
+  void NormalizeAngle(double& angle);
+
  private:
   std::vector<s21::Vertex3d> vertices_;
   std::vector<s21::Vertex3d> vertices_origin_;

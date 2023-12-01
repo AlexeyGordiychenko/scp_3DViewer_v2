@@ -37,6 +37,7 @@ class Controller {
   double GetCenterZ() const;
 
   bool Empty() const;
+  void NormalizeAngle(double& angle);
 
  private:
   Model* model_;

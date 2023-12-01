@@ -106,13 +106,13 @@ void s21::GLWidget::mouseMoveEvent(QMouseEvent* event) {
   if (event->buttons() & Qt::LeftButton) {
     x_rot_ += 360 * dy;
     y_rot_ += 360 * dx;
-    NormalizeAngle(x_rot_);
-    NormalizeAngle(y_rot_);
+    controller_->NormalizeAngle(x_rot_);
+    controller_->NormalizeAngle(y_rot_);
   } else if (event->buttons() & Qt::RightButton) {
     x_rot_ += 360 * dy;
     z_rot_ += 360 * dx;
-    NormalizeAngle(x_rot_);
-    NormalizeAngle(z_rot_);
+    controller_->NormalizeAngle(x_rot_);
+    controller_->NormalizeAngle(z_rot_);
   } else if (event->buttons() & Qt::MiddleButton) {
     x_trans_ += dx;
     y_trans_ -= dy;
@@ -138,8 +138,3 @@ void s21::GLWidget::wheelEvent(QWheelEvent* event) {
 }
 
 s21::GLWidget::~GLWidget() {}
-
-void s21::GLWidget::NormalizeAngle(double& angle) {
-  while (angle < 0) angle += 360 * 16;
-  while (angle > 360) angle -= 360 * 16;
-}

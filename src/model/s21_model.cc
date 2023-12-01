@@ -107,6 +107,11 @@ double s21::Model::GetCenterZ() const { return center_z_; }
 
 bool s21::Model::Empty() const { return is_empty_; }
 
+void s21::Model::NormalizeAngle(double& angle) {
+  while (angle < 0) angle += 360 * 16;
+  while (angle > 360) angle -= 360 * 16;
+}
+
 void s21::Model::ClearData() {
   vertices_.clear();
   polygons_.clear();
