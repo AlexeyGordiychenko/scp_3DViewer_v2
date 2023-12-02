@@ -1,4 +1,4 @@
-#include "s21_setpolygoncolorcmd.h"
+#include "s21_setlinecolorcmd.h"
 
 s21::SetLineColorCmd::SetLineColorCmd(QColor old_color, QColor color,
                                       Ui::View* ui)

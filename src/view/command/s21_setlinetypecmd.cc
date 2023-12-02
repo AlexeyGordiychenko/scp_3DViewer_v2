@@ -1,4 +1,4 @@
-#include "s21_setpolygontypecmd.h"
+#include "s21_setlinetypecmd.h"
 
 s21::SetLineTypeCmd::SetLineTypeCmd(LineType old_type, LineType new_type,
                                     Ui::View* ui)

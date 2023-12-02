@@ -17,9 +17,9 @@ SOURCES += \
     view/command/s21_commandstack.cc \
     view/command/s21_projectiontypechangecmd.cc \
     view/command/s21_setbackgroundcolorcmd.cc \
-    view/command/s21_setpolygoncolorcmd.cc \
-    view/command/s21_setpolygonthicknesscmd.cc \
-    view/command/s21_setpolygontypecmd.cc \
+    view/command/s21_setlinecolorcmd.cc \
+    view/command/s21_setlinethicknesscmd.cc \
+    view/command/s21_setlinetypecmd.cc \
     view/command/s21_setverticecolorcmd.cc \
     view/command/s21_setverticesizecmd.cc \
     view/command/s21_setverticetypecmd.cc \
@@ -37,9 +37,9 @@ HEADERS += \
     view/command/s21_commandstack.h \
     view/command/s21_projectiontypechangecmd.h \
     view/command/s21_setbackgroundcolorcmd.h \
-    view/command/s21_setpolygoncolorcmd.h \
-    view/command/s21_setpolygonthicknesscmd.h \
-    view/command/s21_setpolygontypecmd.h \
+    view/command/s21_setlinecolorcmd.h \
+    view/command/s21_setlinethicknesscmd.h \
+    view/command/s21_setlinetypecmd.h \
     view/command/s21_setverticecolorcmd.h \
     view/command/s21_setverticesizecmd.h \
     view/command/s21_setverticetypecmd.h \

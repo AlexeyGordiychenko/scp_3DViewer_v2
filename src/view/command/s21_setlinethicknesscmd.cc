@@ -1,4 +1,4 @@
-#include "s21_setpolygonthicknesscmd.h"
+#include "s21_setlinethicknesscmd.h"
 
 s21::SetLineThicknessCmd::SetLineThicknessCmd(double old_thickness,
                                               double new_thickness,
