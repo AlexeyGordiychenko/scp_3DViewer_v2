@@ -3,16 +3,16 @@
 
 #include <QColor>
 
-#include "../s21_view.h"
 #include "s21_command.h"
-#include "ui_s21_view.h"
 
 namespace s21 {
+
+class View;
 
 class SetVerticeColorCmd : public Command {
  public:
   SetVerticeColorCmd() = delete;
-  SetVerticeColorCmd(QColor old_color, QColor color, Ui::View* ui);
+  SetVerticeColorCmd(QColor old_color, QColor color, View* view);
   SetVerticeColorCmd(const SetVerticeColorCmd&) = delete;
   SetVerticeColorCmd& operator=(const SetVerticeColorCmd&) = delete;
   SetVerticeColorCmd(SetVerticeColorCmd&&) = delete;
@@ -22,12 +22,9 @@ class SetVerticeColorCmd : public Command {
   void Undo() override;
 
  private:
-  Ui::View* ui_;
-  void SetVerticeColor(QColor color);
-  QColor old_color_;
-  QColor color_;
+  View* view_;
+  QColor old_color_, color_;
 };
 
 }  // namespace s21
-
-#endif
+#endif  // S21_3DVIEWER_V2_COMMAND_SETVERTICECOLORCMD_H

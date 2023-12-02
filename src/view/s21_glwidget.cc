@@ -1,15 +1,34 @@
 #include "s21_glwidget.h"
 
+#include "../controller/s21_controller.h"
 #include "../utils/s21_enums.h"
+#include "s21_view.h"
 
 s21::GLWidget::GLWidget(QWidget* parent) : QOpenGLWidget(parent) {}
 
 void s21::GLWidget::SetController(Controller* controller) {
-  this->controller_ = controller;
+  controller_ = controller;
 }
 
-void s21::GLWidget::SetProjectionType(int projection_type) {
-  projection_type_ = projection_type;
+void s21::GLWidget::SetView(View* view) {
+  view_ = view;
+  view_->AddObserver(this);
+}
+
+void s21::GLWidget::UpdateObserver(EventType event) {
+  switch (event) {
+    case EventType::kRenderFile:
+    case EventType::kSetAffine:
+      ClearTransformations();
+      update();
+      break;
+    case EventType::kAppearanceChange:
+    case EventType::kSetProjectionType:
+    case EventType::kLoadSettings:
+      update();
+    default:
+      break;
+  }
 }
 
 void s21::GLWidget::ClearTransformations() {
@@ -30,7 +49,8 @@ void s21::GLWidget::resizeGL(int w, int h) {
 }
 
 void s21::GLWidget::paintGL() {
-  glClearColor(bg_color_.redF(), bg_color_.greenF(), bg_color_.blueF(), 1);
+  auto bg_color = view_->GetBackgroundColor();
+  glClearColor(bg_color.redF(), bg_color.greenF(), bg_color.blueF(), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -39,7 +59,7 @@ void s21::GLWidget::paintGL() {
       static_cast<double>(size_w_) / static_cast<double>(size_h_);
 
   if (!controller_->Empty()) {
-    if (projection_type_ == kParallel) {
+    if (view_->GetProjectionType() == kParallel) {
       glOrtho(-1.5 * aspect_ratio, 1.5 * aspect_ratio, -1.5, 1.5, -2, 1000);
     } else {
       glFrustum(-1 * aspect_ratio, 1 * aspect_ratio, -1, 1, 1, 99999);
@@ -57,17 +77,24 @@ void s21::GLWidget::paintGL() {
                  -controller_->GetCenterZ());
     glTranslatef(translation_vertex_.x, translation_vertex_.y, 0.0);
 
+    auto line_color = view_->GetLineColor();
+    auto vertice_color = view_->GetVerticeColor();
+    auto line_type = view_->GetLineType();
+    auto vertice_type = view_->GetVerticeType();
+    auto vertice_size = view_->GetVerticeSize();
+    auto line_thickness = view_->GetLineThickness();
+
     auto vertices = controller_->GetVertices();
     for (auto& polygon : controller_->GetPolygons()) {
-      if (edges_type_ == kDashed) {
+      if (line_type == kDashed) {
         glEnable(GL_LINE_STIPPLE);
         glLineStipple(1, 0x00FF);
       }
-      if (edges_type_ == kSolid) {
+      if (line_type == kSolid) {
         glDisable(GL_LINE_STIPPLE);
       }
-      glLineWidth(edges_thickness_);
-      glColor3f(line_color_.redF(), line_color_.greenF(), line_color_.blueF());
+      glLineWidth(line_thickness);
+      glColor3f(line_color.redF(), line_color.greenF(), line_color.blueF());
       glBegin(GL_LINE_LOOP);
       for (auto vertex : polygon) {
         auto point = vertices[vertex];
@@ -75,15 +102,15 @@ void s21::GLWidget::paintGL() {
       }
 
       glEnd();
-      if (vertice_type_ != kNone) {
-        if (vertice_type_ == kCircle) {
+      if (vertice_type != kNone) {
+        if (vertice_type == kCircle) {
           glEnable(GL_POINT_SMOOTH);
         } else {
           glDisable(GL_POINT_SMOOTH);
         }
-        glPointSize(vertice_size_);
-        glColor3f(vertice_color_.redF(), vertice_color_.greenF(),
-                  vertice_color_.blueF());
+        glPointSize(vertice_size);
+        glColor3f(vertice_color.redF(), vertice_color.greenF(),
+                  vertice_color.blueF());
         glBegin(GL_POINTS);
         for (auto vertex : polygon) {
           auto point = vertices[vertex];

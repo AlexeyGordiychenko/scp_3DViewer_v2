@@ -25,11 +25,9 @@ class AffineSaveCmd : public Command {
  private:
   Ui::View* ui_;
   inline static AffineData prev_old = AffineData();
-  AffineData new_data_;
-  AffineData old_data_;
+  AffineData new_data_, old_data_;
   void Transform(AffineData& data);
 };
 
 }  // namespace s21
-
-#endif
+#endif  // S21_3DVIEWER_V2_COMMAND_AFFINESAVECOMMAND_H

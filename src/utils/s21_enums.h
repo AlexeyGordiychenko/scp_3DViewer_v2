@@ -6,6 +6,13 @@ namespace s21 {
 enum ProjectionType { kParallel, kCentral };
 enum LineType { kSolid, kDashed };
 enum VerticeType { kNone, kCircle, kSquare };
+enum EventType {
+  kRenderFile,
+  kSetAffine,
+  kAppearanceChange,
+  kSetProjectionType,
+  kLoadSettings
+};
 
 }  // namespace s21
 #endif  // S21_3DVIEWER_V2_ENUMS_H

@@ -1,16 +1,16 @@
 #ifndef S21_3DVIEWER_V2_COMMAND_SETVERTICESIZECMD_H
 #define S21_3DVIEWER_V2_COMMAND_SETVERTICESIZECMD_H
 
-#include "../s21_view.h"
 #include "s21_command.h"
-#include "ui_s21_view.h"
 
 namespace s21 {
+
+class View;
 
 class SetVerticeSizeCmd : public Command {
  public:
   SetVerticeSizeCmd() = delete;
-  SetVerticeSizeCmd(double old_thickness, double new_thickness, Ui::View* ui);
+  SetVerticeSizeCmd(double old_thickness, double new_thickness, View* view);
   SetVerticeSizeCmd(const SetVerticeSizeCmd&) = delete;
   SetVerticeSizeCmd& operator=(const SetVerticeSizeCmd&) = delete;
   SetVerticeSizeCmd(SetVerticeSizeCmd&&) = delete;
@@ -22,13 +22,10 @@ class SetVerticeSizeCmd : public Command {
   static double get_old();
 
  private:
-  Ui::View* ui_;
-  void SetVerticeSize(double thickness);
-  double old_thickness_;
-  double new_thickness_;
+  View* view_;
+  double old_thickness_, new_thickness_;
   inline static double prev_old_;
 };
 
 }  // namespace s21
-
-#endif
+#endif  // S21_3DVIEWER_V2_COMMAND_SETVERTICESIZECMD_H

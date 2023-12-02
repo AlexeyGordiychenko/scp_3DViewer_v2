@@ -3,17 +3,17 @@
 
 #include <QColor>
 
-#include "../s21_glwidget.h"
-#include "../s21_view.h"
+#include "../utils/s21_enums.h"
 #include "s21_command.h"
-#include "ui_s21_view.h"
 
 namespace s21 {
+
+class View;
 
 class SetLineTypeCmd : public Command {
  public:
   SetLineTypeCmd() = delete;
-  SetLineTypeCmd(LineType old_type, LineType new_type, Ui::View* ui);
+  SetLineTypeCmd(LineType old_type, LineType new_type, View* view);
   SetLineTypeCmd(const SetLineTypeCmd&) = delete;
   SetLineTypeCmd& operator=(const SetLineTypeCmd&) = delete;
   SetLineTypeCmd(SetLineTypeCmd&&) = delete;
@@ -23,12 +23,9 @@ class SetLineTypeCmd : public Command {
   void Undo() override;
 
  private:
-  Ui::View* ui_;
-  void SetLineType(LineType type);
-  LineType old_type_;
-  LineType new_type_;
+  View* view_;
+  LineType old_type_, new_type_;
 };
 
 }  // namespace s21
-
-#endif
+#endif  // S21_3DVIEWER_V2_COMMAND_SETLINETYPECMD_H

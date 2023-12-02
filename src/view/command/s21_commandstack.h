@@ -30,5 +30,4 @@ class CommandStack : public QObject {
 };
 
 }  // namespace s21
-
-#endif
+#endif  // S21_3DVIEWER_V2_COMMAND_COMMANDSTACK_H

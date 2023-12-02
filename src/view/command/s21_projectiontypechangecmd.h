@@ -1,15 +1,18 @@
-#include <QUndoCommand>
+#ifndef S21_3DVIEWER_V2_COMMAND_SETPROJECTIONTYPECHANGECMD_H
+#define S21_3DVIEWER_V2_COMMAND_SETPROJECTIONTYPECHANGECMD_H
 
-#include "../s21_view.h"
+#include "../utils/s21_enums.h"
 #include "s21_command.h"
-#include "ui_s21_view.h"
 
 namespace s21 {
+
+class View;
 
 class ProjectionTypeChangeCommand : public Command {
  public:
   ProjectionTypeChangeCommand() = delete;
-  ProjectionTypeChangeCommand(int old_idx, int new_idx, Ui::View* ui);
+  ProjectionTypeChangeCommand(ProjectionType old_idx, ProjectionType new_idx,
+                              View* view);
   ProjectionTypeChangeCommand(const ProjectionTypeChangeCommand&) = delete;
   ProjectionTypeChangeCommand& operator=(const ProjectionTypeChangeCommand&) =
       delete;
@@ -21,10 +24,9 @@ class ProjectionTypeChangeCommand : public Command {
   void Redo() override;
 
  private:
-  Ui::View* ui_;
-  int old_idx_;
-  int new_idx_;
-  void SetProjectionType(int idx);
+  View* view_;
+  ProjectionType old_idx_, new_idx_;
 };
 
 }  // namespace s21
+#endif  // S21_3DVIEWER_V2_COMMAND_SETPROJECTIONTYPECHANGECMD_H

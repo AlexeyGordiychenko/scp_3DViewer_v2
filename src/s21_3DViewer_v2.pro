@@ -51,6 +51,7 @@ HEADERS += \
     utils/s21_affinedata.h \
     utils/s21_vertex3d.h \
     utils/s21_enums.h \
+    utils/s21_observer.h
 
 FORMS += \
     view/s21_view.ui

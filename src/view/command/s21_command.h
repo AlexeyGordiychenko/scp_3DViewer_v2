@@ -16,5 +16,4 @@ class Command {
 };
 
 }  // namespace s21
-
-#endif
+#endif  // S21_3DVIEWER_V2_COMMAND_COMMAND_H

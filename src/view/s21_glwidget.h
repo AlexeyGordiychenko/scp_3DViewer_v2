@@ -4,11 +4,18 @@
 #include <QOpenGLWidget>
 #include <QtOpenGL>
 
-#include "../controller/s21_controller.h"
+#include "../utils/s21_enums.h"
+#include "../utils/s21_observer.h"
+#include "../utils/s21_vertex3d.h"
 
 namespace s21 {
 
-class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
+class Controller;
+class View;
+
+class GLWidget : public QOpenGLWidget,
+                 protected QOpenGLFunctions,
+                 public Observer {
  public:
   // Constructors
   explicit GLWidget(QWidget* parent = nullptr);
@@ -18,16 +25,10 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   GLWidget& operator=(GLWidget&&) = delete;
 
   // Funcitons
-  void SetProjectionType(int idx);
   void ClearTransformations();
   void SetController(Controller* controller);
-
-  // Variables
-  QColor bg_color_ = QColor(0, 0, 0);
-  QColor line_color_ = QColor(0, 255, 0);
-  QColor vertice_color_ = QColor(0, 0, 255);
-  double edges_thickness_ = 1, vertice_size_ = 1;
-  int vertice_type_ = 0, projection_type_ = 0, edges_type_ = 0;
+  void SetView(View* view);
+  void UpdateObserver(EventType event) override;
 
  protected:
   // OPENGL
@@ -51,6 +52,7 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   double zoom_ = 1;
   QPointF last_mouse_pos_;
   Controller* controller_;
+  View* view_;
 };
 }  // namespace s21
 #endif  // S21_3DVIEWER_V2_GLWIDGET_H

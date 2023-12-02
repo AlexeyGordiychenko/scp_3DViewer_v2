@@ -4,7 +4,6 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-#include "../controller/s21_controller.h"
 #include "command/s21_affinesave.h"
 #include "command/s21_projectiontypechangecmd.h"
 #include "command/s21_setbackgroundcolorcmd.h"
@@ -15,8 +14,6 @@
 #include "command/s21_setverticesizecmd.h"
 #include "command/s21_setverticetypecmd.h"
 #include "s21_gifcreator.h"
-#include "s21_glwidget.h"
-#include "ui_s21_view.h"
 
 s21::View::View(Controller* controller, QWidget* parent)
     : QMainWindow(parent), ui_(new Ui::View), controller_(controller) {
@@ -26,7 +23,7 @@ s21::View::View(Controller* controller, QWidget* parent)
   connect(ui_->openFile, SIGNAL(clicked()), this, SLOT(OpenFile()));
   connect(ui_->renderFile, SIGNAL(clicked()), this, SLOT(RenderFile()));
   connect(ui_->projectionType, SIGNAL(currentIndexChanged(int)), this,
-          SLOT(SetProjectionType(int)));
+          SLOT(ProjectionTypeChange(int)));
   connect(ui_->takeScreenshot, SIGNAL(clicked()), this, SLOT(TakeScreenshot()));
   connect(ui_->getGIF, SIGNAL(clicked()), this, SLOT(GetGIF()));
   connect(ui_->resetModel, SIGNAL(clicked()), this, SLOT(ResetModel()));
@@ -35,25 +32,29 @@ s21::View::View(Controller* controller, QWidget* parent)
   connect(ui_->applyAffine, SIGNAL(clicked()), this, SLOT(ApplyAffine()));
   connect(ui_->resetAffine, SIGNAL(clicked()), this, SLOT(ResetAffine()));
 
-  connect(ui_->bgColor, SIGNAL(clicked()), this, SLOT(SetBackgroundColor()));
+  // Background color
+  connect(ui_->bgColor, SIGNAL(clicked()), this, SLOT(BackgroundColorChange()));
 
-  connect(ui_->lineColor, SIGNAL(clicked()), this, SLOT(SetLineColor()));
+  // Line
+  connect(ui_->lineColor, SIGNAL(clicked()), this, SLOT(LineColorChange()));
   connect(ui_->solidLineType, SIGNAL(clicked()), this,
-          SLOT(SetSolidLineType()));
+          SLOT(SolidLineTypeChange()));
   connect(ui_->dashedLineType, SIGNAL(clicked()), this,
-          SLOT(SetDashedLineType()));
+          SLOT(DashedLineTypeChange()));
   connect(ui_->lineThickness, SIGNAL(valueChanged(int)), this,
-          SLOT(SetLineThickness(int)));
+          SLOT(LineThicknessChange(int)));
 
-  connect(ui_->verticeColor, SIGNAL(clicked()), this, SLOT(SetVerticeColor()));
+  // Vertice
+  connect(ui_->verticeColor, SIGNAL(clicked()), this,
+          SLOT(VerticeColorChange()));
   connect(ui_->noneVerticeType, SIGNAL(clicked()), this,
-          SLOT(SetNoneVerticeType()));
+          SLOT(NoneVerticeTypeChange()));
   connect(ui_->circleVerticeType, SIGNAL(clicked()), this,
-          SLOT(SetCircleVerticeType()));
+          SLOT(CircleVerticeTypeChange()));
   connect(ui_->squareVerticeType, SIGNAL(clicked()), this,
-          SLOT(SetSquareVerticeType()));
+          SLOT(SquareVerticeTypeChange()));
   connect(ui_->verticeSize, SIGNAL(valueChanged(int)), this,
-          SLOT(SetVerticeSize(int)));
+          SLOT(VerticeSizeChange(int)));
 
   connect(ui_->filePath, SIGNAL(currentIndexChanged(int)), this,
           SLOT(FilePathChange(int)));
@@ -62,10 +63,10 @@ s21::View::View(Controller* controller, QWidget* parent)
   ui_->projectionType->addItem("Central", kCentral);
 
   ui_->openGLWidget->SetController(controller);
+  ui_->openGLWidget->SetView(this);
 
   settings_ = new QSettings("21school", "3DViewer_v2.0", this);
   LoadSettings();
-  SetValuesOnButtons();
 
   CreateCommandStack();
 }
@@ -75,6 +76,89 @@ s21::View::~View() {
   delete settings_;
   delete ui_;
   delete undo_stack_;
+}
+
+void s21::View::AddObserver(Observer* observer) {
+  observers.push_back(observer);
+}
+
+void s21::View::RemoveObserver(Observer* observer) {
+  observers.remove(observer);
+}
+
+void s21::View::Notify(EventType event) {
+  for (auto observer : observers) observer->UpdateObserver(event);
+}
+
+void s21::View::SetBackgroundColor(QColor color) {
+  bg_color_ = color;
+  SetButtonBackground(ui_->bgColor, bg_color_);
+  Notify(EventType::kAppearanceChange);
+}
+
+QColor s21::View::GetBackgroundColor() { return bg_color_; }
+
+void s21::View::SetLineColor(QColor color) {
+  line_color_ = color;
+  SetButtonBackground(ui_->lineColor, line_color_);
+  Notify(EventType::kAppearanceChange);
+}
+
+QColor s21::View::GetLineColor() { return line_color_; }
+
+void s21::View::SetVerticeColor(QColor color) {
+  vertice_color_ = color;
+  SetButtonBackground(ui_->verticeColor, vertice_color_);
+  Notify(EventType::kAppearanceChange);
+}
+
+QColor s21::View::GetVerticeColor() { return vertice_color_; }
+
+void s21::View::SetProjectionType(ProjectionType type) {
+  projection_type_ = type;
+  ui_->projectionType->setCurrentIndex(projection_type_);
+  Notify(EventType::kSetProjectionType);
+}
+
+s21::ProjectionType s21::View::GetProjectionType() { return projection_type_; }
+
+void s21::View::SetLineType(LineType type) {
+  line_type_ = type;
+  ui_->solidLineType->setChecked(type == LineType::kSolid);
+  ui_->dashedLineType->setChecked(type == LineType::kDashed);
+  Notify(EventType::kAppearanceChange);
+}
+
+s21::LineType s21::View::GetLineType() { return line_type_; }
+
+void s21::View::SetVerticeType(VerticeType type) {
+  vertice_type_ = type;
+  ui_->noneVerticeType->setChecked(type == VerticeType::kNone);
+  ui_->circleVerticeType->setChecked(type == VerticeType::kCircle);
+  ui_->squareVerticeType->setChecked(type == VerticeType::kSquare);
+  Notify(EventType::kAppearanceChange);
+}
+
+s21::VerticeType s21::View::GetVerticeType() { return vertice_type_; }
+
+void s21::View::SetVerticeSize(double value) {
+  vertice_size_ = value / 5;
+  ui_->verticeSize->setValue(value);
+  Notify(EventType::kAppearanceChange);
+}
+
+double s21::View::GetVerticeSize() { return vertice_size_; }
+
+void s21::View::SetLineThickness(double value) {
+  line_thickness_ = value / 10;
+  ui_->lineThickness->setValue(value);
+  Notify(EventType::kAppearanceChange);
+}
+
+double s21::View::GetLineThickness() { return line_thickness_; }
+
+void s21::View::SetButtonBackground(QPushButton* button, QColor color) {
+  button->setStyleSheet(QString("background-color: %1").arg(color.name()));
 }
 
 void s21::View::OpenFile() {
@@ -109,14 +193,14 @@ void s21::View::RenderFile() {
   } else {
     controller_->RestoreVertices();
   }
-  ui_->openGLWidget->ClearTransformations();
-  ui_->openGLWidget->update();
+  Notify(EventType::kRenderFile);
 }
 
-void s21::View::SetProjectionType(int idx) {
-  int old = ui_->openGLWidget->projection_type_;
-  if (old != idx)
-    undo_stack_->Push(new ProjectionTypeChangeCommand(old, idx, ui_));
+void s21::View::ProjectionTypeChange(int idx) {
+  if (projection_type_ != idx) {
+    undo_stack_->Push(new ProjectionTypeChangeCommand(
+        projection_type_, static_cast<ProjectionType>(idx), this));
+  }
 }
 
 void s21::View::TakeScreenshot() {
@@ -166,10 +250,9 @@ void s21::View::GetGIF() {
 
 void s21::View::ApplyAffine() {
   AffineData data(ui_);
-  ui_->openGLWidget->ClearTransformations();
   controller_->RestoreVertices();
   controller_->ApplyAffine(data);
-  ui_->openGLWidget->update();
+  Notify(EventType::kSetAffine);
 }
 
 void s21::View::ResetModel() {}
@@ -185,42 +268,33 @@ void s21::View::ResetAffine() {
   SaveAffine();
 }
 
-void s21::View::SetBackgroundColor() {
+void s21::View::BackgroundColorChange() {
   QColor color = QColorDialog::getColor();
-  auto old_color = ui_->openGLWidget->bg_color_;
-  undo_stack_->Push(new SetBackgroundColorCmd(old_color, color, ui_));
+  undo_stack_->Push(new SetBackgroundColorCmd(bg_color_, color, this));
 }
 
-void s21::View::SetLineColor() {
+void s21::View::LineColorChange() {
   QColor color = QColorDialog::getColor();
-  auto old_color = ui_->openGLWidget->line_color_;
-  undo_stack_->Push(new SetLineColorCmd(old_color, color, ui_));
+  undo_stack_->Push(new SetLineColorCmd(line_color_, color, this));
 }
 
-void s21::View::SetSolidLineType() { SetLineType(kSolid); }
+void s21::View::SolidLineTypeChange() { LineTypeChange(kSolid); }
 
-void s21::View::SetDashedLineType() { SetLineType(kDashed); }
+void s21::View::DashedLineTypeChange() { LineTypeChange(kDashed); }
 
-void s21::View::SetLineThickness(int value) {
-  ui_->openGLWidget->edges_thickness_ = value / 10;
-  ui_->openGLWidget->update();
-}
+void s21::View::LineThicknessChange(int value) { SetLineThickness(value); }
 
-void s21::View::SetNoneVerticeType() { SetVerticeType(kNone); }
+void s21::View::NoneVerticeTypeChange() { VerticeTypeChange(kNone); }
 
-void s21::View::SetCircleVerticeType() { SetVerticeType(kCircle); }
+void s21::View::CircleVerticeTypeChange() { VerticeTypeChange(kCircle); }
 
-void s21::View::SetSquareVerticeType() { SetVerticeType(kSquare); }
+void s21::View::SquareVerticeTypeChange() { VerticeTypeChange(kSquare); }
 
-void s21::View::SetVerticeSize(int value) {
-  ui_->openGLWidget->vertice_size_ = value / 5;
-  ui_->openGLWidget->update();
-}
+void s21::View::VerticeSizeChange(int value) { SetVerticeSize(value); }
 
-void s21::View::SetVerticeColor() {
+void s21::View::VerticeColorChange() {
   QColor color = QColorDialog::getColor();
-  QColor old_color = ui_->openGLWidget->vertice_color_;
-  undo_stack_->Push(new SetVerticeColorCmd(old_color, color, ui_));
+  undo_stack_->Push(new SetVerticeColorCmd(vertice_color_, color, this));
 }
 
 void s21::View::FilePathChange(int idx) {
@@ -231,13 +305,13 @@ void s21::View::FilePathChange(int idx) {
 void s21::View::LineThicknessSliderReleased() {
   double old = SetLineThicknessCmd::get_old();
   double value = ui_->lineThickness->value();
-  undo_stack_->Push(new s21::SetLineThicknessCmd(old, value, ui_));
+  undo_stack_->Push(new s21::SetLineThicknessCmd(old, value, this));
 }
 
 void s21::View::VerticeSizeSliderReleased() {
   double old = SetVerticeSizeCmd::get_old();
   double value = ui_->verticeSize->value();
-  undo_stack_->Push(new SetVerticeSizeCmd(old, value, ui_));
+  undo_stack_->Push(new SetVerticeSizeCmd(old, value, this));
 }
 
 void s21::View::SaveAffine() {
@@ -278,75 +352,54 @@ void s21::View::CreateCommandStack() {
 }
 
 void s21::View::SaveSettings() {
-  settings_->setValue("bg_color", ui_->openGLWidget->bg_color_);
-  settings_->setValue("line_color", ui_->openGLWidget->line_color_);
-  settings_->setValue("vertice_color", ui_->openGLWidget->vertice_color_);
-  settings_->setValue("edges_type", ui_->openGLWidget->edges_type_);
-  settings_->setValue("edges_thickness", ui_->openGLWidget->edges_thickness_);
-  settings_->setValue("vertice_type", ui_->openGLWidget->vertice_type_);
-  settings_->setValue("vertice_size", ui_->openGLWidget->vertice_size_);
-  settings_->setValue("projectionType", ui_->openGLWidget->projection_type_);
+  settings_->setValue("bg_color", bg_color_);
+  settings_->setValue("line_color", line_color_);
+  settings_->setValue("vertice_color", vertice_color_);
+  settings_->setValue("line_type", line_type_);
+  settings_->setValue("line_thickness", line_thickness_);
+  settings_->setValue("vertice_type", vertice_type_);
+  settings_->setValue("vertice_size", vertice_size_);
+  settings_->setValue("projectionType", projection_type_);
 }
 
 void s21::View::LoadSettings() {
   if (settings_->contains("bg_color")) {
-    ui_->openGLWidget->bg_color_ = settings_->value("bg_color").value<QColor>();
+    bg_color_ = settings_->value("bg_color").value<QColor>();
   }
   if (settings_->contains("line_color")) {
-    ui_->openGLWidget->line_color_ =
-        settings_->value("line_color").value<QColor>();
+    line_color_ = settings_->value("line_color").value<QColor>();
   }
   if (settings_->contains("vertice_color")) {
-    ui_->openGLWidget->vertice_color_ =
-        settings_->value("vertice_color").value<QColor>();
+    vertice_color_ = settings_->value("vertice_color").value<QColor>();
   }
-  ui_->openGLWidget->edges_type_ = settings_->value("edges_type").toInt();
-  ui_->openGLWidget->edges_thickness_ =
-      settings_->value("edges_thickness").toDouble();
-  ui_->openGLWidget->vertice_type_ = settings_->value("vertice_type").toInt();
-  ui_->openGLWidget->vertice_size_ = settings_->value("vertice_size").toInt();
-  ui_->openGLWidget->projection_type_ =
-      settings_->value("projectionType").toInt();
-  ui_->openGLWidget->update();
+  line_type_ = settings_->value("line_type").value<LineType>();
+  line_thickness_ = settings_->value("edges_thickness").toDouble();
+  vertice_type_ = settings_->value("vertice_type").value<VerticeType>();
+  vertice_size_ = settings_->value("vertice_size").toInt();
+  projection_type_ = settings_->value("projectionType").value<ProjectionType>();
+  SetValuesOnButtons();
+  Notify(EventType::kLoadSettings);
 }
 
 void s21::View::SetValuesOnButtons() {
-  ui_->bgColor->setStyleSheet(
-      QString("background-color: %1").arg(ui_->openGLWidget->bg_color_.name()));
-  ui_->lineColor->setStyleSheet(
-      QString("background-color: %1")
-          .arg(ui_->openGLWidget->line_color_.name()));
-  ui_->verticeColor->setStyleSheet(
-      QString("background-color: %1")
-          .arg(ui_->openGLWidget->vertice_color_.name()));
-  if (ui_->openGLWidget->edges_type_ == kSolid) {
-    ui_->solidLineType->setChecked(true);
-  } else {
-    ui_->dashedLineType->setChecked(true);
-  }
-  if (ui_->openGLWidget->vertice_type_ == kNone) {
-    ui_->noneVerticeType->setChecked(true);
-  } else if (ui_->openGLWidget->vertice_type_ == kCircle) {
-    ui_->circleVerticeType->setChecked(true);
-  } else {
-    ui_->squareVerticeType->setChecked(true);
-  }
+  SetButtonBackground(ui_->bgColor, bg_color_);
+  SetButtonBackground(ui_->lineColor, line_color_);
+  SetButtonBackground(ui_->verticeColor, vertice_color_);
+  ui_->solidLineType->setChecked(line_type_ == LineType::kSolid);
+  ui_->dashedLineType->setChecked(line_type_ == LineType::kDashed);
+  ui_->noneVerticeType->setChecked(vertice_type_ == VerticeType::kNone);
+  ui_->circleVerticeType->setChecked(vertice_type_ == VerticeType::kCircle);
+  ui_->squareVerticeType->setChecked(vertice_type_ == VerticeType::kSquare);
   ui_->lineThickness->setValue(settings_->value("edges_thickness").toDouble() *
                                10);
   ui_->verticeSize->setValue(settings_->value("vertice_size").toDouble() * 5);
-  if (ui_->openGLWidget->projection_type_ == kParallel) {
-    ui_->projectionType->setCurrentIndex(0);
-  } else {
-    ui_->projectionType->setCurrentIndex(1);
-  }
+  ui_->projectionType->setCurrentIndex(projection_type_);
 }
 
-void s21::View::SetLineType(LineType type) {
-  LineType old = type == kDashed ? kSolid : kDashed;
-  undo_stack_->Push(new SetLineTypeCmd(old, type, ui_));
+void s21::View::LineTypeChange(LineType type) {
+  undo_stack_->Push(new SetLineTypeCmd(line_type_, type, this));
 }
 
-void s21::View::SetVerticeType(VerticeType type) {
-  VerticeType old = (VerticeType)(ui_->openGLWidget->vertice_type_);
-  undo_stack_->Push(new SetVerticeTypeCmd(old, type, ui_));
+void s21::View::VerticeTypeChange(VerticeType type) {
+  undo_stack_->Push(new SetVerticeTypeCmd(vertice_type_, type, this));
 }
