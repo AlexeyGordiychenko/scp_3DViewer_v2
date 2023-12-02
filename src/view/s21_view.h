@@ -31,24 +31,24 @@ class View : public QMainWindow {
  private slots:
   void OpenFile();
   void RenderFile();
-  void ProjectionTypeChange(int idx);
+  void SetProjectionType(int idx);
   void TakeScreenshot();
   void GetGIF();
-  void Affine();
-  void Reset();
-  void ResetParams();
+  void ApplyAffine();
+  void ResetModel();
+  void ResetAffine();
   void SetBackgroundColor();
-  void SetPolygonColor();
-  void SolidPolygonType();
-  void DashedPolygonType();
-  void SetPolygonThickness(int value);
-  void SetNoneVertice();
-  void SetCircleVertice();
-  void SetSquareVertice();
+  void SetLineColor();
+  void SetSolidLineType();
+  void SetDashedLineType();
+  void SetLineThickness(int value);
+  void SetNoneVerticeType();
+  void SetCircleVerticeType();
+  void SetSquareVerticeType();
   void SetVerticeSize(int value);
   void SetVerticeColor();
   void FilePathChange(int idx);
-  void PolygonThicknessSliderReleased();
+  void LineThicknessSliderReleased();
   void VerticeSizeSliderReleased();
   void SaveAffine();
 
@@ -65,7 +65,7 @@ class View : public QMainWindow {
   void SaveSettings();
   void LoadSettings();
   void SetValuesOnButtons();
-  void SetPolygonType(PolygonType type);
+  void SetLineType(LineType type);
   void SetVerticeType(VerticeType type);
 };
 

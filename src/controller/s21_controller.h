@@ -24,7 +24,7 @@ class Controller {
   // Main functions
   void Initialize(const std::string filename);
   void RestoreVertices();
-  void Affine(AffineData& data);
+  void ApplyAffine(AffineData& data);
 
   size_t GetPolygonsEdgesCount() const;
   size_t GetVerticesCount() const;

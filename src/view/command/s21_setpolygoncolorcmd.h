@@ -9,21 +9,21 @@
 
 namespace s21 {
 
-class SetPolygonColorCmd : public Command {
+class SetLineColorCmd : public Command {
  public:
-  SetPolygonColorCmd() = delete;
-  SetPolygonColorCmd(QColor old_color, QColor color, Ui::View* ui);
-  SetPolygonColorCmd(const SetPolygonColorCmd&) = delete;
-  SetPolygonColorCmd& operator=(const SetPolygonColorCmd&) = delete;
-  SetPolygonColorCmd(SetPolygonColorCmd&&) = delete;
-  SetPolygonColorCmd& operator=(SetPolygonColorCmd&&) = delete;
-  ~SetPolygonColorCmd() = default;
+  SetLineColorCmd() = delete;
+  SetLineColorCmd(QColor old_color, QColor color, Ui::View* ui);
+  SetLineColorCmd(const SetLineColorCmd&) = delete;
+  SetLineColorCmd& operator=(const SetLineColorCmd&) = delete;
+  SetLineColorCmd(SetLineColorCmd&&) = delete;
+  SetLineColorCmd& operator=(SetLineColorCmd&&) = delete;
+  ~SetLineColorCmd() = default;
   void Redo() override;
   void Undo() override;
 
  private:
   Ui::View* ui_;
-  void SetPolygonColor(QColor color);
+  void SetLineColor(QColor color);
   QColor old_color_;
   QColor color_;
 };

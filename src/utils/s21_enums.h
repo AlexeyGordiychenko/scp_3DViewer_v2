@@ -4,7 +4,7 @@
 namespace s21 {
 
 enum ProjectionType { kParallel, kCentral };
-enum PolygonType { kSolid, kDashed };
+enum LineType { kSolid, kDashed };
 enum VerticeType { kNone, kCircle, kSquare };
 
 }  // namespace s21

@@ -10,7 +10,7 @@ void s21::Controller::Initialize(const std::string filename) {
 
 void s21::Controller::RestoreVertices() { model_->RestoreVertices(); }
 
-void s21::Controller::Affine(AffineData& data) { model_->Affine(data); }
+void s21::Controller::ApplyAffine(AffineData& data) { model_->ApplyAffine(data); }
 
 size_t s21::Controller::GetPolygonsEdgesCount() const {
   return model_->GetPolygonsEdgesCount();

@@ -7,16 +7,15 @@
 
 namespace s21 {
 
-class SetPolygonThicknessCmd : public Command {
+class SetLineThicknessCmd : public Command {
  public:
-  SetPolygonThicknessCmd() = delete;
-  SetPolygonThicknessCmd(double old_thickness, double new_thickness,
-                         Ui::View* ui);
-  SetPolygonThicknessCmd(const SetPolygonThicknessCmd&) = delete;
-  SetPolygonThicknessCmd& operator=(const SetPolygonThicknessCmd&) = delete;
-  SetPolygonThicknessCmd(SetPolygonThicknessCmd&&) = delete;
-  SetPolygonThicknessCmd& operator=(SetPolygonThicknessCmd&&) = delete;
-  ~SetPolygonThicknessCmd() = default;
+  SetLineThicknessCmd() = delete;
+  SetLineThicknessCmd(double old_thickness, double new_thickness, Ui::View* ui);
+  SetLineThicknessCmd(const SetLineThicknessCmd&) = delete;
+  SetLineThicknessCmd& operator=(const SetLineThicknessCmd&) = delete;
+  SetLineThicknessCmd(SetLineThicknessCmd&&) = delete;
+  SetLineThicknessCmd& operator=(SetLineThicknessCmd&&) = delete;
+  ~SetLineThicknessCmd() = default;
   void Redo() override;
   void Undo() override;
   void static init_old(double old);
@@ -24,7 +23,7 @@ class SetPolygonThicknessCmd : public Command {
 
  private:
   Ui::View* ui_;
-  void SetPolygonThickness(double thickness);
+  void SetLineThickness(double thickness);
   double old_thickness_;
   double new_thickness_;
   inline static double prev_old_;

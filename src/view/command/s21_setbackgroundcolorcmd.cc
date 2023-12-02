@@ -16,7 +16,7 @@ void s21::SetBackgroundColorCmd::SetBackgroundColor(QColor color) {
     char rgba_color[40];
     sprintf(rgba_color, "background-color: rgb(%d,%d,%d)", color.red(),
             color.green(), color.blue());
-    ui_->setBgColor->setStyleSheet(rgba_color);
+    ui_->bgColor->setStyleSheet(rgba_color);
     ui_->openGLWidget->update();
   }
 }

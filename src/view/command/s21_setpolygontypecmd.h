@@ -10,23 +10,23 @@
 
 namespace s21 {
 
-class SetPolygonTypeCmd : public Command {
+class SetLineTypeCmd : public Command {
  public:
-  SetPolygonTypeCmd() = delete;
-  SetPolygonTypeCmd(PolygonType old_type, PolygonType new_type, Ui::View* ui);
-  SetPolygonTypeCmd(const SetPolygonTypeCmd&) = delete;
-  SetPolygonTypeCmd& operator=(const SetPolygonTypeCmd&) = delete;
-  SetPolygonTypeCmd(SetPolygonTypeCmd&&) = delete;
-  SetPolygonTypeCmd& operator=(SetPolygonTypeCmd&&) = delete;
-  ~SetPolygonTypeCmd() = default;
+  SetLineTypeCmd() = delete;
+  SetLineTypeCmd(LineType old_type, LineType new_type, Ui::View* ui);
+  SetLineTypeCmd(const SetLineTypeCmd&) = delete;
+  SetLineTypeCmd& operator=(const SetLineTypeCmd&) = delete;
+  SetLineTypeCmd(SetLineTypeCmd&&) = delete;
+  SetLineTypeCmd& operator=(SetLineTypeCmd&&) = delete;
+  ~SetLineTypeCmd() = default;
   void Redo() override;
   void Undo() override;
 
  private:
   Ui::View* ui_;
-  void SetPolygonType(PolygonType type);
-  PolygonType old_type_;
-  PolygonType new_type_;
+  void SetLineType(LineType type);
+  LineType old_type_;
+  LineType new_type_;
 };
 
 }  // namespace s21

@@ -29,7 +29,7 @@ void s21::Model::RestoreVertices() {
   center_z_ = 0;
 }
 
-void s21::Model::Affine(AffineData &data) {
+void s21::Model::ApplyAffine(AffineData& data) {
   AffineScale(data.scale_k);
   AffineMove(data.move_x, data.move_y, data.move_z);
   AffineRotateX((data.rotate_x) * M_PI / 180);

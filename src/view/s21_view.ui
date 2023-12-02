@@ -77,7 +77,7 @@
 }</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="getScreenshot">
+   <widget class="QPushButton" name="takeScreenshot">
     <property name="geometry">
      <rect>
       <x>324</x>
@@ -121,7 +121,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="reset_model">
+   <widget class="QPushButton" name="resetModel">
     <property name="geometry">
      <rect>
       <x>508</x>
@@ -209,7 +209,7 @@
       </widget>
      </item>
      <item row="5" column="0">
-      <widget class="QRadioButton" name="squareVertice">
+      <widget class="QRadioButton" name="squareVerticeType">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -222,7 +222,7 @@
       </widget>
      </item>
      <item row="2" column="0" rowspan="2">
-      <widget class="QRadioButton" name="noneVertice">
+      <widget class="QRadioButton" name="noneVerticeType">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -245,7 +245,7 @@
       </widget>
      </item>
      <item row="4" column="0">
-      <widget class="QRadioButton" name="circleVertice">
+      <widget class="QRadioButton" name="circleVerticeType">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -258,7 +258,7 @@
       </widget>
      </item>
      <item row="2" column="3" rowspan="4">
-      <widget class="QPushButton" name="setVerticeColor">
+      <widget class="QPushButton" name="verticeColor">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -280,7 +280,7 @@
       </widget>
      </item>
      <item row="2" column="1" rowspan="4" colspan="2">
-      <widget class="QSlider" name="sizeVertice">
+      <widget class="QSlider" name="verticeSize">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -326,9 +326,9 @@
       <number>5</number>
      </property>
      <item row="0" column="0" colspan="4">
-      <widget class="QLabel" name="labelPolygonStyle">
+      <widget class="QLabel" name="labelLineStyle">
        <property name="text">
-        <string>Polygons style</string>
+        <string>Line style</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -336,21 +336,21 @@
       </widget>
      </item>
      <item row="1" column="3">
-      <widget class="QLabel" name="labelPolygonColor">
+      <widget class="QLabel" name="labelLineColor">
        <property name="text">
         <string>Color:</string>
        </property>
       </widget>
      </item>
      <item row="2" column="0" rowspan="2">
-      <widget class="QRadioButton" name="solidPolygonType">
+      <widget class="QRadioButton" name="solidLineType">
        <property name="text">
         <string>Solid</string>
        </property>
       </widget>
      </item>
      <item row="2" column="3" rowspan="3">
-      <widget class="QPushButton" name="setPolygonColor">
+      <widget class="QPushButton" name="lineColor">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -372,14 +372,14 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="labelPolygonLineType">
+      <widget class="QLabel" name="labelLineType">
        <property name="text">
-        <string>Line type:</string>
+        <string>Type:</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1" colspan="2">
-      <widget class="QLabel" name="labelPolygonThickness">
+      <widget class="QLabel" name="labelLineThickness">
        <property name="text">
         <string>Thickness:</string>
        </property>
@@ -389,14 +389,14 @@
       </widget>
      </item>
      <item row="4" column="0">
-      <widget class="QRadioButton" name="dashedPolygonType">
+      <widget class="QRadioButton" name="dashedLineType">
        <property name="text">
         <string>Dashed</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1" rowspan="3" colspan="2">
-      <widget class="QSlider" name="polygonThickness">
+      <widget class="QSlider" name="lineThickness">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -464,7 +464,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="setBgColor">
+      <widget class="QPushButton" name="bgColor">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -601,7 +601,7 @@
       </widget>
      </item>
      <item row="3" column="3" colspan="2">
-      <widget class="QPushButton" name="reset_params">
+      <widget class="QPushButton" name="resetAffine">
        <property name="styleSheet">
         <string notr="true">QPushButton {
    border: 2px solid gray;
@@ -795,7 +795,7 @@
       </widget>
      </item>
      <item row="3" column="0" colspan="3">
-      <widget class="QPushButton" name="apply_params">
+      <widget class="QPushButton" name="applyAffine">
        <property name="styleSheet">
         <string notr="true">QPushButton {
    border: 2px solid gray;
@@ -941,9 +941,9 @@
    <zorder>openFile</zorder>
    <zorder>openGLWidget</zorder>
    <zorder>projectionType</zorder>
-   <zorder>getScreenshot</zorder>
+   <zorder>takeScreenshot</zorder>
    <zorder>getGIF</zorder>
-   <zorder>reset_model</zorder>
+   <zorder>resetModel</zorder>
    <zorder>filePath</zorder>
    <zorder>renderFile</zorder>
    <zorder>frame_2</zorder>
@@ -999,9 +999,9 @@
   <tabstop>openFile</tabstop>
   <tabstop>renderFile</tabstop>
   <tabstop>projectionType</tabstop>
-  <tabstop>getScreenshot</tabstop>
+  <tabstop>takeScreenshot</tabstop>
   <tabstop>getGIF</tabstop>
-  <tabstop>reset_model</tabstop>
+  <tabstop>resetModel</tabstop>
   <tabstop>scale_on_k</tabstop>
   <tabstop>rotate_x</tabstop>
   <tabstop>rotate_y</tabstop>
@@ -1009,18 +1009,18 @@
   <tabstop>move_on_x</tabstop>
   <tabstop>move_on_y</tabstop>
   <tabstop>move_on_z</tabstop>
-  <tabstop>apply_params</tabstop>
-  <tabstop>reset_params</tabstop>
-  <tabstop>setBgColor</tabstop>
-  <tabstop>solidPolygonType</tabstop>
-  <tabstop>dashedPolygonType</tabstop>
-  <tabstop>polygonThickness</tabstop>
-  <tabstop>setPolygonColor</tabstop>
-  <tabstop>noneVertice</tabstop>
-  <tabstop>circleVertice</tabstop>
-  <tabstop>squareVertice</tabstop>
-  <tabstop>sizeVertice</tabstop>
-  <tabstop>setVerticeColor</tabstop>
+  <tabstop>applyAffine</tabstop>
+  <tabstop>resetAffine</tabstop>
+  <tabstop>bgColor</tabstop>
+  <tabstop>solidLineType</tabstop>
+  <tabstop>dashedLineType</tabstop>
+  <tabstop>lineThickness</tabstop>
+  <tabstop>lineColor</tabstop>
+  <tabstop>noneVerticeType</tabstop>
+  <tabstop>circleVerticeType</tabstop>
+  <tabstop>squareVerticeType</tabstop>
+  <tabstop>verticeSize</tabstop>
+  <tabstop>verticeColor</tabstop>
  </tabstops>
  <resources/>
  <connections/>

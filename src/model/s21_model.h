@@ -14,7 +14,7 @@ class Model {
   void Initialize(const std::string filename);
   void RestoreVertices();
 
-  void Affine(AffineData& data);
+  void ApplyAffine(AffineData& data);
   void AffineMove(double ax, double ay, double az);
   void AffineRotateX(double angle);
   void AffineRotateY(double angle);

@@ -21,33 +21,40 @@
 s21::View::View(Controller* controller, QWidget* parent)
     : QMainWindow(parent), ui_(new Ui::View), controller_(controller) {
   ui_->setupUi(this);
+
+  // Main menu
   connect(ui_->openFile, SIGNAL(clicked()), this, SLOT(OpenFile()));
   connect(ui_->renderFile, SIGNAL(clicked()), this, SLOT(RenderFile()));
   connect(ui_->projectionType, SIGNAL(currentIndexChanged(int)), this,
-          SLOT(ProjectionTypeChange(int)));
-  connect(ui_->getScreenshot, SIGNAL(clicked()), this, SLOT(TakeScreenshot()));
+          SLOT(SetProjectionType(int)));
+  connect(ui_->takeScreenshot, SIGNAL(clicked()), this, SLOT(TakeScreenshot()));
   connect(ui_->getGIF, SIGNAL(clicked()), this, SLOT(GetGIF()));
-  connect(ui_->apply_params, SIGNAL(clicked()), this, SLOT(Affine()));
-  connect(ui_->reset_model, SIGNAL(clicked()), this, SLOT(Reset()));
-  connect(ui_->reset_params, SIGNAL(clicked()), this, SLOT(ResetParams()));
-  connect(ui_->setBgColor, SIGNAL(clicked()), this, SLOT(SetBackgroundColor()));
-  connect(ui_->setPolygonColor, SIGNAL(clicked()), this,
-          SLOT(SetPolygonColor()));
-  connect(ui_->solidPolygonType, SIGNAL(clicked()), this,
-          SLOT(SolidPolygonType()));
-  connect(ui_->dashedPolygonType, SIGNAL(clicked()), this,
-          SLOT(DashedPolygonType()));
-  connect(ui_->polygonThickness, SIGNAL(valueChanged(int)), this,
-          SLOT(SetPolygonThickness(int)));
-  connect(ui_->noneVertice, SIGNAL(clicked()), this, SLOT(SetNoneVertice()));
-  connect(ui_->circleVertice, SIGNAL(clicked()), this,
-          SLOT(SetCircleVertice()));
-  connect(ui_->squareVertice, SIGNAL(clicked()), this,
-          SLOT(SetSquareVertice()));
-  connect(ui_->sizeVertice, SIGNAL(valueChanged(int)), this,
+  connect(ui_->resetModel, SIGNAL(clicked()), this, SLOT(ResetModel()));
+
+  // Affine buttons
+  connect(ui_->applyAffine, SIGNAL(clicked()), this, SLOT(ApplyAffine()));
+  connect(ui_->resetAffine, SIGNAL(clicked()), this, SLOT(ResetAffine()));
+
+  connect(ui_->bgColor, SIGNAL(clicked()), this, SLOT(SetBackgroundColor()));
+
+  connect(ui_->lineColor, SIGNAL(clicked()), this, SLOT(SetLineColor()));
+  connect(ui_->solidLineType, SIGNAL(clicked()), this,
+          SLOT(SetSolidLineType()));
+  connect(ui_->dashedLineType, SIGNAL(clicked()), this,
+          SLOT(SetDashedLineType()));
+  connect(ui_->lineThickness, SIGNAL(valueChanged(int)), this,
+          SLOT(SetLineThickness(int)));
+
+  connect(ui_->verticeColor, SIGNAL(clicked()), this, SLOT(SetVerticeColor()));
+  connect(ui_->noneVerticeType, SIGNAL(clicked()), this,
+          SLOT(SetNoneVerticeType()));
+  connect(ui_->circleVerticeType, SIGNAL(clicked()), this,
+          SLOT(SetCircleVerticeType()));
+  connect(ui_->squareVerticeType, SIGNAL(clicked()), this,
+          SLOT(SetSquareVerticeType()));
+  connect(ui_->verticeSize, SIGNAL(valueChanged(int)), this,
           SLOT(SetVerticeSize(int)));
-  connect(ui_->setVerticeColor, SIGNAL(clicked()), this,
-          SLOT(SetVerticeColor()));
+
   connect(ui_->filePath, SIGNAL(currentIndexChanged(int)), this,
           SLOT(FilePathChange(int)));
 
@@ -106,7 +113,7 @@ void s21::View::RenderFile() {
   ui_->openGLWidget->update();
 }
 
-void s21::View::ProjectionTypeChange(int idx) {
+void s21::View::SetProjectionType(int idx) {
   int old = ui_->openGLWidget->projection_type_;
   if (old != idx)
     undo_stack_->Push(new ProjectionTypeChangeCommand(old, idx, ui_));
@@ -157,17 +164,17 @@ void s21::View::GetGIF() {
   }
 }
 
-void s21::View::Affine() {
+void s21::View::ApplyAffine() {
   AffineData data(ui_);
   ui_->openGLWidget->ClearTransformations();
   controller_->RestoreVertices();
-  controller_->Affine(data);
+  controller_->ApplyAffine(data);
   ui_->openGLWidget->update();
 }
 
-void s21::View::Reset() {}
+void s21::View::ResetModel() {}
 
-void s21::View::ResetParams() {
+void s21::View::ResetAffine() {
   ui_->scale_on_k->setValue(1);
   ui_->move_on_x->setValue(0);
   ui_->move_on_y->setValue(0);
@@ -184,26 +191,26 @@ void s21::View::SetBackgroundColor() {
   undo_stack_->Push(new SetBackgroundColorCmd(old_color, color, ui_));
 }
 
-void s21::View::SetPolygonColor() {
+void s21::View::SetLineColor() {
   QColor color = QColorDialog::getColor();
   auto old_color = ui_->openGLWidget->line_color_;
-  undo_stack_->Push(new SetPolygonColorCmd(old_color, color, ui_));
+  undo_stack_->Push(new SetLineColorCmd(old_color, color, ui_));
 }
 
-void s21::View::SolidPolygonType() { SetPolygonType(kSolid); }
+void s21::View::SetSolidLineType() { SetLineType(kSolid); }
 
-void s21::View::DashedPolygonType() { SetPolygonType(kDashed); }
+void s21::View::SetDashedLineType() { SetLineType(kDashed); }
 
-void s21::View::SetPolygonThickness(int value) {
+void s21::View::SetLineThickness(int value) {
   ui_->openGLWidget->edges_thickness_ = value / 10;
   ui_->openGLWidget->update();
 }
 
-void s21::View::SetNoneVertice() { SetVerticeType(kNone); }
+void s21::View::SetNoneVerticeType() { SetVerticeType(kNone); }
 
-void s21::View::SetCircleVertice() { SetVerticeType(kCircle); }
+void s21::View::SetCircleVerticeType() { SetVerticeType(kCircle); }
 
-void s21::View::SetSquareVertice() { SetVerticeType(kSquare); }
+void s21::View::SetSquareVerticeType() { SetVerticeType(kSquare); }
 
 void s21::View::SetVerticeSize(int value) {
   ui_->openGLWidget->vertice_size_ = value / 5;
@@ -221,15 +228,15 @@ void s21::View::FilePathChange(int idx) {
   file_changed_ = true;
 }
 
-void s21::View::PolygonThicknessSliderReleased() {
-  double old = SetPolygonThicknessCmd::get_old();
-  double value = ui_->polygonThickness->value();
-  undo_stack_->Push(new s21::SetPolygonThicknessCmd(old, value, ui_));
+void s21::View::LineThicknessSliderReleased() {
+  double old = SetLineThicknessCmd::get_old();
+  double value = ui_->lineThickness->value();
+  undo_stack_->Push(new s21::SetLineThicknessCmd(old, value, ui_));
 }
 
 void s21::View::VerticeSizeSliderReleased() {
   double old = SetVerticeSizeCmd::get_old();
-  double value = ui_->sizeVertice->value();
+  double value = ui_->verticeSize->value();
   undo_stack_->Push(new SetVerticeSizeCmd(old, value, ui_));
 }
 
@@ -247,9 +254,9 @@ void s21::View::CreateCommandStack() {
           &CommandStack::Undo);
   connect(ui_->redo_button, &QPushButton::clicked, undo_stack_,
           &CommandStack::Redo);
-  connect(ui_->polygonThickness, &QSlider::sliderReleased, this,
-          &View::PolygonThicknessSliderReleased);
-  connect(ui_->sizeVertice, &QSlider::sliderReleased, this,
+  connect(ui_->lineThickness, &QSlider::sliderReleased, this,
+          &View::LineThicknessSliderReleased);
+  connect(ui_->verticeSize, &QSlider::sliderReleased, this,
           &View::VerticeSizeSliderReleased);
   connect(ui_->move_on_x, &QDoubleSpinBox::editingFinished, this,
           &View::SaveAffine);
@@ -265,8 +272,8 @@ void s21::View::CreateCommandStack() {
           &View::SaveAffine);
   connect(ui_->rotate_z, &QDoubleSpinBox::editingFinished, this,
           &View::SaveAffine);
-  SetPolygonThicknessCmd::init_old(
-      settings_->value("edges_thickness").toDouble() * 10);
+  SetLineThicknessCmd::init_old(settings_->value("edges_thickness").toDouble() *
+                                10);
   SetVerticeSizeCmd::init_old(settings_->value("vertice_size").toDouble() * 5);
 }
 
@@ -304,29 +311,29 @@ void s21::View::LoadSettings() {
 }
 
 void s21::View::SetValuesOnButtons() {
-  ui_->setBgColor->setStyleSheet(
+  ui_->bgColor->setStyleSheet(
       QString("background-color: %1").arg(ui_->openGLWidget->bg_color_.name()));
-  ui_->setPolygonColor->setStyleSheet(
+  ui_->lineColor->setStyleSheet(
       QString("background-color: %1")
           .arg(ui_->openGLWidget->line_color_.name()));
-  ui_->setVerticeColor->setStyleSheet(
+  ui_->verticeColor->setStyleSheet(
       QString("background-color: %1")
           .arg(ui_->openGLWidget->vertice_color_.name()));
   if (ui_->openGLWidget->edges_type_ == kSolid) {
-    ui_->solidPolygonType->setChecked(true);
+    ui_->solidLineType->setChecked(true);
   } else {
-    ui_->dashedPolygonType->setChecked(true);
+    ui_->dashedLineType->setChecked(true);
   }
   if (ui_->openGLWidget->vertice_type_ == kNone) {
-    ui_->noneVertice->setChecked(true);
+    ui_->noneVerticeType->setChecked(true);
   } else if (ui_->openGLWidget->vertice_type_ == kCircle) {
-    ui_->circleVertice->setChecked(true);
+    ui_->circleVerticeType->setChecked(true);
   } else {
-    ui_->squareVertice->setChecked(true);
+    ui_->squareVerticeType->setChecked(true);
   }
-  ui_->polygonThickness->setValue(
-      settings_->value("edges_thickness").toDouble() * 10);
-  ui_->sizeVertice->setValue(settings_->value("vertice_size").toDouble() * 5);
+  ui_->lineThickness->setValue(settings_->value("edges_thickness").toDouble() *
+                               10);
+  ui_->verticeSize->setValue(settings_->value("vertice_size").toDouble() * 5);
   if (ui_->openGLWidget->projection_type_ == kParallel) {
     ui_->projectionType->setCurrentIndex(0);
   } else {
@@ -334,9 +341,9 @@ void s21::View::SetValuesOnButtons() {
   }
 }
 
-void s21::View::SetPolygonType(PolygonType type) {
-  PolygonType old = type == kDashed ? kSolid : kDashed;
-  undo_stack_->Push(new SetPolygonTypeCmd(old, type, ui_));
+void s21::View::SetLineType(LineType type) {
+  LineType old = type == kDashed ? kSolid : kDashed;
+  undo_stack_->Push(new SetLineTypeCmd(old, type, ui_));
 }
 
 void s21::View::SetVerticeType(VerticeType type) {

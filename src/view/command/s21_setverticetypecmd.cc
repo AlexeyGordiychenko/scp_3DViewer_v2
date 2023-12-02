@@ -12,16 +12,16 @@ void s21::SetVerticeTypeCmd::SetVerticeType(VerticeType type) {
   ui_->openGLWidget->vertice_type_ = type;
   ui_->openGLWidget->update();
   if (type == kNone) {
-    ui_->noneVertice->setChecked(true);
-    ui_->circleVertice->setChecked(false);
-    ui_->squareVertice->setChecked(false);
+    ui_->noneVerticeType->setChecked(true);
+    ui_->circleVerticeType->setChecked(false);
+    ui_->squareVerticeType->setChecked(false);
   } else if (type == kCircle) {
-    ui_->noneVertice->setChecked(false);
-    ui_->circleVertice->setChecked(true);
-    ui_->squareVertice->setChecked(false);
+    ui_->noneVerticeType->setChecked(false);
+    ui_->circleVerticeType->setChecked(true);
+    ui_->squareVerticeType->setChecked(false);
   } else {
-    ui_->noneVertice->setChecked(false);
-    ui_->circleVertice->setChecked(false);
-    ui_->squareVertice->setChecked(true);
+    ui_->noneVerticeType->setChecked(false);
+    ui_->circleVerticeType->setChecked(false);
+    ui_->squareVerticeType->setChecked(true);
   }
 }
