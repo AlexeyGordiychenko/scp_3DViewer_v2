@@ -103,6 +103,8 @@ class View : public QMainWindow, public Observable {
   void SaveSettings();
   void LoadSettings();
   void SetValuesOnButtons();
+  void SetLineTypeUI(LineType type);
+  void SetVerticeTypeUI(VerticeType type);
   void LineTypeChange(LineType type);
   void VerticeTypeChange(VerticeType type);
 };

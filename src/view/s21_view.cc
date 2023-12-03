@@ -123,8 +123,7 @@ s21::ProjectionType s21::View::GetProjectionType() { return projection_type_; }
 
 void s21::View::SetLineType(LineType type) {
   line_type_ = type;
-  ui_->solidLineType->setChecked(type == LineType::kSolid);
-  ui_->dashedLineType->setChecked(type == LineType::kDashed);
+  SetLineTypeUI(type);
   Notify(EventType::kAppearanceChange);
 }
 
@@ -132,9 +131,7 @@ s21::LineType s21::View::GetLineType() { return line_type_; }
 
 void s21::View::SetVerticeType(VerticeType type) {
   vertice_type_ = type;
-  ui_->noneVerticeType->setChecked(type == VerticeType::kNone);
-  ui_->circleVerticeType->setChecked(type == VerticeType::kCircle);
-  ui_->squareVerticeType->setChecked(type == VerticeType::kSquare);
+  SetVerticeTypeUI(type);
   Notify(EventType::kAppearanceChange);
 }
 
@@ -381,14 +378,22 @@ void s21::View::SetValuesOnButtons() {
   SetButtonBackground(ui_->bgColor, bg_color_);
   SetButtonBackground(ui_->lineColor, line_color_);
   SetButtonBackground(ui_->verticeColor, vertice_color_);
-  ui_->solidLineType->setChecked(line_type_ == LineType::kSolid);
-  ui_->dashedLineType->setChecked(line_type_ == LineType::kDashed);
-  ui_->noneVerticeType->setChecked(vertice_type_ == VerticeType::kNone);
-  ui_->circleVerticeType->setChecked(vertice_type_ == VerticeType::kCircle);
-  ui_->squareVerticeType->setChecked(vertice_type_ == VerticeType::kSquare);
+  SetLineTypeUI(line_type_);
+  SetVerticeTypeUI(vertice_type_);
   ui_->lineThickness->setValue(line_thickness_ * 10);
   ui_->verticeSize->setValue(vertice_size_ * 5);
   ui_->projectionType->setCurrentIndex(projection_type_);
+}
+
+void s21::View::SetLineTypeUI(LineType type) {
+  ui_->solidLineType->setChecked(type == LineType::kSolid);
+  ui_->dashedLineType->setChecked(type == LineType::kDashed);
+}
+
+void s21::View::SetVerticeTypeUI(VerticeType type) {
+  ui_->noneVerticeType->setChecked(type == VerticeType::kNone);
+  ui_->circleVerticeType->setChecked(type == VerticeType::kCircle);
+  ui_->squareVerticeType->setChecked(type == VerticeType::kSquare);
 }
 
 void s21::View::LineTypeChange(LineType type) {
