@@ -31,7 +31,7 @@
      <rect>
       <x>2</x>
       <y>2</y>
-      <width>91</width>
+      <width>109</width>
       <height>30</height>
      </rect>
     </property>
@@ -64,9 +64,9 @@
    <widget class="QComboBox" name="projectionType">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>226</x>
       <y>2</y>
-      <width>131</width>
+      <width>149</width>
       <height>30</height>
      </rect>
     </property>
@@ -80,9 +80,9 @@
    <widget class="QPushButton" name="takeScreenshot">
     <property name="geometry">
      <rect>
-      <x>324</x>
+      <x>377</x>
       <y>2</y>
-      <width>114</width>
+      <width>132</width>
       <height>30</height>
      </rect>
     </property>
@@ -102,9 +102,9 @@
    <widget class="QPushButton" name="getGIF">
     <property name="geometry">
      <rect>
-      <x>440</x>
+      <x>511</x>
       <y>2</y>
-      <width>66</width>
+      <width>87</width>
       <height>30</height>
      </rect>
     </property>
@@ -121,34 +121,12 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="resetModel">
-    <property name="geometry">
-     <rect>
-      <x>508</x>
-      <y>2</y>
-      <width>128</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-   border: 2px solid gray;
-  border-radius: 8px;
-}</string>
-    </property>
-    <property name="text">
-     <string>Reset model</string>
-    </property>
-    <property name="default">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QPushButton" name="renderFile">
     <property name="geometry">
      <rect>
-      <x>95</x>
+      <x>113</x>
       <y>2</y>
-      <width>93</width>
+      <width>111</width>
       <height>30</height>
      </rect>
     </property>
@@ -824,7 +802,6 @@
     <property name="font">
      <font>
       <pointsize>20</pointsize>
-      <weight>75</weight>
       <italic>true</italic>
       <bold>true</bold>
       <underline>false</underline>
@@ -851,7 +828,6 @@
     </property>
     <property name="font">
      <font>
-      <weight>75</weight>
       <italic>true</italic>
       <bold>true</bold>
      </font>
@@ -869,9 +845,9 @@
    <widget class="QPushButton" name="undo_button">
     <property name="geometry">
      <rect>
-      <x>638</x>
+      <x>600</x>
       <y>2</y>
-      <width>80</width>
+      <width>98</width>
       <height>30</height>
      </rect>
     </property>
@@ -895,9 +871,9 @@
    <widget class="QPushButton" name="redo_button">
     <property name="geometry">
      <rect>
-      <x>720</x>
+      <x>700</x>
       <y>2</y>
-      <width>80</width>
+      <width>98</width>
       <height>30</height>
      </rect>
     </property>
@@ -943,7 +919,6 @@
    <zorder>projectionType</zorder>
    <zorder>takeScreenshot</zorder>
    <zorder>getGIF</zorder>
-   <zorder>resetModel</zorder>
    <zorder>filePath</zorder>
    <zorder>renderFile</zorder>
    <zorder>frame_2</zorder>
@@ -961,7 +936,7 @@
      <x>0</x>
      <y>0</y>
      <width>1175</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
@@ -1001,7 +976,6 @@
   <tabstop>projectionType</tabstop>
   <tabstop>takeScreenshot</tabstop>
   <tabstop>getGIF</tabstop>
-  <tabstop>resetModel</tabstop>
   <tabstop>scale_on_k</tabstop>
   <tabstop>rotate_x</tabstop>
   <tabstop>rotate_y</tabstop>

@@ -26,7 +26,6 @@ s21::View::View(Controller* controller, QWidget* parent)
           SLOT(ProjectionTypeChange(int)));
   connect(ui_->takeScreenshot, SIGNAL(clicked()), this, SLOT(TakeScreenshot()));
   connect(ui_->getGIF, SIGNAL(clicked()), this, SLOT(GetGIF()));
-  connect(ui_->resetModel, SIGNAL(clicked()), this, SLOT(ResetModel()));
 
   // Affine buttons
   connect(ui_->applyAffine, SIGNAL(clicked()), this, SLOT(ApplyAffine()));
@@ -254,8 +253,6 @@ void s21::View::ApplyAffine() {
   controller_->ApplyAffine(data);
   Notify(EventType::kSetAffine);
 }
-
-void s21::View::ResetModel() {}
 
 void s21::View::ResetAffine() {
   ui_->scale_on_k->setValue(1);

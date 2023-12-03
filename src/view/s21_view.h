@@ -65,7 +65,6 @@ class View : public QMainWindow, public Observable {
   void TakeScreenshot();
   void GetGIF();
   void ApplyAffine();
-  void ResetModel();
   void ResetAffine();
   void BackgroundColorChange();
   void LineColorChange();
