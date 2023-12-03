@@ -28,8 +28,9 @@ class Controller {
 
   size_t GetPolygonsEdgesCount() const;
   size_t GetVerticesCount() const;
-  const std::vector<std::vector<int>>& GetPolygons() const;
-  const std::vector<s21::Vertex3d>& GetVertices() const;
+  size_t GetPolygonsCount() const;
+  const std::vector<int>& GetPolygons() const;
+  const std::vector<double>& GetVertices() const;
 
   double GetCenterX() const;
   double GetCenterY() const;

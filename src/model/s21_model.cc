@@ -40,10 +40,10 @@ void s21::Model::ApplyAffine(AffineData& data) {
 void s21::Model::AffineMove(double ax, double ay, double az) {
   if (!ax && !ay && !az) return;
 
-  for (size_t i = 0; i < vertices_.size(); i++) {
-    vertices_[i].x += ax;
-    vertices_[i].y += ay;
-    vertices_[i].z += az;
+  for (size_t i = 0; i < vertices_.size(); i += 3) {
+    vertices_[i] += ax;
+    vertices_[i + 1] += ay;
+    vertices_[i + 2] += az;
   }
   center_x_ += ax;
   center_y_ += ay;
@@ -54,60 +54,56 @@ void s21::Model::AffineRotateX(double angle) {
   if (!angle) return;
 
   double cos_angle = cos(angle), sin_angle = sin(angle);
-  for (size_t i = 0; i < vertices_.size(); i++) {
-    double temp_y = vertices_[i].y - center_y_,
-           temp_z = vertices_[i].z - center_z_;
-    vertices_[i].y = temp_y * cos_angle - temp_z * sin_angle + center_y_;
-    vertices_[i].z = temp_y * sin_angle + temp_z * cos_angle + center_z_;
+  for (size_t i = 0; i < vertices_.size(); i += 3) {
+    double temp_y = vertices_[i + 1] - center_y_,
+           temp_z = vertices_[i + 2] - center_z_;
+    vertices_[i + 1] = temp_y * cos_angle - temp_z * sin_angle + center_y_;
+    vertices_[i + 2] = temp_y * sin_angle + temp_z * cos_angle + center_z_;
   }
 }
 
 void s21::Model::AffineRotateY(double angle) {
   if (!angle) return;
   double cos_angle = cos(angle), sin_angle = sin(angle);
-  for (size_t i = 0; i < vertices_.size(); i++) {
-    double temp_x = vertices_[i].x - center_x_,
-           temp_z = vertices_[i].z - center_z_;
-    vertices_[i].x = temp_x * cos_angle - temp_z * sin_angle + center_x_;
-    vertices_[i].z = temp_x * sin_angle + temp_z * cos_angle + center_z_;
+  for (size_t i = 0; i < vertices_.size(); i += 3) {
+    double temp_x = vertices_[i] - center_x_,
+           temp_z = vertices_[i + 2] - center_z_;
+    vertices_[i] = temp_x * cos_angle - temp_z * sin_angle + center_x_;
+    vertices_[i + 2] = temp_x * sin_angle + temp_z * cos_angle + center_z_;
   }
 }
 
 void s21::Model::AffineRotateZ(double angle) {
   if (!angle) return;
   double cos_angle = cos(angle), sin_angle = sin(angle);
-  for (size_t i = 0; i < vertices_.size(); i++) {
-    double temp_x = vertices_[i].x - center_x_,
-           temp_y = vertices_[i].y - center_y_;
-    vertices_[i].x = temp_x * cos_angle - temp_y * sin_angle + center_x_;
-    vertices_[i].y = temp_x * sin_angle + temp_y * cos_angle + center_y_;
+  for (size_t i = 0; i < vertices_.size(); i += 3) {
+    double temp_x = vertices_[i] - center_x_,
+           temp_y = vertices_[i + 1] - center_y_;
+    vertices_[i] = temp_x * cos_angle - temp_y * sin_angle + center_x_;
+    vertices_[i + 1] = temp_x * sin_angle + temp_y * cos_angle + center_y_;
   }
 }
 
 void s21::Model::AffineScale(double k) {
   k = (k == 0) ? 1 : k;
-  for (size_t i = 0; i < vertices_.size(); i++) {
-    vertices_[i].x *= k;
-    vertices_[i].y *= k;
-    vertices_[i].z *= k;
+  for (size_t i = 0; i < vertices_.size(); i += 3) {
+    vertices_[i] *= k;
+    vertices_[i + 1] *= k;
+    vertices_[i + 2] *= k;
   }
 }
 
 size_t s21::Model::GetPolygonsEdgesCount() const {
-  size_t count = 0;
-  for (auto polygon : polygons_) count += polygon.size();
-  return count;
+  return polygons_edges_count_;
 }
 
-size_t s21::Model::GetVerticesCount() const { return vertices_.size(); }
+size_t s21::Model::GetVerticesCount() const { return vertices_.size() / 3; }
 
-const std::vector<std::vector<int>>& s21::Model::GetPolygons() const {
-  return polygons_;
-}
+size_t s21::Model::GetPolygonsCount() const { return polygons_.size(); }
 
-const std::vector<s21::Vertex3d>& s21::Model::GetVertices() const {
-  return vertices_;
-}
+const std::vector<int>& s21::Model::GetPolygons() const { return polygons_; }
+
+const std::vector<double>& s21::Model::GetVertices() const { return vertices_; }
 
 double s21::Model::GetCenterX() const { return center_x_; }
 double s21::Model::GetCenterY() const { return center_y_; }
@@ -131,6 +127,7 @@ void s21::Model::ClearData() {
 void s21::Model::ParseFile(std::ifstream& file) {
   std::string line;
   size_t line_num = 1;
+  polygons_edges_count_ = 0;
   while (std::getline(file, line)) {
     std::istringstream iss(line);
     std::string prefix;
@@ -138,32 +135,44 @@ void s21::Model::ParseFile(std::ifstream& file) {
       if (prefix == "v") {
         Vertex3d point;
         if (iss >> point.x >> point.y >> point.z) {
-          vertices_.push_back(point);
+          vertices_.push_back(point.x);
+          vertices_.push_back(point.y);
+          vertices_.push_back(point.z);
           UpdateMinMaxPoints(point);
         } else {
           throw std::runtime_error("Line: " + std::to_string(line_num) +
                                    " failed to read a vertex.");
         }
       } else if (prefix == "f") {
-        std::vector<int> facet;
-        std::string facet_str;
-        while (iss >> facet_str) {
-          std::istringstream facet_iss(facet_str);
-          int index;
+        std::string polygon_str;
+        bool polygon_start = true;
+        int index, polygon_start_idx = 0;
+        while (iss >> polygon_str) {
+          std::istringstream polygon_iss(polygon_str);
           char tmp;
-          facet_iss >> index >> tmp;
+          polygon_iss >> index >> tmp;
           if (index < 0) {
             index += vertices_.size() + 1;
           }
           if (index <= 0 || static_cast<size_t>(index) > vertices_.size()) {
             throw std::runtime_error("Line: " + std::to_string(line_num) +
-                                     " failed to read a facet.");
+                                     " failed to read a polygon.");
           } else {
-            facet.push_back(index - 1);  // To have an index, starting from 0
+            index--;  // To have an index, starting from 0
+            if (polygon_start) {
+              polygons_.push_back(index);
+              polygon_start_idx = index;
+              polygon_start = false;
+            } else {
+              polygons_edges_count_++;
+              polygons_.push_back(index);
+              polygons_.push_back(index);
+            }
           }
         }
-        if (!facet.empty()) {
-          polygons_.push_back(facet);
+        if (!polygon_start) {
+          polygons_.push_back(polygon_start_idx);
+          polygons_edges_count_++;
         }
       }
     }
@@ -190,10 +199,10 @@ void s21::Model::TranslateToOrigin() {
                                     fabs(max_point_.z - min_point_.z)});
   if (size_coefficient != 0) size_coefficient = 2 / size_coefficient;
 
-  for (auto& vertex : vertices_) {
-    vertex.x = (vertex.x - center_x) * size_coefficient;
-    vertex.y = (vertex.y - center_y) * size_coefficient;
-    vertex.z = (vertex.z - center_z) * size_coefficient;
+  for (size_t i = 0; i < vertices_.size(); i += 3) {
+    vertices_[i] = (vertices_[i] - center_x) * size_coefficient;
+    vertices_[i + 1] = (vertices_[i + 1] - center_y) * size_coefficient;
+    vertices_[i + 2] = (vertices_[i + 2] - center_z) * size_coefficient;
   }
 }
 

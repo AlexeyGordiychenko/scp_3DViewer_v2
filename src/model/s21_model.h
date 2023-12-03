@@ -23,8 +23,9 @@ class Model {
 
   size_t GetPolygonsEdgesCount() const;
   size_t GetVerticesCount() const;
-  const std::vector<std::vector<int>>& GetPolygons() const;
-  const std::vector<s21::Vertex3d>& GetVertices() const;
+  size_t GetPolygonsCount() const;
+  const std::vector<int>& GetPolygons() const;
+  const std::vector<double>& GetVertices() const;
 
   double GetCenterX() const;
   double GetCenterY() const;
@@ -35,12 +36,13 @@ class Model {
   void NormalizeAngle(double& angle);
 
  private:
-  std::vector<s21::Vertex3d> vertices_;
-  std::vector<s21::Vertex3d> vertices_origin_;
-  std::vector<std::vector<int>> polygons_;
+  std::vector<double> vertices_;
+  std::vector<double> vertices_origin_;
+  std::vector<int> polygons_;
   s21::Vertex3d min_point_ = {0, 0, 0}, max_point_ = {0, 0, 0};
   double center_x_ = 0, center_y_ = 0, center_z_ = 0;
   bool is_empty_ = true;
+  uint32_t polygons_edges_count_ = 0;
 
   void ClearData();
   void ParseFile(std::ifstream& file);

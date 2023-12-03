@@ -59,12 +59,16 @@ void s21::GLWidget::paintGL() {
       static_cast<double>(size_w_) / static_cast<double>(size_h_);
 
   if (!controller_->Empty()) {
+    glVertexPointer(3, GL_DOUBLE, 0, controller_->GetVertices().data());
+    glEnableClientState(GL_VERTEX_ARRAY);
+
     if (view_->GetProjectionType() == kParallel) {
       glOrtho(-1.5 * aspect_ratio, 1.5 * aspect_ratio, -1.5, 1.5, -2, 1000);
     } else {
       glFrustum(-1 * aspect_ratio, 1 * aspect_ratio, -1, 1, 1, 99999);
       glTranslatef(0, 0, -2.5);
     }
+
     glScalef(zoom_, zoom_, zoom_);
     glTranslatef(controller_->GetCenterX() + translation_vertex_.x,
                  controller_->GetCenterY() + translation_vertex_.y,
@@ -84,42 +88,30 @@ void s21::GLWidget::paintGL() {
     auto vertice_size = view_->GetVerticeSize();
     auto line_thickness = view_->GetLineThickness();
 
-    auto vertices = controller_->GetVertices();
-    for (auto& polygon : controller_->GetPolygons()) {
-      if (line_type == kDashed) {
-        glEnable(GL_LINE_STIPPLE);
-        glLineStipple(1, 0x00FF);
-      }
-      if (line_type == kSolid) {
-        glDisable(GL_LINE_STIPPLE);
-      }
-      glLineWidth(line_thickness);
-      glColor3f(line_color.redF(), line_color.greenF(), line_color.blueF());
-      glBegin(GL_LINE_LOOP);
-      for (auto vertex : polygon) {
-        auto point = vertices[vertex];
-        glVertex3d(point.x, point.y, point.z);
-      }
-
-      glEnd();
-      if (vertice_type != kNone) {
-        if (vertice_type == kCircle) {
-          glEnable(GL_POINT_SMOOTH);
-        } else {
-          glDisable(GL_POINT_SMOOTH);
-        }
-        glPointSize(vertice_size);
-        glColor3f(vertice_color.redF(), vertice_color.greenF(),
-                  vertice_color.blueF());
-        glBegin(GL_POINTS);
-        for (auto vertex : polygon) {
-          auto point = vertices[vertex];
-          glVertex3d(point.x, point.y, point.z);
-        }
-        glEnd();
-      }
+    if (line_type == kDashed) {
+      glEnable(GL_LINE_STIPPLE);
+      glLineStipple(1, 0x00FF);
     }
-    glFlush();
+    if (line_type == kSolid) {
+      glDisable(GL_LINE_STIPPLE);
+    }
+    glLineWidth(line_thickness);
+    glColor3f(line_color.redF(), line_color.greenF(), line_color.blueF());
+    glDrawElements(GL_LINES, controller_->GetPolygonsCount(), GL_UNSIGNED_INT,
+                   controller_->GetPolygons().data());
+
+    if (vertice_type != kNone) {
+      if (vertice_type == kCircle) {
+        glEnable(GL_POINT_SMOOTH);
+      } else {
+        glDisable(GL_POINT_SMOOTH);
+      }
+      glPointSize(vertice_size);
+      glColor3f(vertice_color.redF(), vertice_color.greenF(),
+                vertice_color.blueF());
+      glDrawArrays(GL_POINTS, 0, controller_->GetVerticesCount());
+    }
+    glDisableClientState(GL_VERTEX_ARRAY);
   }
 }
 

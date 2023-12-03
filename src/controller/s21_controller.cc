@@ -10,7 +10,9 @@ void s21::Controller::Initialize(const std::string filename) {
 
 void s21::Controller::RestoreVertices() { model_->RestoreVertices(); }
 
-void s21::Controller::ApplyAffine(AffineData& data) { model_->ApplyAffine(data); }
+void s21::Controller::ApplyAffine(AffineData& data) {
+  model_->ApplyAffine(data);
+}
 
 size_t s21::Controller::GetPolygonsEdgesCount() const {
   return model_->GetPolygonsEdgesCount();
@@ -20,11 +22,15 @@ size_t s21::Controller::GetVerticesCount() const {
   return model_->GetVerticesCount();
 }
 
-const std::vector<std::vector<int>>& s21::Controller::GetPolygons() const {
+size_t s21::Controller::GetPolygonsCount() const {
+  return model_->GetPolygonsCount();
+}
+
+const std::vector<int>& s21::Controller::GetPolygons() const {
   return model_->GetPolygons();
 }
 
-const std::vector<s21::Vertex3d>& s21::Controller::GetVertices() const {
+const std::vector<double>& s21::Controller::GetVertices() const {
   return model_->GetVertices();
 }
 
