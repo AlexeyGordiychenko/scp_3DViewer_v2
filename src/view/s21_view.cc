@@ -343,7 +343,7 @@ void s21::View::CreateCommandStack() {
           &View::SaveAffine);
   connect(ui_->rotate_z, &QDoubleSpinBox::editingFinished, this,
           &View::SaveAffine);
-  SetLineThicknessCmd::init_old(settings_->value("edges_thickness").toDouble() *
+  SetLineThicknessCmd::init_old(settings_->value("line_thickness").toDouble() *
                                 10);
   SetVerticeSizeCmd::init_old(settings_->value("vertice_size").toDouble() * 5);
 }
@@ -370,7 +370,7 @@ void s21::View::LoadSettings() {
     vertice_color_ = settings_->value("vertice_color").value<QColor>();
   }
   line_type_ = settings_->value("line_type").value<LineType>();
-  line_thickness_ = settings_->value("edges_thickness").toDouble();
+  line_thickness_ = settings_->value("line_thickness").toDouble();
   vertice_type_ = settings_->value("vertice_type").value<VerticeType>();
   vertice_size_ = settings_->value("vertice_size").toInt();
   projection_type_ = settings_->value("projectionType").value<ProjectionType>();
@@ -387,7 +387,7 @@ void s21::View::SetValuesOnButtons() {
   ui_->noneVerticeType->setChecked(vertice_type_ == VerticeType::kNone);
   ui_->circleVerticeType->setChecked(vertice_type_ == VerticeType::kCircle);
   ui_->squareVerticeType->setChecked(vertice_type_ == VerticeType::kSquare);
-  ui_->lineThickness->setValue(settings_->value("edges_thickness").toDouble() *
+  ui_->lineThickness->setValue(settings_->value("line_thickness").toDouble() *
                                10);
   ui_->verticeSize->setValue(settings_->value("vertice_size").toDouble() * 5);
   ui_->projectionType->setCurrentIndex(projection_type_);
