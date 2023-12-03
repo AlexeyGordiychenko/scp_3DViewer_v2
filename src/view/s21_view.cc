@@ -356,15 +356,10 @@ void s21::View::SaveSettings() {
 }
 
 void s21::View::LoadSettings() {
-  if (settings_->contains("bg_color")) {
-    bg_color_ = settings_->value("bg_color").value<QColor>();
-  }
-  if (settings_->contains("line_color")) {
-    line_color_ = settings_->value("line_color").value<QColor>();
-  }
-  if (settings_->contains("vertice_color")) {
-    vertice_color_ = settings_->value("vertice_color").value<QColor>();
-  }
+  bg_color_ = settings_->value("bg_color", bg_color_).value<QColor>();
+  line_color_ = settings_->value("line_color", line_color_).value<QColor>();
+  vertice_color_ =
+      settings_->value("vertice_color", vertice_color_).value<QColor>();
   line_type_ = settings_->value("line_type").value<LineType>();
   line_thickness_ = settings_->value("line_thickness").toDouble();
   vertice_type_ = settings_->value("vertice_type").value<VerticeType>();
