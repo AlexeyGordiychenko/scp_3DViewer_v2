@@ -343,9 +343,8 @@ void s21::View::CreateCommandStack() {
           &View::SaveAffine);
   connect(ui_->rotate_z, &QDoubleSpinBox::editingFinished, this,
           &View::SaveAffine);
-  SetLineThicknessCmd::init_old(settings_->value("line_thickness").toDouble() *
-                                10);
-  SetVerticeSizeCmd::init_old(settings_->value("vertice_size").toDouble() * 5);
+  SetLineThicknessCmd::init_old(line_thickness_ * 10);
+  SetVerticeSizeCmd::init_old(vertice_size_ * 5);
 }
 
 void s21::View::SaveSettings() {
@@ -387,9 +386,8 @@ void s21::View::SetValuesOnButtons() {
   ui_->noneVerticeType->setChecked(vertice_type_ == VerticeType::kNone);
   ui_->circleVerticeType->setChecked(vertice_type_ == VerticeType::kCircle);
   ui_->squareVerticeType->setChecked(vertice_type_ == VerticeType::kSquare);
-  ui_->lineThickness->setValue(settings_->value("line_thickness").toDouble() *
-                               10);
-  ui_->verticeSize->setValue(settings_->value("vertice_size").toDouble() * 5);
+  ui_->lineThickness->setValue(line_thickness_ * 10);
+  ui_->verticeSize->setValue(vertice_size_ * 5);
   ui_->projectionType->setCurrentIndex(projection_type_);
 }
 
