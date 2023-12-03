@@ -363,7 +363,7 @@ void s21::View::LoadSettings() {
   line_type_ = settings_->value("line_type").value<LineType>();
   line_thickness_ = settings_->value("line_thickness").toDouble();
   vertice_type_ = settings_->value("vertice_type").value<VerticeType>();
-  vertice_size_ = settings_->value("vertice_size").toInt();
+  vertice_size_ = settings_->value("vertice_size").toDouble();
   projection_type_ = settings_->value("projectionType").value<ProjectionType>();
   SetValuesOnButtons();
   Notify(EventType::kLoadSettings);
