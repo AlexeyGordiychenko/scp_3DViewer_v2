@@ -268,12 +268,13 @@ void s21::View::ResetAffine() {
 }
 
 void s21::View::BackgroundColorChange() {
-  QColor color = QColorDialog::getColor();
+  QColor color =
+      QColorDialog::getColor(bg_color_, this, "Choose background color");
   undo_stack_->Push(new SetBackgroundColorCmd(bg_color_, color, this));
 }
 
 void s21::View::LineColorChange() {
-  QColor color = QColorDialog::getColor();
+  QColor color = QColorDialog::getColor(line_color_, this, "Choose line color");
   undo_stack_->Push(new SetLineColorCmd(line_color_, color, this));
 }
 
@@ -292,7 +293,8 @@ void s21::View::SquareVerticeTypeChange() { VerticeTypeChange(kSquare); }
 void s21::View::VerticeSizeChange(int value) { SetVerticeSize(value); }
 
 void s21::View::VerticeColorChange() {
-  QColor color = QColorDialog::getColor();
+  QColor color =
+      QColorDialog::getColor(vertice_color_, this, "Choose vertice color");
   undo_stack_->Push(new SetVerticeColorCmd(vertice_color_, color, this));
 }
 
