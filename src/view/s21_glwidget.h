@@ -42,7 +42,11 @@ class GLWidget : public QOpenGLWidget,
   void wheelEvent(QWheelEvent* event) override;
 
  private:
-  // Funcitons
+  // Functions
+  void SetProjection();
+  void ApplyTransformations();
+  void DrawPolygons();
+  void DrawVertices();
   ~GLWidget() override;
 
   // Variables

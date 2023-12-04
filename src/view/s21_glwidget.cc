@@ -49,68 +49,21 @@ void s21::GLWidget::resizeGL(int w, int h) {
 }
 
 void s21::GLWidget::paintGL() {
-  auto bg_color = view_->GetBackgroundColor();
-  glClearColor(bg_color.redF(), bg_color.greenF(), bg_color.blueF(), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
-  static double aspect_ratio =
-      static_cast<double>(size_w_) / static_cast<double>(size_h_);
+  // Set BG color
+  auto bg_color = view_->GetBackgroundColor();
+  glClearColor(bg_color.redF(), bg_color.greenF(), bg_color.blueF(), 1);
 
   if (!controller_->Empty()) {
+    SetProjection();
     glVertexPointer(3, GL_DOUBLE, 0, controller_->GetVertices().data());
     glEnableClientState(GL_VERTEX_ARRAY);
-
-    if (view_->GetProjectionType() == kParallel) {
-      glOrtho(-1.5 * aspect_ratio, 1.5 * aspect_ratio, -1.5, 1.5, -2, 1000);
-    } else {
-      glFrustum(-1 * aspect_ratio, 1 * aspect_ratio, -1, 1, 1, 99999);
-      glTranslatef(0, 0, -2.5);
-    }
-
-    glScalef(zoom_, zoom_, zoom_);
-    glTranslatef(controller_->GetCenterX() + translation_vertex_.x,
-                 controller_->GetCenterY() + translation_vertex_.y,
-                 controller_->GetCenterZ());
-    glRotatef(rotation_vertex_.x, 1.0, 0.0, 0.0);
-    glRotatef(rotation_vertex_.y, 0.0, 1.0, 0.0);
-    glRotatef(rotation_vertex_.z, 0.0, 0.0, 1.0);
-    glTranslatef(-controller_->GetCenterX() - translation_vertex_.x,
-                 -controller_->GetCenterY() - translation_vertex_.y,
-                 -controller_->GetCenterZ());
-    glTranslatef(translation_vertex_.x, translation_vertex_.y, 0.0);
-
-    auto line_color = view_->GetLineColor();
-    auto vertice_color = view_->GetVerticeColor();
-    auto line_type = view_->GetLineType();
-    auto vertice_type = view_->GetVerticeType();
-    auto vertice_size = view_->GetVerticeSize();
-    auto line_thickness = view_->GetLineThickness();
-
-    if (line_type == kDashed) {
-      glEnable(GL_LINE_STIPPLE);
-      glLineStipple(1, 0x00FF);
-    }
-    if (line_type == kSolid) {
-      glDisable(GL_LINE_STIPPLE);
-    }
-    glLineWidth(line_thickness);
-    glColor3f(line_color.redF(), line_color.greenF(), line_color.blueF());
-    glDrawElements(GL_LINES, controller_->GetPolygonsCount(), GL_UNSIGNED_INT,
-                   controller_->GetPolygons().data());
-
-    if (vertice_type != kNone) {
-      if (vertice_type == kCircle) {
-        glEnable(GL_POINT_SMOOTH);
-      } else {
-        glDisable(GL_POINT_SMOOTH);
-      }
-      glPointSize(vertice_size);
-      glColor3f(vertice_color.redF(), vertice_color.greenF(),
-                vertice_color.blueF());
-      glDrawArrays(GL_POINTS, 0, controller_->GetVerticesCount());
-    }
+    ApplyTransformations();
+    DrawPolygons();
+    DrawVertices();
     glDisableClientState(GL_VERTEX_ARRAY);
   }
 }
@@ -154,6 +107,67 @@ void s21::GLWidget::wheelEvent(QWheelEvent* event) {
       zoom_ /= 1.1;
     }
     update();
+  }
+}
+
+void s21::GLWidget::SetProjection() {
+  static double aspect_ratio =
+      static_cast<double>(size_w_) / static_cast<double>(size_h_);
+
+  if (view_->GetProjectionType() == kParallel) {
+    glOrtho(-1.5 * aspect_ratio, 1.5 * aspect_ratio, -1.5, 1.5, -2, 1000);
+  } else {
+    glFrustum(-1 * aspect_ratio, 1 * aspect_ratio, -1, 1, 1, 99999);
+    glTranslatef(0, 0, -2.5);
+  }
+}
+void s21::GLWidget::ApplyTransformations() {
+  glScalef(zoom_, zoom_, zoom_);
+  glTranslatef(controller_->GetCenterX() + translation_vertex_.x,
+               controller_->GetCenterY() + translation_vertex_.y,
+               controller_->GetCenterZ());
+  glRotatef(rotation_vertex_.x, 1.0, 0.0, 0.0);
+  glRotatef(rotation_vertex_.y, 0.0, 1.0, 0.0);
+  glRotatef(rotation_vertex_.z, 0.0, 0.0, 1.0);
+  glTranslatef(-controller_->GetCenterX() - translation_vertex_.x,
+               -controller_->GetCenterY() - translation_vertex_.y,
+               -controller_->GetCenterZ());
+  glTranslatef(translation_vertex_.x, translation_vertex_.y, 0.0);
+}
+
+void s21::GLWidget::DrawPolygons() {
+  auto line_color = view_->GetLineColor();
+  auto line_type = view_->GetLineType();
+  auto line_thickness = view_->GetLineThickness();
+
+  if (line_type == kDashed) {
+    glEnable(GL_LINE_STIPPLE);
+    glLineStipple(1, 0x00FF);
+  }
+  if (line_type == kSolid) {
+    glDisable(GL_LINE_STIPPLE);
+  }
+  glLineWidth(line_thickness);
+  glColor3f(line_color.redF(), line_color.greenF(), line_color.blueF());
+  glDrawElements(GL_LINES, controller_->GetPolygonsCount(), GL_UNSIGNED_INT,
+                 controller_->GetPolygons().data());
+}
+
+void s21::GLWidget::DrawVertices() {
+  auto vertice_color = view_->GetVerticeColor();
+  auto vertice_type = view_->GetVerticeType();
+  auto vertice_size = view_->GetVerticeSize();
+
+  if (vertice_type != kNone) {
+    if (vertice_type == kCircle) {
+      glEnable(GL_POINT_SMOOTH);
+    } else {
+      glDisable(GL_POINT_SMOOTH);
+    }
+    glPointSize(vertice_size);
+    glColor3f(vertice_color.redF(), vertice_color.greenF(),
+              vertice_color.blueF());
+    glDrawArrays(GL_POINTS, 0, controller_->GetVerticesCount());
   }
 }
 
