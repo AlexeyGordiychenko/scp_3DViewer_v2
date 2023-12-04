@@ -46,6 +46,8 @@ class Model {
 
   void ClearData();
   void ParseFile(std::string filename);
+  bool ParseVertices(std::istringstream& iss);
+  bool ParsePolygons(std::istringstream& iss);
   void UpdateMinMaxPoints(s21::Vertex3d point);
   void TranslateToOrigin();
   void SaveVertices();

@@ -9,8 +9,6 @@ void s21::Model::Initialize(const std::string filename) {
   ParseFile(filename);
   TranslateToOrigin();
   SaveVertices();
-
-  is_empty_ = false;
 }
 
 void s21::Model::RestoreVertices() {
@@ -126,60 +124,72 @@ void s21::Model::ParseFile(std::string filename) {
   ClearData();
 
   std::string line;
-  size_t line_num = 1;
+  size_t line_num = 0;
   polygons_edges_count_ = 0;
-  while (std::getline(file, line)) {
+  while (std::getline(file, line) && ++line_num) {
     std::istringstream iss(line);
     std::string prefix;
     if (iss >> prefix) {
       if (prefix == "v") {
-        Vertex3d point;
-        if (iss >> point.x >> point.y >> point.z) {
-          vertices_.push_back(point.x);
-          vertices_.push_back(point.y);
-          vertices_.push_back(point.z);
-          UpdateMinMaxPoints(point);
-        } else {
+        if (!ParseVertices(iss)) {
           throw std::runtime_error("Line: " + std::to_string(line_num) +
                                    " failed to read a vertex.");
         }
       } else if (prefix == "f") {
-        std::string polygon_str;
-        bool polygon_start = true;
-        int index, polygon_start_idx = 0;
-        while (iss >> polygon_str) {
-          std::istringstream polygon_iss(polygon_str);
-          char tmp;
-          polygon_iss >> index >> tmp;
-          if (index < 0) {
-            index += vertices_.size() + 1;
-          }
-          if (index <= 0 || static_cast<size_t>(index) > vertices_.size()) {
-            throw std::runtime_error("Line: " + std::to_string(line_num) +
-                                     " failed to read a polygon.");
-          } else {
-            index--;  // To have an index, starting from 0
-            if (polygon_start) {
-              polygons_.push_back(index);
-              polygon_start_idx = index;
-              polygon_start = false;
-            } else {
-              polygons_edges_count_++;
-              polygons_.push_back(index);
-              polygons_.push_back(index);
-            }
-          }
-        }
-        if (!polygon_start) {
-          polygons_.push_back(polygon_start_idx);
-          polygons_edges_count_++;
+        if (!ParsePolygons(iss)) {
+          throw std::runtime_error("Line: " + std::to_string(line_num) +
+                                   " failed to read a polygon.");
         }
       }
     }
-    ++line_num;
   }
   file.close();
   is_empty_ = false;
+}
+
+bool s21::Model::ParseVertices(std::istringstream& iss) {
+  Vertex3d point;
+  bool res = false;
+  if (iss >> point.x >> point.y >> point.z) {
+    vertices_.push_back(point.x);
+    vertices_.push_back(point.y);
+    vertices_.push_back(point.z);
+    UpdateMinMaxPoints(point);
+    res = true;
+  }
+  return res;
+}
+
+bool s21::Model::ParsePolygons(std::istringstream& iss) {
+  std::string polygon_str;
+  bool polygon_start = true, res = true;
+  int index, polygon_start_idx = 0;
+  while (iss >> polygon_str && res) {
+    std::istringstream polygon_iss(polygon_str);
+    char tmp;
+    polygon_iss >> index >> tmp;
+    if (index < 0) {
+      index += vertices_.size() + 1;
+    }
+    if (index <= 0 || static_cast<size_t>(index) > vertices_.size()) {
+      res = false;
+    } else {
+      index--;  // To have an index, starting from 0
+      if (polygon_start) {
+        polygons_.push_back(index);
+        polygon_start_idx = index;
+        polygon_start = false;
+      } else {
+        polygons_edges_count_++;
+        polygons_.insert(polygons_.end(), {index, index});
+      }
+    }
+  }
+  if (!polygon_start) {
+    polygons_.push_back(polygon_start_idx);
+    polygons_edges_count_++;
+  }
+  return res;
 }
 
 void s21::Model::UpdateMinMaxPoints(Vertex3d point) {
