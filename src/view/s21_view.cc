@@ -178,14 +178,14 @@ void s21::View::RenderFile() {
     std::string filename = ui_->filePath->currentText().toStdString();
     try {
       controller_->Initialize(filename);
+      file_changed_ = false;
     } catch (const std::exception& e) {
-      QMessageBox messageBoxImage;
-      messageBoxImage.information(0, "", e.what());
+      QMessageBox err_message;
+      err_message.information(0, "", e.what());
     }
     ui_->numVertices->setText(QString::number(controller_->GetVerticesCount()));
     ui_->numEdges->setText(
         QString::number(controller_->GetPolygonsEdgesCount()));
-    file_changed_ = false;
   } else {
     controller_->RestoreVertices();
   }
