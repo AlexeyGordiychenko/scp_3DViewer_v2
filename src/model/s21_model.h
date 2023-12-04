@@ -12,6 +12,7 @@ namespace s21 {
 class Model {
  public:
   void Initialize(const std::string filename);
+  void ParseFile(std::string filename);
   void RestoreVertices();
 
   void ApplyAffine(AffineData& data);
@@ -45,7 +46,6 @@ class Model {
   uint32_t polygons_edges_count_ = 0;
 
   void ClearData();
-  void ParseFile(std::string filename);
   bool ParseVertices(std::istringstream& iss);
   bool ParsePolygons(std::istringstream& iss);
   void UpdateMinMaxPoints(s21::Vertex3d point);
