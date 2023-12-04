@@ -45,7 +45,7 @@ class Model {
   uint32_t polygons_edges_count_ = 0;
 
   void ClearData();
-  void ParseFile(std::ifstream& file);
+  void ParseFile(std::string filename);
   void UpdateMinMaxPoints(s21::Vertex3d point);
   void TranslateToOrigin();
   void SaveVertices();

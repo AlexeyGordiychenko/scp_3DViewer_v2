@@ -6,16 +6,7 @@
 #include <sstream>
 
 void s21::Model::Initialize(const std::string filename) {
-  is_empty_ = true;
-
-  std::ifstream file(filename);
-
-  if (!file.is_open()) {
-    throw std::runtime_error("Can't open the file.");
-  }
-
-  ClearData();
-  ParseFile(file);
+  ParseFile(filename);
   TranslateToOrigin();
   SaveVertices();
 
@@ -117,6 +108,7 @@ void s21::Model::NormalizeAngle(double& angle) {
 }
 
 void s21::Model::ClearData() {
+  is_empty_ = true;
   vertices_.clear();
   polygons_.clear();
   min_point_ = {0, 0, 0};
@@ -124,7 +116,15 @@ void s21::Model::ClearData() {
   center_x_ = 0, center_y_ = 0, center_z_ = 0;
 }
 
-void s21::Model::ParseFile(std::ifstream& file) {
+void s21::Model::ParseFile(std::string filename) {
+  std::ifstream file(filename);
+
+  if (!file.is_open()) {
+    throw std::runtime_error("Can't open the file.");
+  }
+
+  ClearData();
+
   std::string line;
   size_t line_num = 1;
   polygons_edges_count_ = 0;
@@ -179,6 +179,7 @@ void s21::Model::ParseFile(std::ifstream& file) {
     ++line_num;
   }
   file.close();
+  is_empty_ = false;
 }
 
 void s21::Model::UpdateMinMaxPoints(Vertex3d point) {
