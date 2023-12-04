@@ -16,7 +16,10 @@
 #include "s21_gifcreator.h"
 
 s21::View::View(Controller* controller, QWidget* parent)
-    : QMainWindow(parent), ui_(new Ui::View), controller_(controller) {
+    : QMainWindow(parent),
+      ui_(new Ui::View),
+      controller_(controller),
+      settings_("21school", "3DViewer_v2.0") {
   ui_->setupUi(this);
 
   // Main menu
@@ -66,7 +69,6 @@ s21::View::View(Controller* controller, QWidget* parent)
   ui_->openGLWidget->SetController(controller);
   ui_->openGLWidget->SetView(this);
 
-  settings_ = new QSettings("21school", "3DViewer_v2.0", this);
   LoadSettings();
 
   CreateCommandStack();
@@ -75,7 +77,6 @@ s21::View::View(Controller* controller, QWidget* parent)
 s21::View::~View() {
   emit die();
   SaveSettings();
-  delete settings_;
   delete ui_;
   delete undo_stack_;
 }
@@ -348,26 +349,26 @@ void s21::View::CreateCommandStack() {
 }
 
 void s21::View::SaveSettings() {
-  settings_->setValue("bg_color", bg_color_);
-  settings_->setValue("line_color", line_color_);
-  settings_->setValue("vertice_color", vertice_color_);
-  settings_->setValue("line_type", line_type_);
-  settings_->setValue("line_thickness", line_thickness_);
-  settings_->setValue("vertice_type", vertice_type_);
-  settings_->setValue("vertice_size", vertice_size_);
-  settings_->setValue("projectionType", projection_type_);
+  settings_.setValue("bg_color", bg_color_);
+  settings_.setValue("line_color", line_color_);
+  settings_.setValue("vertice_color", vertice_color_);
+  settings_.setValue("line_type", line_type_);
+  settings_.setValue("line_thickness", line_thickness_);
+  settings_.setValue("vertice_type", vertice_type_);
+  settings_.setValue("vertice_size", vertice_size_);
+  settings_.setValue("projectionType", projection_type_);
 }
 
 void s21::View::LoadSettings() {
-  bg_color_ = settings_->value("bg_color", bg_color_).value<QColor>();
-  line_color_ = settings_->value("line_color", line_color_).value<QColor>();
+  bg_color_ = settings_.value("bg_color", bg_color_).value<QColor>();
+  line_color_ = settings_.value("line_color", line_color_).value<QColor>();
   vertice_color_ =
-      settings_->value("vertice_color", vertice_color_).value<QColor>();
-  line_type_ = settings_->value("line_type").value<LineType>();
-  line_thickness_ = settings_->value("line_thickness").toDouble();
-  vertice_type_ = settings_->value("vertice_type").value<VerticeType>();
-  vertice_size_ = settings_->value("vertice_size").toDouble();
-  projection_type_ = settings_->value("projectionType").value<ProjectionType>();
+      settings_.value("vertice_color", vertice_color_).value<QColor>();
+  line_type_ = settings_.value("line_type").value<LineType>();
+  line_thickness_ = settings_.value("line_thickness").toDouble();
+  vertice_type_ = settings_.value("vertice_type").value<VerticeType>();
+  vertice_size_ = settings_.value("vertice_size").toDouble();
+  projection_type_ = settings_.value("projectionType").value<ProjectionType>();
   SetValuesOnButtons();
   Notify(EventType::kLoadSettings);
 }
