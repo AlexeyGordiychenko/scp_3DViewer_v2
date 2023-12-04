@@ -88,7 +88,6 @@ class View : public QMainWindow, public Observable {
   // Variables
   Ui::View* ui_;
   Controller* controller_;
-  s21::GifCreator* gifCreator_;
   QSettings settings_;
   CommandStack* undo_stack_;
   int history_max_list_ = 10;

@@ -12,6 +12,13 @@ s21::GifCreator *s21::GifCreator::GetInstance(QOpenGLWidget *widget) {
   return gif_creator_;
 };
 
+void s21::GifCreator::ResetInstance() {
+  if (gif_creator_ != nullptr) {
+    delete gif_creator_;
+    gif_creator_ = nullptr;
+  }
+}
+
 s21::GifCreator::GifCreator(QOpenGLWidget *widget, int width, int height,
                             int fps, int duration_sec)
     : QObject(widget),

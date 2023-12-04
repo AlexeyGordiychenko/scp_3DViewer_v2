@@ -22,6 +22,7 @@ class GifCreator final : public QObject {
 
   // Singleton functions
   static GifCreator *GetInstance(QOpenGLWidget *widget);
+  static void ResetInstance();
 
   // Main functions
   void CreateGif(QString output_gif_path);

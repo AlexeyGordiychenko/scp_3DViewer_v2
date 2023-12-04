@@ -79,6 +79,7 @@ s21::View::~View() {
   SaveSettings();
   delete ui_;
   delete undo_stack_;
+  GifCreator::ResetInstance();
 }
 
 void s21::View::AddObserver(Observer* observer) {
