@@ -73,6 +73,7 @@ s21::View::View(Controller* controller, QWidget* parent)
 }
 
 s21::View::~View() {
+  emit die();
   SaveSettings();
   delete settings_;
   delete ui_;

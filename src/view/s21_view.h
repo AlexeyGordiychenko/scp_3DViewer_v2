@@ -58,6 +58,9 @@ class View : public QMainWindow, public Observable {
   // Misc functions
   void SetButtonBackground(QPushButton* button, QColor color);
 
+ signals:
+  void die();
+
  private slots:
   void OpenFile();
   void RenderFile();

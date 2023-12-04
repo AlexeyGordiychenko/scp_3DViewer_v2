@@ -47,6 +47,7 @@ class GLWidget : public QOpenGLWidget,
   void ApplyTransformations();
   void DrawPolygons();
   void DrawVertices();
+  void NullifyView();
   ~GLWidget() override;
 
   // Variables

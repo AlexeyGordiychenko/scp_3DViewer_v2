@@ -13,6 +13,7 @@ void s21::GLWidget::SetController(Controller* controller) {
 void s21::GLWidget::SetView(View* view) {
   view_ = view;
   view_->AddObserver(this);
+  connect(view_, &View::die, this, &GLWidget::NullifyView);
 }
 
 void s21::GLWidget::UpdateObserver(EventType event) {
@@ -171,4 +172,8 @@ void s21::GLWidget::DrawVertices() {
   }
 }
 
-s21::GLWidget::~GLWidget() {}
+void s21::GLWidget::NullifyView() { view_ = nullptr; }
+
+s21::GLWidget::~GLWidget() {
+  if (view_) view_->RemoveObserver(this);
+}
