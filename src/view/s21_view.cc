@@ -20,43 +20,45 @@ s21::View::View(Controller* controller, QWidget* parent)
   ui_->setupUi(this);
 
   // Main menu
-  connect(ui_->openFile, SIGNAL(clicked()), this, SLOT(OpenFile()));
-  connect(ui_->renderFile, SIGNAL(clicked()), this, SLOT(RenderFile()));
-  connect(ui_->projectionType, SIGNAL(currentIndexChanged(int)), this,
-          SLOT(ProjectionTypeChange(int)));
-  connect(ui_->takeScreenshot, SIGNAL(clicked()), this, SLOT(TakeScreenshot()));
-  connect(ui_->getGIF, SIGNAL(clicked()), this, SLOT(GetGIF()));
+  connect(ui_->openFile, &QPushButton::clicked, this, &View::OpenFile);
+  connect(ui_->renderFile, &QPushButton::clicked, this, &View::RenderFile);
+  connect(ui_->projectionType, qOverload<int>(&QComboBox::currentIndexChanged),
+          this, &View::ProjectionTypeChange);
+  connect(ui_->takeScreenshot, &QPushButton::clicked, this,
+          &View::TakeScreenshot);
+  connect(ui_->getGIF, &QPushButton::clicked, this, &View::GetGIF);
 
   // Affine buttons
-  connect(ui_->applyAffine, SIGNAL(clicked()), this, SLOT(ApplyAffine()));
-  connect(ui_->resetAffine, SIGNAL(clicked()), this, SLOT(ResetAffine()));
+  connect(ui_->applyAffine, &QPushButton::clicked, this, &View::ApplyAffine);
+  connect(ui_->resetAffine, &QPushButton::clicked, this, &View::ResetAffine);
 
   // Background color
-  connect(ui_->bgColor, SIGNAL(clicked()), this, SLOT(BackgroundColorChange()));
+  connect(ui_->bgColor, &QPushButton::clicked, this,
+          &View::BackgroundColorChange);
 
   // Line
-  connect(ui_->lineColor, SIGNAL(clicked()), this, SLOT(LineColorChange()));
-  connect(ui_->solidLineType, SIGNAL(clicked()), this,
-          SLOT(SolidLineTypeChange()));
-  connect(ui_->dashedLineType, SIGNAL(clicked()), this,
-          SLOT(DashedLineTypeChange()));
-  connect(ui_->lineThickness, SIGNAL(valueChanged(int)), this,
-          SLOT(LineThicknessChange(int)));
+  connect(ui_->lineColor, &QPushButton::clicked, this, &View::LineColorChange);
+  connect(ui_->solidLineType, &QPushButton::clicked, this,
+          &View::SolidLineTypeChange);
+  connect(ui_->dashedLineType, &QPushButton::clicked, this,
+          &View::DashedLineTypeChange);
+  connect(ui_->lineThickness, qOverload<int>(&QSlider::valueChanged), this,
+          &View::LineThicknessChange);
 
   // Vertice
-  connect(ui_->verticeColor, SIGNAL(clicked()), this,
-          SLOT(VerticeColorChange()));
-  connect(ui_->noneVerticeType, SIGNAL(clicked()), this,
-          SLOT(NoneVerticeTypeChange()));
-  connect(ui_->circleVerticeType, SIGNAL(clicked()), this,
-          SLOT(CircleVerticeTypeChange()));
-  connect(ui_->squareVerticeType, SIGNAL(clicked()), this,
-          SLOT(SquareVerticeTypeChange()));
-  connect(ui_->verticeSize, SIGNAL(valueChanged(int)), this,
-          SLOT(VerticeSizeChange(int)));
+  connect(ui_->verticeColor, &QPushButton::clicked, this,
+          &View::VerticeColorChange);
+  connect(ui_->noneVerticeType, &QPushButton::clicked, this,
+          &View::NoneVerticeTypeChange);
+  connect(ui_->circleVerticeType, &QPushButton::clicked, this,
+          &View::CircleVerticeTypeChange);
+  connect(ui_->squareVerticeType, &QPushButton::clicked, this,
+          &View::SquareVerticeTypeChange);
+  connect(ui_->verticeSize, qOverload<int>(&QSlider::valueChanged), this,
+          &View::VerticeSizeChange);
 
-  connect(ui_->filePath, SIGNAL(currentIndexChanged(int)), this,
-          SLOT(FilePathChange(int)));
+  connect(ui_->filePath, qOverload<int>(&QComboBox::currentIndexChanged), this,
+          &View::FilePathChange);
 
   ui_->projectionType->addItem("Parallel", kParallel);
   ui_->projectionType->addItem("Central", kCentral);
