@@ -34,7 +34,7 @@ SOURCES += \
 
 HEADERS += \
     thirdparty/gifanim/gifanim.h \
-    view/command/s21_affinesave.h \
+    view/command/s21_affinesavecmd.h \
     view/command/s21_command.h \
     view/command/s21_commandstack.h \
     view/command/s21_projectiontypechangecmd.h \

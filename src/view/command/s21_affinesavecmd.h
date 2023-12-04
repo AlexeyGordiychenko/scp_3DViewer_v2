@@ -1,5 +1,5 @@
-#ifndef S21_3DVIEWER_V2_COMMAND_AFFINESAVECOMMAND_H
-#define S21_3DVIEWER_V2_COMMAND_AFFINESAVECOMMAND_H
+#ifndef S21_3DVIEWER_V2_COMMAND_AFFINESAVECMD_H
+#define S21_3DVIEWER_V2_COMMAND_AFFINESAVECMD_H
 
 #include "../../utils/s21_affinedata.h"
 #include "../s21_view.h"
@@ -30,4 +30,4 @@ class AffineSaveCmd : public Command {
 };
 
 }  // namespace s21
-#endif  // S21_3DVIEWER_V2_COMMAND_AFFINESAVECOMMAND_H
+#endif  // S21_3DVIEWER_V2_COMMAND_AFFINESAVECMD_H
