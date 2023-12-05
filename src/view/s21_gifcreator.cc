@@ -56,6 +56,6 @@ void s21::GifCreator::EndGif() {
   timer_.stop();
   gif_anim_.GifEnd(&gif_writer_);
   frames_count_ = 0;
-  QMessageBox gif_saved_message;
-  gif_saved_message.information(0, "", "GIF animation saved successfully.");
+  QMessageBox gif_saved_msg;
+  gif_saved_msg.information(0, "", "GIF animation saved successfully.");
 }

@@ -185,8 +185,8 @@ void s21::View::RenderFile() {
       controller_->Initialize(filename);
       file_changed_ = false;
     } catch (const std::exception& e) {
-      QMessageBox err_message;
-      err_message.information(0, "", e.what());
+      QMessageBox err_msg;
+      err_msg.information(0, "", e.what());
     }
     ui_->numVertices->setText(QString::number(controller_->GetVerticesCount()));
     ui_->numEdges->setText(
@@ -228,8 +228,8 @@ void s21::View::TakeScreenshot() {
     }
     QImage img = ui_->openGLWidget->grabFramebuffer();
     img.save(image_name);
-    QMessageBox messageBoxImage;
-    messageBoxImage.information(0, "", "Screenshot saved successfully.");
+    QMessageBox ss_saved_msg;
+    ss_saved_msg.information(0, "", "Screenshot saved successfully.");
   }
 }
 
