@@ -90,7 +90,7 @@ dvi:
 dist:
 	mkdir -p $(PROGRAM)/src
 	@cp s21_* Makefile $(PROGRAM)/src 2>/dev/null || true
-	@cp -r model/ controller/ view/ thirdparty/ $(PROGRAM)/src 2>/dev/null || true
+	@cp -r model/ controller/ view/ utils/ thirdparty/ $(PROGRAM)/src 2>/dev/null || true
 	tar cvzf $(PROGRAM).tgz $(PROGRAM)/
 	rm -rf $(PROGRAM)/
 
