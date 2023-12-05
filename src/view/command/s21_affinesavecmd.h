@@ -2,9 +2,7 @@
 #define S21_3DVIEWER_V2_COMMAND_AFFINESAVECMD_H
 
 #include "../../utils/s21_affinedata.h"
-#include "../s21_view.h"
 #include "s21_command.h"
-#include "ui_s21_view.h"
 
 namespace s21 {
 
@@ -19,7 +17,6 @@ class AffineSaveCmd : public Command {
   ~AffineSaveCmd() = default;
   void Undo() override;
   void Redo() override;
-  static void init_old(AffineData old_data);
   static AffineData get_old();
 
  private:

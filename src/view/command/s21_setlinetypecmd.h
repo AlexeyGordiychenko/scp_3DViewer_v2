@@ -1,8 +1,6 @@
 #ifndef S21_3DVIEWER_V2_COMMAND_SETLINETYPECMD_H
 #define S21_3DVIEWER_V2_COMMAND_SETLINETYPECMD_H
 
-#include <QColor>
-
 #include "../utils/s21_enums.h"
 #include "s21_command.h"
 

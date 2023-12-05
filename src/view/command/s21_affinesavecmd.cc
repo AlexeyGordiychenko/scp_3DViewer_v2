@@ -1,5 +1,7 @@
 #include "s21_affinesavecmd.h"
 
+#include "../s21_view.h"
+
 s21::AffineSaveCmd::AffineSaveCmd(AffineData old_data, AffineData new_data,
                                   Ui::View* ui)
     : ui_(ui), new_data_(new_data), old_data_(old_data) {}
