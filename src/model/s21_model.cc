@@ -169,7 +169,7 @@ bool s21::Model::ParsePolygons(std::istringstream& iss) {
     char tmp;
     polygon_iss >> index >> tmp;
     if (index < 0) {
-      index += vertices_.size() + 1;
+      index += GetVerticesCount() + 1;
     }
     if (index <= 0 || static_cast<size_t>(index) > vertices_.size()) {
       res = false;
