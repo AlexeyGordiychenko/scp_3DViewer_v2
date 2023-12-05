@@ -35,6 +35,15 @@ VPATH=$(TEST_DIR):$(MODEL_DIR)
 #Docs
 DOC=doc_3DViewer_v2
 
+# Open command
+OS := $(shell uname -s)
+ifeq ($(OS), Linux)
+	OPEN_CMD=./$(INSTALL_DIR)/$(PROGRAM)
+endif
+ifeq ($(OS), Darwin)
+	OPEN_CMD=open $(INSTALL_DIR)/$(PROGRAM).app
+endif
+
 .PHONY: all $(TEST) $(TEST_BUILD) $(TEST_GCOV) $(TEST_BUILD_GCOV) build install uninstall gcov_report lcov_report dvi dist clean clean_gcda rebuild clang_n clang_i valgrind valgrind_mac
 
 all: install
@@ -70,6 +79,9 @@ install: build
 
 uninstall:
 	rm -rf $(INSTALL_DIR)
+
+open:
+	$(OPEN_CMD)
 
 gcov_report: $(TEST_GCOV)
 	mkdir -p $(GCOV_DIR)
