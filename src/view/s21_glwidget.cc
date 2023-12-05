@@ -50,13 +50,13 @@ void s21::GLWidget::resizeGL(int w, int h) {
 }
 
 void s21::GLWidget::paintGL() {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-
   // Set BG color
   auto bg_color = view_->GetBackgroundColor();
   glClearColor(bg_color.redF(), bg_color.greenF(), bg_color.blueF(), 1);
+
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
 
   if (!controller_->Empty()) {
     SetProjection();
