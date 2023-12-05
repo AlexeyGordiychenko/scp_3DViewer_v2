@@ -88,8 +88,8 @@ void s21::GLWidget::mouseMoveEvent(QMouseEvent* event) {
     controller_->NormalizeAngle(rotation_vertex_.x);
     controller_->NormalizeAngle(rotation_vertex_.z);
   } else if (event->buttons() & Qt::MiddleButton) {
-    translation_vertex_.x += dx;
-    translation_vertex_.y -= dy;
+    translation_vertex_.x += dx * 2;
+    translation_vertex_.y -= dy * 2;
   }
 
   last_mouse_pos_ = event->position();
