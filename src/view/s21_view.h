@@ -99,7 +99,8 @@ class View : public QMainWindow, public Observable {
   ProjectionType projection_type_ = kParallel;
   LineType line_type_ = kSolid;
   VerticeType vertice_type_ = kNone;
-  double vertice_size_ = 1, line_thickness_ = 1;
+  double vertice_size_ = 1, line_thickness_ = 1, kVertexSizeCoeff = 5,
+         kLineThicknessCoeff = 10;
 
   void CreateCommandStack();
   void SaveSettings();

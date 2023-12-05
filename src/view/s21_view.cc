@@ -143,7 +143,7 @@ void s21::View::SetVerticeType(VerticeType type) {
 s21::VerticeType s21::View::GetVerticeType() { return vertice_type_; }
 
 void s21::View::SetVerticeSize(double value) {
-  vertice_size_ = value / 5;
+  vertice_size_ = value / kVertexSizeCoeff;
   ui_->verticeSize->setValue(value);
   Notify(EventType::kAppearanceChange);
 }
@@ -151,7 +151,7 @@ void s21::View::SetVerticeSize(double value) {
 double s21::View::GetVerticeSize() { return vertice_size_; }
 
 void s21::View::SetLineThickness(double value) {
-  line_thickness_ = value / 10;
+  line_thickness_ = value / kLineThicknessCoeff;
   ui_->lineThickness->setValue(value);
   Notify(EventType::kAppearanceChange);
 }
@@ -347,8 +347,8 @@ void s21::View::CreateCommandStack() {
           &View::SaveAffine);
   connect(ui_->rotate_z, &QDoubleSpinBox::editingFinished, this,
           &View::SaveAffine);
-  SetLineThicknessCmd::init_old(line_thickness_ * 10);
-  SetVerticeSizeCmd::init_old(vertice_size_ * 5);
+  SetLineThicknessCmd::init_old(line_thickness_ * kLineThicknessCoeff);
+  SetVerticeSizeCmd::init_old(vertice_size_ * kVertexSizeCoeff);
 }
 
 void s21::View::SaveSettings() {
@@ -382,8 +382,8 @@ void s21::View::SetValuesOnButtons() {
   SetButtonBackground(ui_->verticeColor, vertice_color_);
   SetLineTypeUI(line_type_);
   SetVerticeTypeUI(vertice_type_);
-  ui_->lineThickness->setValue(line_thickness_ * 10);
-  ui_->verticeSize->setValue(vertice_size_ * 5);
+  ui_->lineThickness->setValue(line_thickness_ * kLineThicknessCoeff);
+  ui_->verticeSize->setValue(vertice_size_ * kVertexSizeCoeff);
   ui_->projectionType->setCurrentIndex(projection_type_);
 }
 
