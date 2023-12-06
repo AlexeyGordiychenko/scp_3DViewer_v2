@@ -95,7 +95,6 @@ lcov_report: $(TEST_GCOV)
 	open $(GCOV_DIR)/index.html
 
 dvi:
-#TODO
 	texi2dvi --clean --pdf $(DOC).texi
 	open $(DOC).pdf
 
