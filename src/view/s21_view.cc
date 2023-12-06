@@ -163,16 +163,17 @@ void s21::View::SetButtonBackground(QPushButton* button, QColor color) {
 }
 
 void s21::View::OpenFile() {
-  QString QString_filename = QFileDialog::getOpenFileName(
+  QString filename = QFileDialog::getOpenFileName(
       this, tr("Open .obj file:"), "~/", tr("Obj Files (*.obj)"));
-  auto index = ui_->filePath->findText(QString_filename);
+  if (filename.isEmpty()) return;
+  auto index = ui_->filePath->findText(filename);
   auto count = ui_->filePath->count();
   if (index == -1) {
     if (count >= history_max_list_) {
       ui_->filePath->removeItem(0);
       count--;
     }
-    ui_->filePath->addItem(QString_filename);
+    ui_->filePath->addItem(filename);
     index = count;
   }
   FilePathChange(index);
