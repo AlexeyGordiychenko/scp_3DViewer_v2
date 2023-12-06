@@ -6,6 +6,7 @@
 #include <sstream>
 
 void s21::Model::Initialize(const std::string filename) {
+  ClearData();
   ParseFile(filename);
   TranslateToOrigin();
   SaveVertices();
@@ -120,8 +121,6 @@ void s21::Model::ParseFile(std::string filename) {
   if (!file.is_open()) {
     throw std::runtime_error("Can't open the file.");
   }
-
-  ClearData();
 
   std::string line;
   size_t line_num = 0;
