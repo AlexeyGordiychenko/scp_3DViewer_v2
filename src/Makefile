@@ -19,13 +19,13 @@ BUILD_DIR=build
 INSTALL_DIR=install
 
 #Files
-SRCS_TEST=$(wildcard $(TEST_DIR)/s21_*.cc $(MODEL_DIR)/s21_*.cc)
+SRCS_TEST=$(wildcard $(TEST_DIR)/scp_*.cc $(MODEL_DIR)/scp_*.cc)
 OBJS_TEST=$(patsubst %.cc, $(OBJ_DIR_TEST)/%.o, $(notdir $(SRCS_TEST)))
 OBJS_GCOV=$(patsubst %.cc, $(OBJ_DIR_GCOV)/%.o, $(notdir $(SRCS_TEST)))
-CLANG_FILES=$(shell find $(SRC_DIR) \( -name "s21_*.cc" -o -name "s21_*.h" \) -print)
+CLANG_FILES=$(shell find $(SRC_DIR) \( -name "scp_*.cc" -o -name "scp_*.h" \) -print)
 
 #Builds
-PROGRAM=s21_3DViewer_v2
+PROGRAM=scp_3DViewer_v2
 TEST=test
 TEST_GCOV=$(TEST)_gcov
 TEST_BUILD=$(TEST)_build
@@ -85,7 +85,7 @@ open:
 
 gcov_report: $(TEST_GCOV)
 	mkdir -p $(GCOV_DIR)
-	gcovr --html-details -o $(GCOV_DIR)/index.html --filter $(MODEL_DIR)/s21_\.\*
+	gcovr --html-details -o $(GCOV_DIR)/index.html --filter $(MODEL_DIR)/scp_\.\*
 	open $(GCOV_DIR)/index.html
 
 lcov_report: $(TEST_GCOV)
@@ -100,7 +100,7 @@ dvi:
 
 dist:
 	mkdir -p $(PROGRAM)/src
-	@cp s21_* Makefile $(PROGRAM)/src 2>/dev/null || true
+	@cp scp_* Makefile $(PROGRAM)/src 2>/dev/null || true
 	@cp -r model/ controller/ view/ utils/ thirdparty/ $(PROGRAM)/src 2>/dev/null || true
 	tar cvzf $(PROGRAM).tgz $(PROGRAM)/
 	rm -rf $(PROGRAM)/
