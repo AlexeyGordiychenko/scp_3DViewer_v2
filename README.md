@@ -1,5 +1,21 @@
 # 3DViewer v2.0 (Group project, 2 members)
 
+## My part of the project
+My part was to:
+   + Migrate the code from C to C++
+   + Adapt the code to the MVC pattern
+   + Implement Singleton and Observer patterns
+   + Add tests
+
+So for my code you can basically check all files, except [command](src/view/command/) folder
+
+## Score:
+The final score is 140% (max).
+
+The 3DViewer v2.0 was developed with frontend with QT 6.5.2. For more details see [documentation](src/doc_3DViewer_v2.pdf).
+
+![3DViewer](misc/3DViewer.png)
+
 ## Task
 
 Implementation of a program to view 3D wireframe models (3D Viewer) in the C++ programming language using MVC pattern and at least three different design patterns. The models themselves are loaded from .obj files and are viewable on the screen with the ability to rotate, scale and translate.
